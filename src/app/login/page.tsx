@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy, Zap, UserCheck, X } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy, UserCheck, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { loginUserAction, quickLoginAction } from '@/app/actions/authActions';
 
@@ -26,56 +26,28 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
 
-  // Default preset profiles for quick testing
-  const presetProfiles: SavedProfile[] = [
-    {
-      username: 'HighRoller649',
-      email: 'highroller@sixywin.com',
-      scBalance: '1,250,000 SC',
-      vipLevel: '24K VIP',
-      icon: '👑',
-    },
-    {
-      username: 'GoldVipPlayer',
-      email: 'goldvip@sixywin.com',
-      scBalance: '500,000 SC',
-      vipLevel: 'DIAMOND',
-      icon: '💎',
-    },
-    {
-      username: 'LuckyStriker',
-      email: 'lucky@sixywin.com',
-      scBalance: '50,000 SC',
-      vipLevel: 'GOLD VIP',
-      icon: '🎰',
-    },
-  ];
-
-  // Load saved profiles from localStorage on mount
+  // Load ONLY real saved profiles from localStorage on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem('sixywin_saved_profiles');
       if (stored) {
         const parsed: SavedProfile[] = JSON.parse(stored);
-        if (parsed.length > 0) {
+        if (Array.isArray(parsed) && parsed.length > 0) {
           setSavedProfiles(parsed);
-          return;
         }
       }
     } catch (e) {
       console.error('Failed to load saved profiles from localStorage', e);
     }
-    // Fallback to presets if no custom saved profiles exist
-    setSavedProfiles(presetProfiles);
   }, []);
 
-  // Helper to save a profile into localStorage
+  // Helper to save a profile into localStorage upon login
   const saveProfileToLocalStorage = (user: { username: string; email: string; sixyCoinsBalance: string; vipLevel: string }) => {
     try {
       const stored = localStorage.getItem('sixywin_saved_profiles');
-      let currentProfiles: SavedProfile[] = stored ? JSON.parse(stored) : [...presetProfiles];
+      let currentProfiles: SavedProfile[] = stored ? JSON.parse(stored) : [];
       
-      // Filter out existing profile if already saved
+      // Filter out existing profile if already saved to update it
       currentProfiles = currentProfiles.filter((p) => p.email.toLowerCase() !== user.email.toLowerCase());
       
       // Prepend newly logged-in profile
@@ -88,7 +60,7 @@ export default function LoginPage() {
         lastLogin: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       
-      const updated = [newProfile, ...currentProfiles].slice(0, 6);
+      const updated = [newProfile, ...currentProfiles].slice(0, 5);
       localStorage.setItem('sixywin_saved_profiles', JSON.stringify(updated));
       setSavedProfiles(updated);
     } catch (e) {
@@ -103,7 +75,7 @@ export default function LoginPage() {
       const updated = savedProfiles.filter((p) => p.email.toLowerCase() !== emailToRemove.toLowerCase());
       setSavedProfiles(updated);
       localStorage.setItem('sixywin_saved_profiles', JSON.stringify(updated));
-      toast.info('Saved profile removed from device.');
+      toast.info('Saved account removed from device.');
     } catch (err) {
       console.error(err);
     }
@@ -125,7 +97,6 @@ export default function LoginPage() {
         return;
       }
 
-      // Save to localStorage
       if (result.user) {
         saveProfileToLocalStorage(result.user);
       }
@@ -166,7 +137,7 @@ export default function LoginPage() {
         return;
       }
 
-      // Save profile to localStorage on successful login
+      // Save user profile to localStorage on successful login
       if (result.user) {
         saveProfileToLocalStorage(result.user);
       }
@@ -236,7 +207,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Right 50% Column: Login Form Card with LocalStorage Saved Profiles */}
+        {/* Right 50% Column: Login Form Card */}
         <div className="flex justify-center w-full">
           <div className="w-full max-w-md space-y-5 p-7 sm:p-9 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_60px_rgba(212,175,55,0.2)] backdrop-blur-2xl">
             {/* Card Header with Logo */}
@@ -257,65 +228,64 @@ export default function LoginPage() {
                   Account Sign In
                 </h2>
                 <p className="text-xs text-[#b5a391]">
-                  Select a saved account or enter credentials
+                  Enter your credentials to access your account
                 </p>
               </div>
             </div>
 
-            {/* LocalStorage Saved Profiles Selector */}
+            {/* LocalStorage Saved Profiles Selector (ONLY shown if user previously logged in on this device) */}
             {savedProfiles.length > 0 && (
-              <div className="space-y-2">
+              <div className="space-y-2 pb-1">
                 <span className="text-[11px] font-extrabold tracking-wider uppercase text-[#e6ca65] flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <UserCheck className="w-3.5 h-3.5 text-[#e6ca65]" />
-                    <span>SAVED ACCOUNTS ON THIS DEVICE</span>
+                    <span>PREVIOUSLY SIGNED-IN ACCOUNTS</span>
                   </span>
                   <span className="text-[10px] text-[#b5a391] font-normal">1-Click Sign In</span>
                 </span>
 
-                <div className="grid grid-cols-3 gap-2 max-h-36 overflow-y-auto pr-1">
-                  {savedProfiles.slice(0, 3).map((p) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-36 overflow-y-auto">
+                  {savedProfiles.map((p) => (
                     <div
                       key={p.email}
                       onClick={() => handleQuickProfileLogin(p)}
-                      className="relative p-2.5 rounded-xl bg-[#0c0a09] hover:bg-[#281d14] border border-[#9c663b]/50 hover:border-[#e6ca65] text-left transition-all cursor-pointer shadow-md group active:scale-95"
+                      className="relative p-3 rounded-xl bg-[#0c0a09] hover:bg-[#281d14] border border-[#9c663b]/50 hover:border-[#e6ca65] text-left transition-all cursor-pointer shadow-md group active:scale-95 flex items-center justify-between"
                     >
-                      {/* Delete profile button */}
+                      <div className="flex items-center gap-2.5 overflow-hidden">
+                        <div className="w-8 h-8 rounded-full bg-[#18120e] border border-[#9c663b]/40 flex items-center justify-center text-sm shrink-0">
+                          {p.icon || '👤'}
+                        </div>
+                        <div className="overflow-hidden">
+                          <strong className="text-xs text-[#faf6f0] block truncate group-hover:text-[#e6ca65]">
+                            {p.username}
+                          </strong>
+                          <span className="text-[10px] font-mono text-[#b5a391] block truncate">
+                            {p.scBalance}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Remove saved profile */}
                       <button
                         type="button"
                         onClick={(e) => removeSavedProfile(e, p.email)}
-                        className="absolute top-1.5 right-1.5 text-[#b5a391] hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                        title="Remove profile from device"
+                        className="p-1 text-[#b5a391] hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                        title="Remove account from device"
                       >
-                        <X className="w-3 h-3" />
+                        <X className="w-3.5 h-3.5" />
                       </button>
-
-                      <div className="flex items-center justify-between">
-                        <span className="text-base">{p.icon || '👤'}</span>
-                        <span className="text-[9px] font-mono text-[#e6ca65] bg-[#18120e] px-1.5 py-0.5 rounded border border-[#9c663b]/30">
-                          {p.vipLevel}
-                        </span>
-                      </div>
-                      <div className="mt-1">
-                        <strong className="text-xs text-[#faf6f0] block truncate group-hover:text-[#e6ca65]">
-                          {p.username}
-                        </strong>
-                        <span className="text-[10px] font-mono text-[#b5a391] block truncate">
-                          {p.scBalance}
-                        </span>
-                      </div>
                     </div>
                   ))}
                 </div>
+
+                <div className="relative flex items-center justify-center pt-1">
+                  <div className="border-t border-[#9c663b]/30 w-full" />
+                  <span className="bg-[#18120e] px-3 text-[9px] text-[#b5a391] uppercase tracking-wider font-bold shrink-0">
+                    OR SIGN IN ANOTHER ACCOUNT
+                  </span>
+                </div>
               </div>
             )}
-
-            <div className="relative flex items-center justify-center">
-              <div className="border-t border-[#9c663b]/30 w-full" />
-              <span className="bg-[#18120e] px-3 text-[10px] text-[#b5a391] uppercase tracking-wider font-bold shrink-0">
-                OR SIGN IN WITH CREDENTIALS
-              </span>
-            </div>
 
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-3">
