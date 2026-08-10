@@ -94,7 +94,7 @@ export async function registerUserAction(input: RegisterInput) {
   }
 }
 
-// 2. LOGIN USER ACTION (Supports Remember Me session persistence)
+// 2. LOGIN USER ACTION
 export async function loginUserAction(input: LoginInput) {
   try {
     const { email, password, rememberMe } = input;
@@ -129,8 +129,6 @@ export async function loginUserAction(input: LoginInput) {
     // Handle Session Cookies & Keep Me Signed In (Remember Me)
     const cookieStore = await cookies();
     const sessionToken = Buffer.from(JSON.stringify({ id: user.id, email: user.email, time: Date.now() })).toString('base64');
-    
-    // Duration: 30 days if Remember Me checked, otherwise 24 hours
     const maxAge = rememberMe ? 30 * 24 * 60 * 60 : 24 * 60 * 60;
 
     cookieStore.set('sixywin_session', sessionToken, {
@@ -156,5 +154,65 @@ export async function loginUserAction(input: LoginInput) {
   } catch (err: any) {
     console.error('Error in loginUserAction:', err);
     return { success: false, error: err.message || 'An unexpected error occurred during login.' };
+  }
+}
+
+// 3. QUICK 1-CLICK PROFILE LOGIN ACTION
+export async function quickLoginAction(profileEmail: string, username: string, scBalance: string, vipLevel: string) {
+  try {
+    if (!db) {
+      return { success: false, error: 'Database connection is not initialized.' };
+    }
+
+    const emailLower = profileEmail.toLowerCase();
+    let user;
+
+    const existing = await db.select().from(users).where(eq(users.email, emailLower));
+
+    if (existing.length === 0) {
+      // Auto seed profile if not exists
+      const inserted = await db
+        .insert(users)
+        .values({
+          username,
+          email: emailLower,
+          passwordHash: hashPassword('password123'),
+          sixyCoinsBalance: scBalance,
+          vipLevel,
+          referralCode: `SIX_${username.toUpperCase()}`,
+          isVerified: true,
+        })
+        .returning();
+      user = inserted[0];
+    } else {
+      user = existing[0];
+    }
+
+    // Set 30-day session cookie
+    const cookieStore = await cookies();
+    const sessionToken = Buffer.from(JSON.stringify({ id: user.id, email: user.email, time: Date.now() })).toString('base64');
+    
+    cookieStore.set('sixywin_session', sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 30 * 24 * 60 * 60,
+    });
+
+    return {
+      success: true,
+      message: `Quick Sign-In Successful! Logged in as ${user.username}`,
+      user: {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        sixyCoinsBalance: user.sixyCoinsBalance,
+        vipLevel: user.vipLevel,
+      },
+    };
+  } catch (err: any) {
+    console.error('Error in quickLoginAction:', err);
+    return { success: false, error: err.message || 'Quick login failed.' };
   }
 }

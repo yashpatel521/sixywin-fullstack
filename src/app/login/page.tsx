@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy, UserCheck, Zap } from 'lucide-react';
 import { toast } from 'sonner';
-import { loginUserAction } from '@/app/actions/authActions';
+import { loginUserAction, quickLoginAction } from '@/app/actions/authActions';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,6 +15,61 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Preset 1-Click Profiles
+  const quickProfiles = [
+    {
+      name: 'HighRoller649',
+      email: 'highroller@sixywin.com',
+      sc: '1,250,000 SC',
+      vip: '24K VIP',
+      icon: '👑',
+    },
+    {
+      name: 'GoldVipPlayer',
+      email: 'goldvip@sixywin.com',
+      sc: '500,000 SC',
+      vip: 'DIAMOND',
+      icon: '💎',
+    },
+    {
+      name: 'LuckyStriker',
+      email: 'lucky@sixywin.com',
+      sc: '50,000 SC',
+      vip: 'GOLD VIP',
+      icon: '🎰',
+    },
+  ];
+
+  // 1-Click Profile Login Handler
+  const handleQuickProfileLogin = async (profile: typeof quickProfiles[0]) => {
+    setLoading(true);
+    try {
+      const result = await quickLoginAction(
+        profile.email,
+        profile.name,
+        profile.sc.replace(/[^0-9.]/g, ''),
+        profile.vip
+      );
+
+      if (!result.success) {
+        toast.error(result.error || 'Quick login failed.');
+        return;
+      }
+
+      toast.success(result.message, {
+        description: `Active balance: ${result.user?.sixyCoinsBalance} SC (${result.user?.vipLevel})`,
+      });
+
+      setTimeout(() => {
+        router.push('/');
+      }, 1000);
+    } catch (err: any) {
+      toast.error('Quick login error.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +81,6 @@ export default function LoginPage() {
         return;
       }
 
-      // Call Server Action for Login & Session Cookie Persistence
       const result = await loginUserAction({
         email,
         password,
@@ -44,7 +98,6 @@ export default function LoginPage() {
           : `Active balance: ${result.user?.sixyCoinsBalance} SC`,
       });
 
-      // Redirect user to home page after login
       setTimeout(() => {
         router.push('/');
       }, 1200);
@@ -104,13 +157,13 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Right 50% Column: Login Form Card */}
+        {/* Right 50% Column: Login Form Card with 1-Click Quick Profiles */}
         <div className="flex justify-center w-full">
-          <div className="w-full max-w-md space-y-6 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_60px_rgba(212,175,55,0.2)] backdrop-blur-2xl">
+          <div className="w-full max-w-md space-y-5 p-7 sm:p-9 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_60px_rgba(212,175,55,0.2)] backdrop-blur-2xl">
             {/* Card Header with Logo */}
-            <div className="text-center space-y-3">
+            <div className="text-center space-y-2">
               <Link href="/" className="inline-block">
-                <div className="relative w-48 h-12 mx-auto">
+                <div className="relative w-44 h-11 mx-auto">
                   <Image
                     src="/logo/logo7.png"
                     alt="SixyWin Official Logo"
@@ -120,20 +173,61 @@ export default function LoginPage() {
                   />
                 </div>
               </Link>
-              <div className="space-y-1">
-                <h2 className="text-2xl sm:text-3xl font-black text-[#faf6f0]">
+              <div className="space-y-0.5">
+                <h2 className="text-xl sm:text-2xl font-black text-[#faf6f0]">
                   Account Sign In
                 </h2>
                 <p className="text-xs text-[#b5a391]">
-                  Enter your credentials to access your account
+                  Click a VIP Profile or enter your credentials
                 </p>
               </div>
             </div>
 
+            {/* 1-Click Quick Profile Selector */}
+            <div className="space-y-2">
+              <span className="text-[11px] font-extrabold tracking-wider uppercase text-[#e6ca65] flex items-center gap-1.5">
+                <Zap className="w-3.5 h-3.5 text-[#e6ca65] animate-pulse" />
+                <span>1-CLICK QUICK PROFILE SIGN-IN</span>
+              </span>
+              <div className="grid grid-cols-3 gap-2">
+                {quickProfiles.map((p) => (
+                  <button
+                    key={p.email}
+                    type="button"
+                    onClick={() => handleQuickProfileLogin(p)}
+                    disabled={loading}
+                    className="p-2.5 rounded-xl bg-[#0c0a09] hover:bg-[#281d14] border border-[#9c663b]/50 hover:border-[#e6ca65] text-left transition-all cursor-pointer shadow-md group active:scale-95"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-base">{p.icon}</span>
+                      <span className="text-[9px] font-mono text-[#e6ca65] bg-[#18120e] px-1.5 py-0.5 rounded border border-[#9c663b]/30">
+                        {p.vip}
+                      </span>
+                    </div>
+                    <div className="mt-1">
+                      <strong className="text-xs text-[#faf6f0] block truncate group-hover:text-[#e6ca65]">
+                        {p.name}
+                      </strong>
+                      <span className="text-[10px] font-mono text-[#b5a391] block">
+                        {p.sc}
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative flex items-center justify-center">
+              <div className="border-t border-[#9c663b]/30 w-full" />
+              <span className="bg-[#18120e] px-3 text-[10px] text-[#b5a391] uppercase tracking-wider font-bold shrink-0">
+                OR SIGN IN WITH CREDENTIALS
+              </span>
+            </div>
+
             {/* Login Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3.5">
               {/* Email Field */}
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
                   Email Address or Username
                 </label>
@@ -145,13 +239,13 @@ export default function LoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com or username"
-                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#0c0a09] border border-[#9c663b]/50 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
+                    className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-[#0c0a09] border border-[#9c663b]/50 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
                   />
                 </div>
               </div>
 
               {/* Password Field */}
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <div className="flex justify-between items-center">
                   <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
                     Password
@@ -168,7 +262,7 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full pl-11 pr-11 py-3 rounded-xl bg-[#0c0a09] border border-[#9c663b]/50 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
+                    className="w-full pl-11 pr-11 py-2.5 rounded-xl bg-[#0c0a09] border border-[#9c663b]/50 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
                   />
                   <button
                     type="button"
@@ -180,7 +274,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Remember Me Checkbox (30 Days Cookie Persistence) */}
+              {/* Remember Me Checkbox */}
               <div className="flex items-center gap-2 pt-0.5">
                 <input
                   type="checkbox"
@@ -206,17 +300,11 @@ export default function LoginPage() {
             </form>
 
             {/* Card Footer: Register Link */}
-            <div className="pt-3 border-t border-[#9c663b]/30 text-center text-xs text-[#b5a391]">
+            <div className="pt-2 border-t border-[#9c663b]/30 text-center text-xs text-[#b5a391]">
               <span>Don't have a SixyWin account? </span>
               <Link href="/register" className="text-[#e6ca65] font-extrabold hover:underline inline-flex items-center gap-1">
                 Register Now <ArrowRight className="w-3 h-3" />
               </Link>
-            </div>
-
-            {/* Virtual Play Disclaimer */}
-            <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#b5a391]/80 text-center">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#e6ca65]" />
-              <span>100% Free Social Casino • Virtual Sixy Coins</span>
             </div>
           </div>
         </div>
