@@ -98,22 +98,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
           </div>
         </div>
 
-        {/* Right 50% Column: 3D Luxury Casino Picture Frame */}
+        {/* Right 50% Column: Seamless Blended 3D Picture */}
         <div className="relative flex items-center justify-center">
-          <div className="relative w-full max-w-lg aspect-square rounded-[2.5rem] overflow-hidden border-2 border-[#d4af37]/60 shadow-[0_0_60px_rgba(212,175,55,0.25)] group hover:scale-[1.02] transition-transform duration-500">
+          <div className="relative w-full max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
             <Image
               src="/landing/luxury_hero_3d.png"
               alt="3D Luxury Casino Crown & Dice"
               fill
-              className="object-cover"
+              className="object-contain mix-blend-lighten [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_98%)]"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a09]/80 via-transparent to-transparent pointer-events-none" />
-
-            <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-[#18120e]/80 border border-[#9c663b]/50 backdrop-blur-md flex items-center justify-between text-xs">
-              <span className="font-bold text-[#faf6f0]">24K Gold VIP Suite Table</span>
-              <span className="font-mono text-[#e6ca65] font-extrabold">LIVE NOW</span>
-            </div>
+            {/* Radial glow background ring behind image */}
+            <div className="absolute inset-0 bg-[#d4af37]/15 rounded-full blur-3xl pointer-events-none -z-10" />
           </div>
         </div>
       </div>
