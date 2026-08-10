@@ -9,6 +9,10 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'SixyWin - Modern 6/49 Lottery & Casino Platform',
   description: 'SixyWin iGaming Platform with 6/49 Lottery and free Virtual Sixy Coins (SC)',
+  icons: {
+    icon: '/logo/logo10.png',
+    apple: '/logo/logo10.png',
+  },
 };
 
 export default function RootLayout({
