@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import { AppLayout } from '@/components/layout/AppLayout';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -90,7 +89,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Schema.org JSON-LD Structured Data for Google Rich Search
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -114,11 +112,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} bg-[#0c0a09] text-slate-100 min-h-screen antialiased flex flex-col p-0 m-0 overflow-x-hidden`}>
-        <Navbar />
-        <main className="flex-1 w-full p-0 m-0 bg-[#0c0a09]" id="main-content">
-          {children}
-        </main>
-        <Footer />
+        <AppLayout>{children}</AppLayout>
       </body>
     </html>
   );

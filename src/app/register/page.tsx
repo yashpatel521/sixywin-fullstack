@@ -3,12 +3,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy } from 'lucide-react';
+import { Mail, Lock, User, UserPlus, Crown, ArrowRight, ShieldCheck, Trophy, Sparkles, Coins } from 'lucide-react';
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,14 +18,14 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      if (!email || !password) {
-        throw new Error('Please enter both email and password.');
+      if (!username || !email || !password) {
+        throw new Error('Please fill in all fields.');
       }
-      
+
       await new Promise((resolve) => setTimeout(resolve, 800));
-      alert(`Welcome back to SixyWin! Logged in as ${email}`);
+      alert(`Welcome to SixyWin! Account created for ${username}. Free 10,000 SC welcome bonus credited!`);
     } catch (err: any) {
-      setError(err.message || 'Failed to sign in.');
+      setError(err.message || 'Failed to create account.');
     } finally {
       setLoading(false);
     }
@@ -43,16 +43,16 @@ export default function LoginPage() {
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs sm:text-sm font-bold tracking-widest uppercase text-[#e6ca65]">
               <Crown className="w-5 h-5 text-[#e6ca65] animate-pulse" />
-              <span className="text-[#faf6f0]">SIXYWIN 24K VIP LOUNGE</span>
+              <span className="text-[#faf6f0]">JOIN SIXYWIN TODAY</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#faf6f0] leading-[1.08]">
-              Welcome Back To The <br />
+              Claim Your Free <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
-                6/49 Lottery Realm
+                10,000 SC Welcome Bonus
               </span>
             </h1>
             <p className="text-[#e3d8c8] text-base sm:text-lg max-w-xl leading-relaxed">
-              Access your virtual wallet, track your 6/49 Lottery tickets, and play 3D spatial games with free Sixy Coins (SC).
+              Create your free account now to enter the 6/49 Jackpot Lottery, spin the Cyber Fortune Wheel, and enjoy weekly rakeback bonuses!
             </p>
           </div>
 
@@ -71,18 +71,18 @@ export default function LoginPage() {
           {/* Key Perks Ribbon */}
           <div className="flex items-center gap-6 pt-2 text-xs text-[#b5a391]">
             <span className="flex items-center gap-1.5 text-[#e6ca65]">
-              <Trophy className="w-4 h-4" /> 1,250,000 SC Jackpot
+              <Coins className="w-4 h-4" /> 10,000 Free SC Bonus
             </span>
             <span>•</span>
             <span className="flex items-center gap-1.5 text-[#faf6f0]">
-              <ShieldCheck className="w-4 h-4 text-[#e6ca65]" /> Provably Fair RNG
+              <ShieldCheck className="w-4 h-4 text-[#e6ca65]" /> 100% Provably Fair
             </span>
           </div>
         </div>
 
-        {/* Right 50% Column: Login Form Card */}
+        {/* Right 50% Column: Register Form Card */}
         <div className="flex justify-center w-full">
-          <div className="w-full max-w-md space-y-6 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_60px_rgba(212,175,55,0.2)] backdrop-blur-2xl">
+          <div className="w-full max-w-md space-y-5 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_60px_rgba(212,175,55,0.2)] backdrop-blur-2xl">
             {/* Card Header with Logo */}
             <div className="text-center space-y-3">
               <Link href="/" className="inline-block">
@@ -98,10 +98,10 @@ export default function LoginPage() {
               </Link>
               <div className="space-y-1">
                 <h2 className="text-2xl sm:text-3xl font-black text-[#faf6f0]">
-                  Account Sign In
+                  Create Account
                 </h2>
                 <p className="text-xs text-[#b5a391]">
-                  Enter your credentials to access your account
+                  Sign up in seconds to start playing
                 </p>
               </div>
             </div>
@@ -113,10 +113,28 @@ export default function LoginPage() {
               </div>
             )}
 
-            {/* Login Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Register Form */}
+            <form onSubmit={handleSubmit} className="space-y-3.5">
+              {/* Username Field */}
+              <div className="space-y-1">
+                <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
+                  Username
+                </label>
+                <div className="relative">
+                  <User className="w-4 h-4 text-[#b5a391] absolute left-4 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="HighRoller649"
+                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#0c0a09] border border-[#9c663b]/50 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
+                  />
+                </div>
+              </div>
+
               {/* Email Field */}
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
                   Email Address
                 </label>
@@ -134,44 +152,33 @@ export default function LoginPage() {
               </div>
 
               {/* Password Field */}
-              <div className="space-y-1.5">
-                <div className="flex justify-between items-center">
-                  <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
-                    Password
-                  </label>
-                  <Link href="#" className="text-[11px] text-[#e6ca65] hover:underline font-medium">
-                    Forgot password?
-                  </Link>
-                </div>
+              <div className="space-y-1">
+                <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
+                  Password
+                </label>
                 <div className="relative">
                   <Lock className="w-4 h-4 text-[#b5a391] absolute left-4 top-1/2 -translate-y-1/2" />
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type="password"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full pl-11 pr-11 py-3 rounded-xl bg-[#0c0a09] border border-[#9c663b]/50 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
+                    className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#0c0a09] border border-[#9c663b]/50 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#b5a391] hover:text-[#faf6f0] transition-colors"
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
                 </div>
               </div>
 
-              {/* Remember Me Checkbox */}
-              <div className="flex items-center gap-2 pt-0.5">
+              {/* Terms Checkbox */}
+              <div className="flex items-center gap-2 pt-1">
                 <input
                   type="checkbox"
-                  id="remember"
+                  id="terms"
+                  required
                   className="w-4 h-4 rounded bg-[#0c0a09] border-[#9c663b]/60 text-[#e6ca65] focus:ring-0 cursor-pointer"
                 />
-                <label htmlFor="remember" className="text-xs text-[#b5a391] cursor-pointer select-none">
-                  Keep me signed in on this device
+                <label htmlFor="terms" className="text-xs text-[#b5a391] cursor-pointer select-none">
+                  I agree to Terms & 100% Free Social Play Rules
                 </label>
               </div>
 
@@ -181,23 +188,17 @@ export default function LoginPage() {
                 disabled={loading}
                 className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-sm font-extrabold flex items-center justify-center gap-2 shadow-xl shadow-[#d4af37]/25 transition-all cursor-pointer active:scale-95 border border-[#faf6f0]/40 disabled:opacity-50"
               >
-                <LogIn className="w-4 h-4 fill-current" />
-                <span>{loading ? 'SIGNING IN...' : 'LOGIN TO ACCOUNT'}</span>
+                <UserPlus className="w-4 h-4" />
+                <span>{loading ? 'CREATING ACCOUNT...' : 'REGISTER & CLAIM 10,000 SC'}</span>
               </button>
             </form>
 
-            {/* Card Footer: Register Link */}
+            {/* Card Footer: Login Link */}
             <div className="pt-3 border-t border-[#9c663b]/30 text-center text-xs text-[#b5a391]">
-              <span>Don't have a SixyWin account? </span>
-              <Link href="/register" className="text-[#e6ca65] font-extrabold hover:underline inline-flex items-center gap-1">
-                Register Now <ArrowRight className="w-3 h-3" />
+              <span>Already have an account? </span>
+              <Link href="/login" className="text-[#e6ca65] font-extrabold hover:underline inline-flex items-center gap-1">
+                Sign In Now <ArrowRight className="w-3 h-3" />
               </Link>
-            </div>
-
-            {/* Virtual Play Disclaimer */}
-            <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#b5a391]/80 text-center">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#e6ca65]" />
-              <span>100% Free Social Casino • Virtual Sixy Coins</span>
             </div>
           </div>
         </div>
