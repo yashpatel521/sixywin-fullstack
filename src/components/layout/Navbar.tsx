@@ -1,34 +1,31 @@
-"use client";
+'use client';
 
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { LogIn, UserPlus } from "lucide-react";
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { LogIn, UserPlus } from 'lucide-react';
 
 interface NavbarProps {
   onLoginClick?: () => void;
   onRegisterClick?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({
-  onLoginClick,
-  onRegisterClick,
-}) => {
+export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick }) => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-[#121624]/90 backdrop-blur-2xl px-4 sm:px-8 py-3.5">
       <div className="max-w-[1600px] mx-auto flex items-center justify-between">
-        {/* Left: Official SixyWin Logo & Brand Name */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative w-10 h-10 rounded-2xl overflow-hidden shadow-lg shadow-amber-500/10 group-hover:scale-105 transition-transform bg-black flex items-center justify-center border border-amber-500/30">
+        {/* Left: Official SixyWin Logo & Brand Name (Zero Padding/Margin) */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="relative w-10 h-10 overflow-hidden flex items-center justify-center p-0 m-0">
             <Image
               src="/logo/logo1.png"
               alt="SixyWin Logo"
               fill
-              className="object-contain p-0.5"
+              className="object-contain p-0 m-0"
               priority
             />
           </div>
-          <span className="text-xl font-black tracking-tight text-white">
+          <span className="text-xl font-black tracking-tight text-white m-0 p-0">
             SIXY<span className="text-amber-400">WIN</span>
           </span>
         </Link>
