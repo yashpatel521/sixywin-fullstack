@@ -3,10 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Lock, User, UserPlus, Crown, ArrowRight, ShieldCheck, Coins, Gift, Eye, EyeOff } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Mail, Lock, User, UserPlus, Crown, ArrowRight, ShieldCheck, Coins, Gift } from 'lucide-react';
 import { toast } from 'sonner';
+import { registerUserAction } from '@/app/actions/authActions';
 
 export default function RegisterPage() {
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,13 +38,29 @@ export default function RegisterPage() {
         return;
       }
 
-      // Simulate account registration
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      toast.success(`Welcome to SixyWin, ${username}!`, {
-        description: 'Free 10,000 SC welcome bonus credited to your account.',
+      // Call Next.js Server Action
+      const result = await registerUserAction({
+        username,
+        email,
+        password,
+        referralCode,
       });
+
+      if (!result.success) {
+        toast.error(result.error || 'Failed to create account.');
+        return;
+      }
+
+      toast.success(result.message, {
+        description: `Welcome ${result.user?.username}! Initial balance: ${result.user?.sixyCoinsBalance} SC`,
+      });
+
+      // Redirect to login page after successful registration
+      setTimeout(() => {
+        router.push('/login');
+      }, 1500);
     } catch (err: any) {
-      toast.error(err.message || 'Failed to create account.');
+      toast.error(err.message || 'An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
