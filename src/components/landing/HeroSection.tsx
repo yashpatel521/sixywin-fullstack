@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Play, Crown, ArrowRight, Sparkles } from 'lucide-react';
+import { Play, Crown, ArrowRight, Sparkles, Gem, Dices, ShieldCheck, Zap } from 'lucide-react';
 
 interface HeroSectionProps {
   onExploreClick?: () => void;
-  onPlayClick?: () => void;
+  onPlayClick?: (gameId?: string) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlayClick }) => {
@@ -15,32 +15,70 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
       <div className="absolute -top-32 right-0 w-[550px] h-[550px] bg-[#d4af37]/12 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-[#9c663b]/18 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Main Content Centered Vertically */}
+      {/* Recreated Inner Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto my-auto space-y-8 py-6">
-        {/* Ultra-Premium VIP Badge */}
-        <div className="inline-flex items-center gap-2.5 px-4.5 py-1.5 rounded-full bg-[#faf6f0]/10 border border-[#d4af37]/40 text-[#faf6f0] text-xs font-bold backdrop-blur-xl shadow-lg">
-          <Crown className="w-4 h-4 text-[#e6ca65]" />
-          <span className="text-[#faf6f0] tracking-wider uppercase">SIXYWIN 24K VIP SUITE</span>
-          <span className="text-[#9c663b]">•</span>
-          <span className="text-[#e6ca65]">PROVABLY FAIR</span>
+        {/* VIP Suite Badge */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#faf6f0]/10 border border-[#d4af37]/40 text-[#faf6f0] text-xs font-bold backdrop-blur-xl shadow-lg">
+            <Crown className="w-4 h-4 text-[#e6ca65] animate-pulse" />
+            <span className="text-[#faf6f0] tracking-wider uppercase">SIXYWIN 24K VIP SUITE</span>
+          </div>
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#18120e]/80 border border-[#9c663b]/50 text-[#e6ca65] text-xs font-semibold backdrop-blur-md">
+            <ShieldCheck className="w-4 h-4 text-[#e6ca65]" />
+            <span>100% Provably Fair RNG</span>
+          </div>
         </div>
 
-        {/* Champagne Gold & Silk Cream Headline */}
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-[#faf6f0] leading-[1.05]">
-          The Luxury Realm of <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
-            High-Stakes Gaming
+        {/* High-Contrast Headline */}
+        <div className="space-y-3">
+          <span className="text-xs sm:text-sm font-extrabold uppercase tracking-[0.25em] text-[#e6ca65] block">
+            NEXT-GEN SPATIAL GAMING ENGINE
           </span>
-        </h1>
+          <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight text-[#faf6f0] leading-[1.04]">
+            Experience The Realm Of <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
+              High-Stakes Gaming
+            </span>
+          </h1>
+        </div>
 
+        {/* Description */}
         <p className="text-[#e3d8c8] text-lg sm:text-2xl max-w-3xl font-normal leading-relaxed">
-          Step into an elite casino experience. Play 3D Fortune Wheel, Slot Machines, and High-Low tables wrapped in deep velvet onyx & champagne silk luxury.
+          Enter an elite luxury casino environment. Play 3D Fortune Wheel, Slot Machines, and High-Low tables powered by Next.js 15 Server Actions & Supabase database.
         </p>
 
-        {/* 24K Gold Action Buttons */}
-        <div className="flex flex-wrap items-center gap-4 pt-4">
+        {/* Quick Launch Game Pills */}
+        <div className="flex flex-wrap items-center gap-3 pt-2">
           <button
-            onClick={onPlayClick}
+            onClick={() => onPlayClick?.('fortune-wheel')}
+            className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
+          >
+            <span>🎡 Cyber Wheel</span>
+            <span className="text-[10px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">50x MAX</span>
+          </button>
+
+          <button
+            onClick={() => onPlayClick?.('slot-machine')}
+            className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
+          >
+            <span>🎰 Neon Slots</span>
+            <span className="text-[10px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">100x JACKPOT</span>
+          </button>
+
+          <button
+            onClick={() => onPlayClick?.('high-low')}
+            className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
+          >
+            <span>🃏 High-Low Cards</span>
+            <span className="text-[10px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">2x INSTANT</span>
+          </button>
+        </div>
+
+        {/* 24K Gold Action Buttons */}
+        <div className="flex flex-wrap items-center gap-4 pt-2">
+          <button
+            onClick={() => onPlayClick?.()}
             className="px-10 py-5 text-base font-extrabold text-[#0c0a09] bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] rounded-2xl transition-all shadow-xl shadow-[#d4af37]/25 active:scale-95 flex items-center gap-2.5 cursor-pointer border border-[#faf6f0]/40"
           >
             <Play className="w-5 h-5 fill-current" />
@@ -49,7 +87,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
 
           <button
             onClick={onExploreClick}
-            className="px-9 py-5 text-base font-bold text-[#faf6f0] hover:text-white bg-[#1c140e] hover:bg-[#281d14] border border-[#9c663b]/60 rounded-2xl transition-all flex items-center gap-2.5 cursor-pointer shadow-md"
+            className="px-9 py-5 text-base font-bold text-[#faf6f0] hover:text-white bg-[#18120e] hover:bg-[#281d14] border border-[#9c663b]/60 rounded-2xl transition-all flex items-center gap-2.5 cursor-pointer shadow-md"
           >
             <span>EXPLORE TABLES</span>
             <ArrowRight className="w-5 h-5 text-[#e6ca65]" />
