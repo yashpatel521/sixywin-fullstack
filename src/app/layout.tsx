@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black text-slate-100 min-h-screen antialiased flex flex-col`}>
+      <body className={`${inter.className} bg-black text-slate-100 min-h-screen antialiased flex flex-col p-0 m-0 overflow-x-hidden`}>
         <Navbar />
-        <main className="flex-1 w-full px-4 sm:px-12 py-8 bg-black overflow-x-hidden">
+        <main className="flex-1 w-full p-0 m-0 bg-black">
           {children}
         </main>
       </body>

@@ -3,15 +3,19 @@
 import React from 'react';
 import { HeroSection } from '@/components/landing/HeroSection';
 import { FeaturesSection } from '@/components/landing/FeaturesSection';
+import { GamesSection } from '@/components/landing/GamesSection';
 
 export default function HomePage() {
   return (
-    <div className="space-y-12 pb-16">
-      {/* Section 1: Espresso Brown Hero Section */}
+    <div className="w-full p-0 m-0 space-y-0">
+      {/* 1. Espresso Brown Hero Section */}
       <HeroSection />
 
-      {/* Section 2: Warm Cream Alternating Features Section */}
+      {/* 2. Warm Cream Features Section */}
       <FeaturesSection />
+
+      {/* 3. Espresso Brown Games Section */}
+      <GamesSection />
     </div>
   );
 }
