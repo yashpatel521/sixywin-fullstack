@@ -10,12 +10,13 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlayClick }) => {
   return (
-    <section className="relative w-full py-12 sm:py-24 overflow-hidden">
+    <section className="relative w-full min-h-[calc(100vh-6rem)] flex flex-col justify-between py-8 sm:py-12 overflow-hidden">
       {/* Warm Cream & Gold Ambient Glows */}
-      <div className="absolute -top-32 right-0 w-96 h-96 bg-[#d4af37]/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 left-10 w-80 h-80 bg-[#8c5a2b]/15 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute -top-32 right-0 w-[500px] h-[500px] bg-[#d4af37]/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-0 left-10 w-[450px] h-[450px] bg-[#8c5a2b]/15 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto space-y-8">
+      {/* Main Content Centered Vertically */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto my-auto space-y-8 py-6">
         {/* Luxury Badge */}
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#fbf8f3]/10 border border-[#d4af37]/30 text-[#fbf8f3] text-xs font-bold backdrop-blur-md">
           <Crown className="w-4 h-4 text-[#d4af37]" />
@@ -54,25 +55,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
             <ArrowRight className="w-5 h-5 text-[#d4af37]" />
           </button>
         </div>
+      </div>
 
-        {/* Cream & Bronze Stats Ribbon */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 pt-12 border-t border-[#8c5a2b]/30 text-xs sm:text-sm">
-          <div>
-            <span className="text-[#a89582] font-semibold block mb-1">TOTAL PAYOUTS</span>
-            <span className="text-xl sm:text-2xl font-bold text-[#fbf8f3] font-mono">$24,850,000+</span>
-          </div>
-          <div>
-            <span className="text-[#a89582] font-semibold block mb-1">AVERAGE RTP</span>
-            <span className="text-xl sm:text-2xl font-bold text-[#d4af37] font-mono">99.1%</span>
-          </div>
-          <div>
-            <span className="text-[#a89582] font-semibold block mb-1">VIP CASHBACK</span>
-            <span className="text-xl sm:text-2xl font-bold text-[#e5c158] font-mono">15% WEEKLY</span>
-          </div>
-          <div>
-            <span className="text-[#a89582] font-semibold block mb-1">SETTLEMENT</span>
-            <span className="text-xl sm:text-2xl font-bold text-[#fbf8f3] font-mono">&lt; 1 SEC</span>
-          </div>
+      {/* Cream & Bronze Stats Ribbon Fixed at Bottom of Viewport */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 pt-8 border-t border-[#8c5a2b]/30 text-xs sm:text-sm">
+        <div>
+          <span className="text-[#a89582] font-semibold block mb-1">TOTAL PAYOUTS</span>
+          <span className="text-xl sm:text-2xl font-bold text-[#fbf8f3] font-mono">$24,850,000+</span>
+        </div>
+        <div>
+          <span className="text-[#a89582] font-semibold block mb-1">AVERAGE RTP</span>
+          <span className="text-xl sm:text-2xl font-bold text-[#d4af37] font-mono">99.1%</span>
+        </div>
+        <div>
+          <span className="text-[#a89582] font-semibold block mb-1">VIP CASHBACK</span>
+          <span className="text-xl sm:text-2xl font-bold text-[#e5c158] font-mono">15% WEEKLY</span>
+        </div>
+        <div>
+          <span className="text-[#a89582] font-semibold block mb-1">SETTLEMENT</span>
+          <span className="text-xl sm:text-2xl font-bold text-[#fbf8f3] font-mono">&lt; 1 SEC</span>
         </div>
       </div>
     </section>
