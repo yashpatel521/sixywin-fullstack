@@ -6,8 +6,10 @@ import { MinimalHero } from '@/components/landing/MinimalHero';
 import { MinimalGameCard } from '@/components/landing/MinimalGameCard';
 import { JackpotCounter } from '@/components/feeds/JackpotCounter';
 import { LiveWinnersFeed } from '@/components/feeds/LiveWinnersFeed';
+import { VipSection } from '@/components/landing/VipSection';
+import { FairPlaySection } from '@/components/landing/FairPlaySection';
 import { SkeletonCard } from '@/components/ui/SkeletonCard';
-import { ShieldCheck, Zap, Layers, Lock, Cpu, Sparkles } from 'lucide-react';
+import { Zap, Sparkles } from 'lucide-react';
 import { GameMeta } from '@/types/game';
 
 // Lazy load heavy interactive game modules with dynamic imports & fallback skeletons
@@ -77,14 +79,14 @@ export default function HomePage() {
   };
 
   return (
-    <div className="space-y-12 pb-16">
-      {/* Hero Section: Modern Minimal Casino Theme */}
+    <div className="space-y-14 pb-16">
+      {/* 1. Hero Section */}
       <MinimalHero onLaunchGame={handleLaunchGame} />
 
-      {/* Live Progressive Jackpot Bar */}
+      {/* 2. Live Progressive Jackpot Bar */}
       <JackpotCounter />
 
-      {/* Active Game Player Arena */}
+      {/* 3. Interactive Active Game Arena */}
       {activeGame && (
         <section className="space-y-4 scroll-mt-24" id="game-arena">
           <div className="flex items-center justify-between bg-slate-900/80 p-4 rounded-2xl border border-slate-800 backdrop-blur-xl">
@@ -110,7 +112,7 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Games Catalog Section */}
+      {/* 4. Games Catalog Section */}
       <section className="space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
@@ -136,7 +138,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Minimal Game Grid */}
+        {/* Game Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {filteredGames.map((game) => (
             <MinimalGameCard
@@ -149,40 +151,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Minimal Platform Trust Features */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800/80 space-y-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-            <ShieldCheck className="w-5 h-5" />
-          </div>
-          <h3 className="text-base font-bold text-white">100% Provably Fair</h3>
-          <p className="text-slate-400 text-xs leading-relaxed">
-            Every outcome is calculated using server-side cryptographic hash chains for 100% verifiability.
-          </p>
-        </div>
+      {/* 5. VIP Rewards & Rakeback Section */}
+      <VipSection />
 
-        <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800/80 space-y-3">
-          <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-            <Cpu className="w-5 h-5" />
-          </div>
-          <h3 className="text-base font-bold text-white">Next.js Server Actions</h3>
-          <p className="text-slate-400 text-xs leading-relaxed">
-            Zero client-side tampering. Game physics and random seeds run inside secure server runtime functions.
-          </p>
-        </div>
+      {/* 6. Provably Fair Security & Infrastructure */}
+      <FairPlaySection />
 
-        <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800/80 space-y-3">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-            <Layers className="w-5 h-5" />
-          </div>
-          <h3 className="text-base font-bold text-white">Supabase PostgreSQL</h3>
-          <p className="text-slate-400 text-xs leading-relaxed">
-            Drizzle ORM schema persistence for real-time user wallets, game transaction logs, and global leaderboards.
-          </p>
-        </div>
-      </section>
-
-      {/* Live Winners Feed */}
+      {/* 7. Live Verified Winners Stream */}
       <LiveWinnersFeed />
     </div>
   );
