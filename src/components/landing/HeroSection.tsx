@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Play, Crown, ArrowRight, ShieldCheck, Zap, Sparkles, Gem } from 'lucide-react';
+import Image from 'next/image';
+import { Play, Crown, ArrowRight, ShieldCheck } from 'lucide-react';
 
 interface HeroSectionProps {
   onExploreClick?: () => void;
@@ -97,76 +98,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
           </div>
         </div>
 
-        {/* Right 50% Column: Luxury Spatial Table Cards Showcase */}
+        {/* Right 50% Column: 3D Luxury Casino Picture Frame */}
         <div className="relative flex items-center justify-center">
-          <div className="w-full max-w-md space-y-4">
-            {/* Featured Table Card 1: Fortune Wheel */}
-            <div
-              onClick={() => onPlayClick?.('fortune-wheel')}
-              className="rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#d4af37]/60 p-6 shadow-2xl space-y-4 cursor-pointer hover:border-[#e6ca65] transition-all group"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-2xl">
-                    🎡
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-[#faf6f0] group-hover:text-[#e6ca65] transition-colors">
-                      Cyber Fortune Wheel
-                    </h3>
-                    <p className="text-xs text-[#b5a391]">12-Segment Multiplier Wheel</p>
-                  </div>
-                </div>
-                <span className="px-3 py-1 rounded-full bg-[#e6ca65]/20 border border-[#e6ca65]/40 text-[#e6ca65] text-xs font-mono font-bold">
-                  50x MAX
-                </span>
-              </div>
-            </div>
+          <div className="relative w-full max-w-lg aspect-square rounded-[2.5rem] overflow-hidden border-2 border-[#d4af37]/60 shadow-[0_0_60px_rgba(212,175,55,0.25)] group hover:scale-[1.02] transition-transform duration-500">
+            <Image
+              src="/landing/luxury_hero_3d.png"
+              alt="3D Luxury Casino Crown & Dice"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a09]/80 via-transparent to-transparent pointer-events-none" />
 
-            {/* Featured Table Card 2: Slots */}
-            <div
-              onClick={() => onPlayClick?.('slot-machine')}
-              className="rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#9c663b]/50 p-6 shadow-2xl space-y-4 cursor-pointer hover:border-[#e6ca65] transition-all group opacity-95"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-2xl">
-                    🎰
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-[#faf6f0] group-hover:text-[#e6ca65] transition-colors">
-                      Neon Slot 777
-                    </h3>
-                    <p className="text-xs text-[#b5a391]">Triple 777 Progressive Jackpot</p>
-                  </div>
-                </div>
-                <span className="px-3 py-1 rounded-full bg-[#e6ca65]/20 border border-[#e6ca65]/40 text-[#e6ca65] text-xs font-mono font-bold">
-                  100x JACKPOT
-                </span>
-              </div>
-            </div>
-
-            {/* Featured Table Card 3: High-Low */}
-            <div
-              onClick={() => onPlayClick?.('high-low')}
-              className="rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#9c663b]/50 p-6 shadow-2xl space-y-4 cursor-pointer hover:border-[#e6ca65] transition-all group opacity-90"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-[#d4af37]/20 border border-[#d4af37]/40 flex items-center justify-center text-2xl">
-                    🃏
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-black text-[#faf6f0] group-hover:text-[#e6ca65] transition-colors">
-                      High-Low Cards
-                    </h3>
-                    <p className="text-xs text-[#b5a391]">Instant Double Predictor</p>
-                  </div>
-                </div>
-                <span className="px-3 py-1 rounded-full bg-[#e6ca65]/20 border border-[#e6ca65]/40 text-[#e6ca65] text-xs font-mono font-bold">
-                  2x INSTANT
-                </span>
-              </div>
+            <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-[#18120e]/80 border border-[#9c663b]/50 backdrop-blur-md flex items-center justify-between text-xs">
+              <span className="font-bold text-[#faf6f0]">24K Gold VIP Suite Table</span>
+              <span className="font-mono text-[#e6ca65] font-extrabold">LIVE NOW</span>
             </div>
           </div>
         </div>
