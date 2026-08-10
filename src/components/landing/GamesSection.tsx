@@ -63,25 +63,25 @@ export const GamesSection: React.FC<GamesSectionProps> = ({ onPlayGame }) => {
 
   return (
     <section className="relative w-full bg-gradient-to-b from-[#18120e] via-[#100b08] to-[#0c0a09] px-6 sm:px-16 py-24 text-[#faf6f0] m-0 overflow-hidden">
-      <div className="relative z-10 w-full max-w-7xl mx-auto space-y-12">
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-12">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-[#9c663b]/30 pb-6">
-          <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#faf6f0]/10 text-[#e6ca65] text-xs font-bold border border-[#e6ca65]/30">
-              <Gem className="w-3.5 h-3.5 text-[#e6ca65]" />
+          <div className="space-y-2 max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#faf6f0]/10 text-[#e6ca65] text-xs sm:text-sm font-bold border border-[#e6ca65]/30">
+              <Gem className="w-4 h-4 text-[#e6ca65]" />
               <span>SIXYWIN ARENA</span>
             </div>
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-[#faf6f0]">
+            <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-[#faf6f0]">
               Available Games & Tables
             </h2>
           </div>
-          <p className="text-base font-medium text-[#b5a391] max-w-md">
+          <p className="text-base sm:text-lg font-medium text-[#b5a391] max-w-md">
             Select any table to launch instant sub-second 3D mini-games with free Sixy Coins (SC).
           </p>
         </div>
 
-        {/* Featured Games Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Featured Games Grid (Responsive 3 cols, 2xl 4 cols) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
           {games.map((game) => (
             <div
               key={game.id}
@@ -90,29 +90,29 @@ export const GamesSection: React.FC<GamesSectionProps> = ({ onPlayGame }) => {
             >
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-4xl group-hover:scale-110 transition-transform">{game.icon}</span>
-                  <span className="px-3 py-1 rounded-full bg-[#e6ca65]/20 border border-[#e6ca65]/40 text-[#e6ca65] text-xs font-bold font-mono">
+                  <span className="text-5xl group-hover:scale-110 transition-transform">{game.icon}</span>
+                  <span className="px-3.5 py-1 rounded-full bg-[#e6ca65]/20 border border-[#e6ca65]/40 text-[#e6ca65] text-xs sm:text-sm font-bold font-mono">
                     {game.badge}
                   </span>
                 </div>
 
                 <div>
-                  <span className="text-[10px] font-extrabold tracking-wider uppercase text-[#e6ca65] block mb-1">
+                  <span className="text-xs font-extrabold tracking-wider uppercase text-[#e6ca65] block mb-1">
                     {game.category}
                   </span>
-                  <h3 className="text-2xl font-black text-[#faf6f0] group-hover:text-[#e6ca65] transition-colors">
+                  <h3 className="text-2xl sm:text-3xl font-black text-[#faf6f0] group-hover:text-[#e6ca65] transition-colors">
                     {game.title}
                   </h3>
-                  <p className="text-xs text-[#b5a391] mt-2 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-[#b5a391] mt-2 leading-relaxed">
                     {game.description}
                   </p>
                 </div>
               </div>
 
               <div className="pt-4 border-t border-[#9c663b]/30 flex justify-between items-center">
-                <span className="text-xs text-[#b5a391] font-semibold font-mono">RTP {game.rtp}</span>
-                <button className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs font-extrabold flex items-center gap-1.5 shadow-md hover:from-[#f0d885]">
-                  <Play className="w-3.5 h-3.5 fill-current" /> PLAY NOW
+                <span className="text-xs sm:text-sm text-[#b5a391] font-semibold font-mono">RTP {game.rtp}</span>
+                <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs sm:text-sm font-extrabold flex items-center gap-2 shadow-md hover:from-[#f0d885]">
+                  <Play className="w-4 h-4 fill-current" /> PLAY NOW
                 </button>
               </div>
             </div>
