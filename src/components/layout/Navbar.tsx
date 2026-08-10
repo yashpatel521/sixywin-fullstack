@@ -14,20 +14,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-[#121624]/90 backdrop-blur-2xl px-4 sm:px-8 py-3.5">
       <div className="max-w-[1600px] mx-auto flex items-center justify-between">
-        {/* Left: Official SixyWin Logo & Brand Name (Zero Padding/Margin) */}
-        <Link href="/" className="flex items-center gap-2 group">
+        {/* Left: Logo Emblem + Logo5 Name Image */}
+        <Link href="/" className="flex items-center gap-3 group">
           <div className="relative w-10 h-10 overflow-hidden flex items-center justify-center p-0 m-0">
             <Image
               src="/logo/logo1.png"
-              alt="SixyWin Logo"
+              alt="SixyWin Emblem"
               fill
               className="object-contain p-0 m-0"
               priority
             />
           </div>
-          <span className="text-xl font-black tracking-tight text-white m-0 p-0">
-            SIXY<span className="text-amber-400">WIN</span>
-          </span>
+
+          <div className="relative w-36 h-9 overflow-hidden flex items-center justify-center p-0 m-0">
+            <Image
+              src="/logo/logo5.png"
+              alt="SixyWin Brand"
+              fill
+              className="object-contain p-0 m-0"
+              priority
+            />
+          </div>
         </Link>
 
         {/* Right: Login & Register Buttons */}
