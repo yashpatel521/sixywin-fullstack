@@ -7,7 +7,7 @@ interface GamesSectionProps {
   onPlayGame?: (gameId: string) => void;
 }
 
-export const GamesSection: React.FC = () => {
+export const GamesSection: React.FC<GamesSectionProps> = ({ onPlayGame }) => {
   const games = [
     {
       id: 'lottery-649',
