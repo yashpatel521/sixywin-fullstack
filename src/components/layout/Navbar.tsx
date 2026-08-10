@@ -17,6 +17,8 @@ import {
   VolumeX,
   ShieldCheck,
   ChevronDown,
+  Mail,
+  Trophy,
 } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { toast } from 'sonner';
@@ -82,50 +84,34 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
           </div>
         </Link>
 
-        {/* Right Controls: Guest vs Logged-In User Header */}
+        {/* Right Controls */}
         <div className="flex items-center gap-3 sm:gap-4">
           {isLoggedIn && user ? (
-            <>
-              {/* 1. Live Sixy Coins (SC) Balance Pill */}
-              <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#18120e] border border-[#e6ca65]/50 shadow-md">
-                <div className="flex items-center gap-1.5">
-                  <Coins className="w-4.5 h-4.5 text-[#e6ca65]" />
-                  <div className="flex flex-col text-left">
-                    <span className="text-[9px] text-[#b5a391] uppercase tracking-wider font-extrabold leading-none">
-                      BALANCE
-                    </span>
-                    <span className="text-xs sm:text-sm font-black font-mono text-[#e6ca65]">
-                      {user.sixyCoinsBalance || '10,000.00'} SC
-                    </span>
-                  </div>
+            /* Live Sixy Coins (SC) Balance Pill */
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#18120e] border border-[#e6ca65]/50 shadow-md">
+              <div className="flex items-center gap-1.5">
+                <Coins className="w-4.5 h-4.5 text-[#e6ca65]" />
+                <div className="flex flex-col text-left">
+                  <span className="text-[9px] text-[#b5a391] uppercase tracking-wider font-extrabold leading-none">
+                    BALANCE
+                  </span>
+                  <span className="text-xs sm:text-sm font-black font-mono text-[#e6ca65]">
+                    {user.sixyCoinsBalance || '10,000.00'} SC
+                  </span>
                 </div>
-
-                {/* Quick Add SC Bonus Button */}
-                <button
-                  onClick={handleClaimBonus}
-                  className="p-1 text-[#e6ca65] hover:text-[#faf6f0] hover:scale-110 transition-transform cursor-pointer"
-                  title="Claim Free SC Daily Bonus"
-                >
-                  <PlusCircle className="w-4 h-4 fill-[#d4af37]/20" />
-                </button>
               </div>
 
-              {/* 2. VIP Tier Badge */}
-              <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#18120e] border border-[#9c663b]/40 text-[#faf6f0] text-xs font-bold font-mono">
-                <Crown className="w-3.5 h-3.5 text-[#e6ca65] animate-pulse" />
-                <span>{user.vipLevel || 'BRONZE VIP'}</span>
-              </div>
-
-              {/* 3. User Profile Pill */}
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#18120e] border border-[#9c663b]/40">
-                <User className="w-4 h-4 text-[#e6ca65]" />
-                <span className="text-xs font-extrabold text-[#faf6f0] max-w-[120px] truncate">
-                  @{user.username}
-                </span>
-              </div>
-            </>
+              {/* Quick Add SC Bonus Button */}
+              <button
+                onClick={handleClaimBonus}
+                className="p-1 text-[#e6ca65] hover:text-[#faf6f0] hover:scale-110 transition-transform cursor-pointer"
+                title="Claim Free SC Daily Bonus"
+              >
+                <PlusCircle className="w-4 h-4 fill-[#d4af37]/20" />
+              </button>
+            </div>
           ) : (
-            /* Guest Buttons */
+            /* Guest Login / Register Buttons */
             <>
               <Link
                 href="/login"
@@ -147,35 +133,67 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
             </>
           )}
 
-          {/* ⚙️ Settings Icon & Dropdown Menu (Always Available) */}
+          {/* ⚙️ Settings Icon & Dropdown Menu */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-              className="p-2.5 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#9c663b]/50 hover:border-[#e6ca65] text-[#e6ca65] hover:text-[#faf6f0] transition-all cursor-pointer shadow-md flex items-center gap-1 group active:scale-95"
-              title="Platform Settings"
+              className="p-2.5 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#9c663b]/50 hover:border-[#e6ca65] text-[#e6ca65] hover:text-[#faf6f0] transition-all cursor-pointer shadow-md flex items-center gap-1.5 group active:scale-95"
+              title="Platform Settings & Account"
             >
               <Settings className={`w-4.5 h-4.5 transition-transform duration-300 ${isSettingsOpen ? 'rotate-90 text-[#faf6f0]' : 'group-hover:rotate-45'}`} />
-              <ChevronDown className={`w-3 h-3 text-[#b5a391] transition-transform ${isSettingsOpen ? 'rotate-180' : ''}`} />
+              {isLoggedIn && user && (
+                <span className="text-xs font-bold text-[#faf6f0] max-w-[90px] truncate hidden sm:inline">
+                  @{user.username}
+                </span>
+              )}
+              <ChevronDown className={`w-3.5 h-3.5 text-[#b5a391] transition-transform ${isSettingsOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Dropdown Menu Modal */}
             {isSettingsOpen && (
-              <div className="absolute right-0 mt-3 w-72 rounded-2xl bg-gradient-to-b from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-3 space-y-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="px-3 py-2 border-b border-[#9c663b]/30 flex items-center justify-between">
-                  <span className="text-xs font-black uppercase tracking-wider text-[#e6ca65] flex items-center gap-1.5">
-                    <Settings className="w-3.5 h-3.5" /> PLATFORM SETTINGS
-                  </span>
-                  <span className="text-[10px] font-mono text-[#b5a391]">v1.0 free</span>
-                </div>
+              <div className="absolute right-0 mt-3 w-80 rounded-2xl bg-gradient-to-b from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-4 space-y-3 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                {/* 1. Logged-In User Profile & VIP Tier Section Inside Dropdown */}
+                {isLoggedIn && user ? (
+                  <div className="p-3.5 rounded-xl bg-[#0c0a09] border border-[#9c663b]/40 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-9 h-9 rounded-full bg-[#18120e] border border-[#e6ca65]/60 flex items-center justify-center text-[#e6ca65]">
+                          <User className="w-5 h-5" />
+                        </div>
+                        <div className="space-y-0.5">
+                          <strong className="text-sm font-black text-[#faf6f0] block">
+                            @{user.username}
+                          </strong>
+                          <span className="text-[11px] text-[#b5a391] block truncate max-w-[140px]">
+                            {user.email}
+                          </span>
+                        </div>
+                      </div>
 
-                {/* Dropdown Options */}
+                      {/* VIP Tier Badge Inside Dropdown */}
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#18120e] border border-[#e6ca65]/50 text-[#e6ca65] text-xs font-extrabold font-mono shrink-0">
+                        <Crown className="w-3 h-3 text-[#e6ca65] animate-pulse" />
+                        <span>{user.vipLevel || 'BRONZE VIP'}</span>
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="px-2 py-1 flex items-center justify-between text-xs font-black uppercase tracking-wider text-[#e6ca65]">
+                    <span className="flex items-center gap-1.5">
+                      <Settings className="w-3.5 h-3.5" /> PLATFORM SETTINGS
+                    </span>
+                    <span className="text-[10px] font-mono text-[#b5a391]">GUEST MODE</span>
+                  </div>
+                )}
+
+                {/* 2. Settings Menu Items */}
                 <div className="space-y-1 text-xs">
                   {/* Sound FX Toggle */}
                   <button
                     onClick={toggleSound}
                     className="w-full px-3 py-2.5 rounded-xl hover:bg-[#281d14] text-[#faf6f0] flex items-center justify-between transition-colors cursor-pointer"
                   >
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-2.5">
                       {soundEnabled ? (
                         <Volume2 className="w-4 h-4 text-[#e6ca65]" />
                       ) : (
@@ -193,7 +211,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
                     onClick={toggleNotifications}
                     className="w-full px-3 py-2.5 rounded-xl hover:bg-[#281d14] text-[#faf6f0] flex items-center justify-between transition-colors cursor-pointer"
                   >
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-2.5">
                       <Bell className="w-4 h-4 text-[#e6ca65]" />
                       <span>6/49 Draw Alerts</span>
                     </span>
@@ -212,7 +230,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
                     }}
                     className="w-full px-3 py-2.5 rounded-xl hover:bg-[#281d14] text-[#faf6f0] flex items-center justify-between transition-colors cursor-pointer"
                   >
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-2.5">
                       <ShieldCheck className="w-4 h-4 text-[#e6ca65]" />
                       <span>Provably Fair Engine</span>
                     </span>
@@ -224,7 +242,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
                     <div className="pt-2 border-t border-[#9c663b]/30">
                       <button
                         onClick={handleLogout}
-                        className="w-full px-3 py-2.5 rounded-xl hover:bg-red-500/20 text-red-400 hover:text-red-300 flex items-center gap-2 transition-colors cursor-pointer font-bold"
+                        className="w-full px-3 py-2.5 rounded-xl hover:bg-red-500/20 text-red-400 hover:text-red-300 flex items-center gap-2.5 transition-colors cursor-pointer font-bold"
                       >
                         <LogOut className="w-4 h-4" />
                         <span>Sign Out Account</span>
