@@ -98,17 +98,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
           </div>
         </div>
 
-        {/* Right 50% Column: Seamless Blended 3D Picture */}
+        {/* Right 50% Column: Seamlessly Blended Pure-Black 3D Artwork */}
         <div className="relative flex items-center justify-center">
           <div className="relative w-full max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
             <Image
-              src="/landing/luxury_hero_3d.png"
+              src="/landing/blendable_hero_3d.png"
               alt="3D Luxury Casino Crown & Dice"
               fill
-              className="object-contain mix-blend-lighten [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_98%)]"
+              className="object-contain mix-blend-screen"
               priority
             />
-            {/* Radial glow background ring behind image */}
+            {/* Soft Ambient Gold Glow Ring */}
             <div className="absolute inset-0 bg-[#d4af37]/15 rounded-full blur-3xl pointer-events-none -z-10" />
           </div>
         </div>
