@@ -1,12 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy, UserCheck, Zap } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy, Zap, UserCheck, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { loginUserAction, quickLoginAction } from '@/app/actions/authActions';
+
+interface SavedProfile {
+  username: string;
+  email: string;
+  scBalance: string;
+  vipLevel: string;
+  icon?: string;
+  lastLogin?: string;
+}
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,46 +24,110 @@ export default function LoginPage() {
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
 
-  // Preset 1-Click Profiles
-  const quickProfiles = [
+  // Default preset profiles for quick testing
+  const presetProfiles: SavedProfile[] = [
     {
-      name: 'HighRoller649',
+      username: 'HighRoller649',
       email: 'highroller@sixywin.com',
-      sc: '1,250,000 SC',
-      vip: '24K VIP',
+      scBalance: '1,250,000 SC',
+      vipLevel: '24K VIP',
       icon: '👑',
     },
     {
-      name: 'GoldVipPlayer',
+      username: 'GoldVipPlayer',
       email: 'goldvip@sixywin.com',
-      sc: '500,000 SC',
-      vip: 'DIAMOND',
+      scBalance: '500,000 SC',
+      vipLevel: 'DIAMOND',
       icon: '💎',
     },
     {
-      name: 'LuckyStriker',
+      username: 'LuckyStriker',
       email: 'lucky@sixywin.com',
-      sc: '50,000 SC',
-      vip: 'GOLD VIP',
+      scBalance: '50,000 SC',
+      vipLevel: 'GOLD VIP',
       icon: '🎰',
     },
   ];
 
-  // 1-Click Profile Login Handler
-  const handleQuickProfileLogin = async (profile: typeof quickProfiles[0]) => {
+  // Load saved profiles from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('sixywin_saved_profiles');
+      if (stored) {
+        const parsed: SavedProfile[] = JSON.parse(stored);
+        if (parsed.length > 0) {
+          setSavedProfiles(parsed);
+          return;
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load saved profiles from localStorage', e);
+    }
+    // Fallback to presets if no custom saved profiles exist
+    setSavedProfiles(presetProfiles);
+  }, []);
+
+  // Helper to save a profile into localStorage
+  const saveProfileToLocalStorage = (user: { username: string; email: string; sixyCoinsBalance: string; vipLevel: string }) => {
+    try {
+      const stored = localStorage.getItem('sixywin_saved_profiles');
+      let currentProfiles: SavedProfile[] = stored ? JSON.parse(stored) : [...presetProfiles];
+      
+      // Filter out existing profile if already saved
+      currentProfiles = currentProfiles.filter((p) => p.email.toLowerCase() !== user.email.toLowerCase());
+      
+      // Prepend newly logged-in profile
+      const newProfile: SavedProfile = {
+        username: user.username,
+        email: user.email,
+        scBalance: `${user.sixyCoinsBalance} SC`,
+        vipLevel: user.vipLevel || 'BRONZE',
+        icon: '👤',
+        lastLogin: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      
+      const updated = [newProfile, ...currentProfiles].slice(0, 6);
+      localStorage.setItem('sixywin_saved_profiles', JSON.stringify(updated));
+      setSavedProfiles(updated);
+    } catch (e) {
+      console.error('Failed to save profile to localStorage', e);
+    }
+  };
+
+  // Remove a profile from localStorage
+  const removeSavedProfile = (e: React.MouseEvent, emailToRemove: string) => {
+    e.stopPropagation();
+    try {
+      const updated = savedProfiles.filter((p) => p.email.toLowerCase() !== emailToRemove.toLowerCase());
+      setSavedProfiles(updated);
+      localStorage.setItem('sixywin_saved_profiles', JSON.stringify(updated));
+      toast.info('Saved profile removed from device.');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // 1-Click Saved Profile Login Handler
+  const handleQuickProfileLogin = async (profile: SavedProfile) => {
     setLoading(true);
     try {
       const result = await quickLoginAction(
         profile.email,
-        profile.name,
-        profile.sc.replace(/[^0-9.]/g, ''),
-        profile.vip
+        profile.username,
+        profile.scBalance.replace(/[^0-9.]/g, '') || '10000',
+        profile.vipLevel || 'BRONZE'
       );
 
       if (!result.success) {
         toast.error(result.error || 'Quick login failed.');
         return;
+      }
+
+      // Save to localStorage
+      if (result.user) {
+        saveProfileToLocalStorage(result.user);
       }
 
       toast.success(result.message, {
@@ -71,6 +144,7 @@ export default function LoginPage() {
     }
   };
 
+  // Credentials Login Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -92,9 +166,14 @@ export default function LoginPage() {
         return;
       }
 
+      // Save profile to localStorage on successful login
+      if (result.user) {
+        saveProfileToLocalStorage(result.user);
+      }
+
       toast.success(result.message, {
         description: rememberMe
-          ? 'Session saved for 30 days. Welcome back!'
+          ? 'Saved to this device. Welcome back!'
           : `Active balance: ${result.user?.sixyCoinsBalance} SC`,
       });
 
@@ -157,7 +236,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Right 50% Column: Login Form Card with 1-Click Quick Profiles */}
+        {/* Right 50% Column: Login Form Card with LocalStorage Saved Profiles */}
         <div className="flex justify-center w-full">
           <div className="w-full max-w-md space-y-5 p-7 sm:p-9 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_60px_rgba(212,175,55,0.2)] backdrop-blur-2xl">
             {/* Card Header with Logo */}
@@ -178,44 +257,58 @@ export default function LoginPage() {
                   Account Sign In
                 </h2>
                 <p className="text-xs text-[#b5a391]">
-                  Click a VIP Profile or enter your credentials
+                  Select a saved account or enter credentials
                 </p>
               </div>
             </div>
 
-            {/* 1-Click Quick Profile Selector */}
-            <div className="space-y-2">
-              <span className="text-[11px] font-extrabold tracking-wider uppercase text-[#e6ca65] flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-[#e6ca65] animate-pulse" />
-                <span>1-CLICK QUICK PROFILE SIGN-IN</span>
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                {quickProfiles.map((p) => (
-                  <button
-                    key={p.email}
-                    type="button"
-                    onClick={() => handleQuickProfileLogin(p)}
-                    disabled={loading}
-                    className="p-2.5 rounded-xl bg-[#0c0a09] hover:bg-[#281d14] border border-[#9c663b]/50 hover:border-[#e6ca65] text-left transition-all cursor-pointer shadow-md group active:scale-95"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-base">{p.icon}</span>
-                      <span className="text-[9px] font-mono text-[#e6ca65] bg-[#18120e] px-1.5 py-0.5 rounded border border-[#9c663b]/30">
-                        {p.vip}
-                      </span>
+            {/* LocalStorage Saved Profiles Selector */}
+            {savedProfiles.length > 0 && (
+              <div className="space-y-2">
+                <span className="text-[11px] font-extrabold tracking-wider uppercase text-[#e6ca65] flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <UserCheck className="w-3.5 h-3.5 text-[#e6ca65]" />
+                    <span>SAVED ACCOUNTS ON THIS DEVICE</span>
+                  </span>
+                  <span className="text-[10px] text-[#b5a391] font-normal">1-Click Sign In</span>
+                </span>
+
+                <div className="grid grid-cols-3 gap-2 max-h-36 overflow-y-auto pr-1">
+                  {savedProfiles.slice(0, 3).map((p) => (
+                    <div
+                      key={p.email}
+                      onClick={() => handleQuickProfileLogin(p)}
+                      className="relative p-2.5 rounded-xl bg-[#0c0a09] hover:bg-[#281d14] border border-[#9c663b]/50 hover:border-[#e6ca65] text-left transition-all cursor-pointer shadow-md group active:scale-95"
+                    >
+                      {/* Delete profile button */}
+                      <button
+                        type="button"
+                        onClick={(e) => removeSavedProfile(e, p.email)}
+                        className="absolute top-1.5 right-1.5 text-[#b5a391] hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                        title="Remove profile from device"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-base">{p.icon || '👤'}</span>
+                        <span className="text-[9px] font-mono text-[#e6ca65] bg-[#18120e] px-1.5 py-0.5 rounded border border-[#9c663b]/30">
+                          {p.vipLevel}
+                        </span>
+                      </div>
+                      <div className="mt-1">
+                        <strong className="text-xs text-[#faf6f0] block truncate group-hover:text-[#e6ca65]">
+                          {p.username}
+                        </strong>
+                        <span className="text-[10px] font-mono text-[#b5a391] block truncate">
+                          {p.scBalance}
+                        </span>
+                      </div>
                     </div>
-                    <div className="mt-1">
-                      <strong className="text-xs text-[#faf6f0] block truncate group-hover:text-[#e6ca65]">
-                        {p.name}
-                      </strong>
-                      <span className="text-[10px] font-mono text-[#b5a391] block">
-                        {p.sc}
-                      </span>
-                    </div>
-                  </button>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="relative flex items-center justify-center">
               <div className="border-t border-[#9c663b]/30 w-full" />
@@ -225,7 +318,7 @@ export default function LoginPage() {
             </div>
 
             {/* Login Form */}
-            <form onSubmit={handleSubmit} className="space-y-3.5">
+            <form onSubmit={handleSubmit} className="space-y-3">
               {/* Email Field */}
               <div className="space-y-1">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
