@@ -29,7 +29,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
 
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#18120e]/80 border border-[#9c663b]/50 text-[#e6ca65] text-xs font-semibold backdrop-blur-md">
               <ShieldCheck className="w-4 h-4 text-[#e6ca65]" />
-              <span>Provably Fair</span>
+              <span>Free Virtual Currency</span>
             </div>
           </div>
 
@@ -41,32 +41,32 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-[#faf6f0] leading-[1.06]">
               The Realm Of <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
-                High-Stakes Gaming
+                6/49 Lottery & Casino
               </span>
             </h1>
           </div>
 
           {/* Description */}
           <p className="text-[#e3d8c8] text-base sm:text-xl font-normal leading-relaxed">
-            Enter an elite luxury casino environment. Play 3D Fortune Wheel, Slot Machines, and High-Low tables powered by Next.js 15 Server Actions & Supabase database.
+            Enter an elite virtual gaming environment. Play 6/49 Lottery, 3D Fortune Wheel, and High-Low tables with free virtual Sixy Coins (SC).
           </p>
 
           {/* Quick Launch Game Pills */}
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <button
+              onClick={() => onPlayClick?.('lottery-649')}
+              className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
+            >
+              <span>🎟️ 6/49 Lottery</span>
+              <span className="text-[10px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">1.25M SC</span>
+            </button>
+
+            <button
               onClick={() => onPlayClick?.('fortune-wheel')}
               className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
             >
               <span>🎡 Cyber Wheel</span>
-              <span className="text-[10px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">50x MAX</span>
-            </button>
-
-            <button
-              onClick={() => onPlayClick?.('slot-machine')}
-              className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
-            >
-              <span>🎰 Neon Slots</span>
-              <span className="text-[10px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">100x</span>
+              <span className="text-[10px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">50x</span>
             </button>
 
             <button
@@ -81,11 +81,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
           {/* 24K Gold Action Buttons */}
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <button
-              onClick={() => onPlayClick?.()}
+              onClick={() => onPlayClick?.('lottery-649')}
               className="px-9 py-4 text-base font-extrabold text-[#0c0a09] bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] rounded-2xl transition-all shadow-xl shadow-[#d4af37]/25 active:scale-95 flex items-center gap-2.5 cursor-pointer border border-[#faf6f0]/40"
             >
               <Play className="w-5 h-5 fill-current" />
-              <span>PLAY NOW</span>
+              <span>PLAY 6/49 LOTTERY</span>
             </button>
 
             <button
@@ -98,7 +98,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
           </div>
         </div>
 
-        {/* Right 50% Column: CSS-Processed 3D Picture with Background Removed */}
+        {/* Right 50% Column: CSS-Processed 3D Picture */}
         <div className="relative flex items-center justify-center">
           <div className="relative w-full max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
             <Image
@@ -117,16 +117,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
       {/* 24K Gold Stats Ribbon */}
       <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 pt-8 border-t border-[#9c663b]/40 text-xs sm:text-sm">
         <div>
-          <span className="text-[#b5a391] font-semibold block mb-1">TOTAL PAYOUTS</span>
-          <span className="text-xl sm:text-2xl font-bold text-[#faf6f0] font-mono">$24,850,000+</span>
+          <span className="text-[#b5a391] font-semibold block mb-1">TOTAL COINS WON</span>
+          <span className="text-xl sm:text-2xl font-bold text-[#faf6f0] font-mono">24,850,000 SC</span>
         </div>
         <div>
           <span className="text-[#b5a391] font-semibold block mb-1">AVERAGE RTP</span>
           <span className="text-xl sm:text-2xl font-bold text-[#e6ca65] font-mono">99.1%</span>
         </div>
         <div>
-          <span className="text-[#b5a391] font-semibold block mb-1">VIP CASHBACK</span>
-          <span className="text-xl sm:text-2xl font-bold text-[#f0d885] font-mono">15% WEEKLY</span>
+          <span className="text-[#b5a391] font-semibold block mb-1">WEEKLY BONUS</span>
+          <span className="text-xl sm:text-2xl font-bold text-[#f0d885] font-mono">15% SC BACK</span>
         </div>
         <div>
           <span className="text-[#b5a391] font-semibold block mb-1">SETTLEMENT</span>

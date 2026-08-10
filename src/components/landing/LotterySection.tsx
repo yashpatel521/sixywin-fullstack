@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Ticket, Sparkles, Shuffle, Play, Trophy, Clock, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Ticket, Sparkles, Shuffle, Trophy, Clock, ShieldCheck, Coins } from 'lucide-react';
 
 export const LotterySection: React.FC = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([7, 14, 21, 33, 42, 49]);
@@ -35,19 +35,19 @@ export const LotterySection: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#d4af37]/8 rounded-full blur-[180px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto space-y-16">
-        {/* Header with Jackpot Counter */}
+        {/* Header with Virtual Jackpot Counter */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-[#9c663b]/30 pb-8">
           <div className="space-y-3 max-w-2xl">
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#faf6f0]/10 border border-[#e6ca65]/40 text-[#e6ca65] text-xs font-bold backdrop-blur-md">
               <Trophy className="w-4 h-4 text-[#e6ca65] animate-bounce" />
               <span className="tracking-wider uppercase">SIXYWIN 6/49 LOTTERY</span>
               <span className="text-[#9c663b]">•</span>
-              <span className="text-[#faf6f0]">DAILY DRAW</span>
+              <span className="text-[#faf6f0]">VIRTUAL PLAY</span>
             </div>
             <h2 className="text-4xl sm:text-6xl font-black tracking-tight text-[#faf6f0] leading-[1.08]">
               Pick 6 Numbers (1 to 49) & Win Up To <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f]">
-                $1,000,000 Jackpot
+                1,000,000 SIXY COINS (SC)
               </span>
             </h2>
           </div>
@@ -61,8 +61,9 @@ export const LotterySection: React.FC = () => {
               </span>
               <span className="text-[#e6ca65] font-bold">DRAW #1492</span>
             </div>
-            <div className="text-3xl sm:text-4xl font-black text-[#e6ca65] font-mono tracking-tight">
-              $1,250,000.00
+            <div className="flex items-center gap-2 text-3xl sm:text-4xl font-black text-[#e6ca65] font-mono tracking-tight">
+              <Coins className="w-8 h-8 text-[#e6ca65]" />
+              <span>1,250,000 SC</span>
             </div>
           </div>
         </div>
@@ -131,39 +132,39 @@ export const LotterySection: React.FC = () => {
               {/* Action Button */}
               <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-base font-extrabold flex items-center justify-center gap-2 shadow-xl shadow-[#d4af37]/25 transition-all cursor-pointer active:scale-95 border border-[#faf6f0]/40">
                 <Ticket className="w-5 h-5" />
-                <span>BUY 6/49 TICKET ($2.00)</span>
+                <span>BUY TICKET (200 SIXY COINS)</span>
               </button>
 
               {/* Provably Fair Guarantee Footer */}
               <div className="flex items-center justify-between text-xs text-[#b5a391] pt-2">
                 <span className="flex items-center gap-1 text-[#e6ca65]">
-                  <ShieldCheck className="w-4 h-4" /> 100% Provably Fair Seed
+                  <ShieldCheck className="w-4 h-4" /> Provably Fair Engine
                 </span>
-                <span className="font-mono text-[11px]">RNG Hash Verified</span>
+                <span className="font-mono text-[11px]">Free Virtual Currency</span>
               </div>
             </div>
 
             {/* Payout Tier Table */}
             <div className="rounded-3xl bg-[#18120e] border border-[#9c663b]/40 p-6 space-y-4 shadow-xl">
               <h4 className="text-xs font-bold text-[#b5a391] uppercase tracking-wider">
-                6/49 Prize Tier Multipliers
+                6/49 Prize Tier Multipliers (SIXY COINS)
               </h4>
               <div className="space-y-2 text-xs font-mono">
                 <div className="flex justify-between items-center py-1.5 border-b border-[#9c663b]/20">
                   <span className="text-[#faf6f0]">Match 6 / 6 Balls</span>
-                  <span className="text-[#e6ca65] font-bold">100% JACKPOT ($1.25M+)</span>
+                  <span className="text-[#e6ca65] font-bold">100% JACKPOT (1,250,000 SC)</span>
                 </div>
                 <div className="flex justify-between items-center py-1.5 border-b border-[#9c663b]/20">
                   <span className="text-[#faf6f0]">Match 5 / 6 Balls</span>
-                  <span className="text-[#faf6f0] font-bold">$50,000.00</span>
+                  <span className="text-[#faf6f0] font-bold">50,000 SC</span>
                 </div>
                 <div className="flex justify-between items-center py-1.5 border-b border-[#9c663b]/20">
                   <span className="text-[#faf6f0]">Match 4 / 6 Balls</span>
-                  <span className="text-[#faf6f0] font-bold">$1,000.00</span>
+                  <span className="text-[#faf6f0] font-bold">1,000 SC</span>
                 </div>
                 <div className="flex justify-between items-center py-1.5">
                   <span className="text-[#faf6f0]">Match 3 / 6 Balls</span>
-                  <span className="text-[#faf6f0] font-bold">$50.00</span>
+                  <span className="text-[#faf6f0] font-bold">50 SC</span>
                 </div>
               </div>
             </div>
