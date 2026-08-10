@@ -20,14 +20,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
       <div className="relative z-10 w-full max-w-[1800px] mx-auto my-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center py-8">
         {/* Left 50% Column: Headline & Controls */}
         <div className="space-y-8">
-          {/* VIP Suite Badge */}
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center gap-2.5 px-4.5 py-2 rounded-full bg-[#faf6f0]/10 border border-[#d4af37]/40 text-[#faf6f0] text-xs sm:text-sm font-bold backdrop-blur-xl shadow-lg">
-              <Crown className="w-4 h-4 sm:w-5 sm:h-5 text-[#e6ca65] animate-pulse" />
-              <span className="text-[#faf6f0] tracking-wider uppercase">SIXYWIN 24K VIP SUITE</span>
+          {/* VIP Suite & Security Info (Unboxed Clean Badges) */}
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold tracking-widest uppercase">
+              <Crown className="w-5 h-5 text-[#e6ca65] animate-pulse" />
+              <span className="text-[#faf6f0]">SIXYWIN 24K VIP SUITE</span>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#18120e]/80 border border-[#9c663b]/50 text-[#e6ca65] text-xs sm:text-sm font-semibold backdrop-blur-md">
+            <span className="text-[#9c663b]">•</span>
+
+            <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#e6ca65]">
               <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-[#e6ca65]" />
               <span>Free Virtual Currency</span>
             </div>
