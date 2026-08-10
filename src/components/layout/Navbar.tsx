@@ -19,6 +19,7 @@ import {
   Gift,
 } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { toast } from 'sonner';
 
 interface NavbarProps {
@@ -28,10 +29,16 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick }) => {
   const { user, isLoggedIn, logout } = useAuthStore();
+  const [mounted, setMounted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Set mounted state for hydration safety
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -83,10 +90,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
           </div>
         </Link>
 
-        {/* Right Controls */}
+        {/* Right Controls with Skeleton Hydration Support */}
         <div className="flex items-center gap-3 sm:gap-4">
-          {isLoggedIn && user ? (
-            /* 🪙 Combined Sixy Coins Balance & Settings Icon Pill (Clean - No Plus Icon) */
+          {!mounted ? (
+            /* Skeleton Loading State during Hydration */
+            <div className="flex items-center gap-3">
+              <Skeleton className="w-36 h-9 rounded-xl" />
+              <Skeleton className="w-9 h-9 rounded-xl" />
+            </div>
+          ) : isLoggedIn && user ? (
+            /* 🪙 Combined Sixy Coins Balance & Settings Icon Pill */
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
