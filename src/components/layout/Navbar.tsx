@@ -10,7 +10,6 @@ import {
   Crown,
   LogOut,
   User,
-  PlusCircle,
   Settings,
   Bell,
   Volume2,
@@ -51,8 +50,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
     toast.info('Logged out successfully.');
   };
 
-  const handleClaimBonus = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClaimBonus = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     toast.success('Daily SC Bonus Claimed!', {
       description: '+1,000 Free Sixy Coins (SC) added to your account!',
     });
@@ -87,11 +86,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
         {/* Right Controls */}
         <div className="flex items-center gap-3 sm:gap-4">
           {isLoggedIn && user ? (
-            /* 🪙 Combined Sixy Coins Balance & Settings Icon Pill */
+            /* 🪙 Combined Sixy Coins Balance & Settings Icon Pill (Clean - No Plus Icon) */
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-3 px-3.5 py-1.5 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#e6ca65]/60 hover:border-[#e6ca65] transition-all cursor-pointer shadow-md group active:scale-95 text-left"
+                className="flex items-center gap-3.5 px-4 py-2 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#e6ca65]/60 hover:border-[#e6ca65] transition-all cursor-pointer shadow-md group active:scale-95 text-left"
                 title="Account Wallet & Settings"
               >
                 {/* Coins Balance Info */}
@@ -110,17 +109,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
                 {/* Divider */}
                 <div className="h-5 w-[1px] bg-[#9c663b]/40" />
 
-                {/* Quick Add SC Bonus Button */}
-                <div
-                  onClick={handleClaimBonus}
-                  className="p-1 text-[#e6ca65] hover:text-[#faf6f0] hover:scale-110 transition-transform"
-                  title="Claim Daily Free SC Bonus"
-                >
-                  <PlusCircle className="w-4 h-4 fill-[#d4af37]/20" />
-                </div>
-
                 {/* Settings Gear Icon */}
-                <div className="pl-1 border-l border-[#9c663b]/40 flex items-center gap-1 text-[#e6ca65]">
+                <div className="flex items-center gap-1.5 text-[#e6ca65]">
                   <Settings className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-90 text-[#faf6f0]' : 'group-hover:rotate-45'}`} />
                   <ChevronDown className={`w-3 h-3 text-[#b5a391] transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                 </div>
@@ -162,7 +152,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
                     </div>
                     <button
                       onClick={handleClaimBonus}
-                      className="px-3 py-1 rounded-lg bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-[11px] font-extrabold shadow-sm cursor-pointer"
+                      className="px-3 py-1 rounded-lg bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-[11px] font-extrabold shadow-sm cursor-pointer hover:from-[#f0d885]"
                     >
                       CLAIM 1,000 SC
                     </button>
