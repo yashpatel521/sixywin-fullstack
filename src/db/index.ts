@@ -21,20 +21,28 @@ if (client) {
   client`
     CREATE TABLE IF NOT EXISTS users (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      username TEXT NOT NULL UNIQUE,
-      email TEXT NOT NULL UNIQUE,
-      password_hash TEXT NOT NULL,
-      avatar_url TEXT,
-      sixy_coins_balance NUMERIC(18, 2) NOT NULL DEFAULT 10000.00,
-      vip_level TEXT NOT NULL DEFAULT 'BRONZE',
-      referral_code TEXT UNIQUE,
-      referred_by TEXT,
-      is_verified BOOLEAN NOT NULL DEFAULT false,
-      created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
-      updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+      username TEXT,
+      email TEXT,
+      password_hash TEXT,
+      created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
     );
   `.then(() => {
-    console.log('✅ Supabase PostgreSQL: Users table synced successfully.');
+    return client`
+      ALTER TABLE users 
+        ADD COLUMN IF NOT EXISTS username TEXT,
+        ADD COLUMN IF NOT EXISTS email TEXT,
+        ADD COLUMN IF NOT EXISTS password_hash TEXT,
+        ADD COLUMN IF NOT EXISTS avatar_url TEXT,
+        ADD COLUMN IF NOT EXISTS sixy_coins_balance NUMERIC(18, 2) DEFAULT 10000.00,
+        ADD COLUMN IF NOT EXISTS vip_level TEXT DEFAULT 'BRONZE',
+        ADD COLUMN IF NOT EXISTS referral_code TEXT,
+        ADD COLUMN IF NOT EXISTS referred_by TEXT,
+        ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT false,
+        ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+        ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW();
+    `;
+  }).then(() => {
+    console.log('✅ Supabase PostgreSQL: Users table columns synced successfully.');
   }).catch((err) => {
     console.error('⚠️ DB Auto-Sync Notice:', err.message);
   });

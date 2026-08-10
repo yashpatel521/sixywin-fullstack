@@ -2,7 +2,6 @@ import postgres from 'postgres';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load .env.local explicitly
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
@@ -17,26 +16,36 @@ async function syncDatabase() {
   const sql = postgres(connectionString, { prepare: false });
 
   try {
-    console.log('🛠️ Creating/Updating users table in Supabase...');
+    console.log('🛠️ Synchronizing users table schema on Supabase...');
 
+    // 1. Create table if not existing
     await sql`
       CREATE TABLE IF NOT EXISTS users (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        username TEXT NOT NULL UNIQUE,
-        email TEXT NOT NULL UNIQUE,
-        password_hash TEXT NOT NULL,
-        avatar_url TEXT,
-        sixy_coins_balance NUMERIC(18, 2) NOT NULL DEFAULT 10000.00,
-        vip_level TEXT NOT NULL DEFAULT 'BRONZE',
-        referral_code TEXT UNIQUE,
-        referred_by TEXT,
-        is_verified BOOLEAN NOT NULL DEFAULT false,
-        created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
-        updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+        username TEXT,
+        email TEXT,
+        password_hash TEXT,
+        created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
       );
     `;
 
-    console.log('✅ Users table successfully created/updated in Supabase!');
+    // 2. Add any missing columns to guarantee matching Drizzle schema
+    await sql`
+      ALTER TABLE users 
+        ADD COLUMN IF NOT EXISTS username TEXT,
+        ADD COLUMN IF NOT EXISTS email TEXT,
+        ADD COLUMN IF NOT EXISTS password_hash TEXT,
+        ADD COLUMN IF NOT EXISTS avatar_url TEXT,
+        ADD COLUMN IF NOT EXISTS sixy_coins_balance NUMERIC(18, 2) DEFAULT 10000.00,
+        ADD COLUMN IF NOT EXISTS vip_level TEXT DEFAULT 'BRONZE',
+        ADD COLUMN IF NOT EXISTS referral_code TEXT,
+        ADD COLUMN IF NOT EXISTS referred_by TEXT,
+        ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT false,
+        ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+        ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW();
+    `;
+
+    console.log('✅ Users table schema successfully updated in Supabase PostgreSQL!');
   } catch (err) {
     console.error('❌ Error updating database table:', err);
   } finally {
