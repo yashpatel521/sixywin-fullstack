@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Ticket, Sparkles, Shuffle, Trophy, Clock, ShieldCheck, Coins } from 'lucide-react';
+import { toast } from 'sonner';
 
 export const LotterySection: React.FC = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([7, 14, 21, 33, 42, 49]);
@@ -17,6 +18,9 @@ export const LotterySection: React.FC = () => {
     }
     numbers.sort((a, b) => a - b);
     setSelectedNumbers(numbers);
+    toast.info('Quick Pick Generated!', {
+      description: `Numbers: ${numbers.join(', ')}`,
+    });
   };
 
   // Toggle Number Selection
@@ -26,7 +30,20 @@ export const LotterySection: React.FC = () => {
     } else if (selectedNumbers.length < 6) {
       const updated = [...selectedNumbers, num].sort((a, b) => a - b);
       setSelectedNumbers(updated);
+    } else {
+      toast.warning('Maximum 6 numbers allowed per ticket.');
     }
+  };
+
+  // Buy Ticket Handler
+  const handleBuyTicket = () => {
+    if (selectedNumbers.length < 6) {
+      toast.error('Please select 6 numbers to purchase a ticket.');
+      return;
+    }
+    toast.success('6/49 Lottery Ticket Purchased!', {
+      description: `Ticket Numbers: ${selectedNumbers.join(', ')} (Cost: 200 SC)`,
+    });
   };
 
   return (
@@ -140,7 +157,10 @@ export const LotterySection: React.FC = () => {
               </div>
 
               {/* Action Button */}
-              <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-base font-extrabold flex items-center justify-center gap-2 shadow-xl shadow-[#d4af37]/25 transition-all cursor-pointer active:scale-95 border border-[#faf6f0]/40">
+              <button
+                onClick={handleBuyTicket}
+                className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-base font-extrabold flex items-center justify-center gap-2 shadow-xl shadow-[#d4af37]/25 transition-all cursor-pointer active:scale-95 border border-[#faf6f0]/40"
+              >
                 <Ticket className="w-5 h-5" />
                 <span>BUY TICKET (200 SIXY COINS)</span>
               </button>

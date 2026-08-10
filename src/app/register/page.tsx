@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Lock, User, UserPlus, Crown, ArrowRight, ShieldCheck, Coins, Gift, Eye, EyeOff } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -13,31 +14,34 @@ export default function RegisterPage() {
   const [referralCode, setReferralCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
 
     try {
       if (!username || !email || !password) {
-        throw new Error('Please fill in all required fields.');
+        toast.error('Please fill in all required fields.');
+        return;
       }
 
       if (password !== confirmPassword) {
-        throw new Error('Passwords do not match.');
+        toast.error('Passwords do not match.');
+        return;
       }
 
       if (password.length < 6) {
-        throw new Error('Password must be at least 6 characters long.');
+        toast.error('Password must be at least 6 characters long.');
+        return;
       }
 
       // Simulate account registration
       await new Promise((resolve) => setTimeout(resolve, 800));
-      alert(`Welcome to SixyWin! Account created for ${username}. 10,000 Free Sixy Coins (SC) welcome bonus credited!`);
+      toast.success(`Welcome to SixyWin, ${username}!`, {
+        description: 'Free 10,000 SC welcome bonus credited to your account.',
+      });
     } catch (err: any) {
-      setError(err.message || 'Failed to create account.');
+      toast.error(err.message || 'Failed to create account.');
     } finally {
       setLoading(false);
     }
@@ -117,13 +121,6 @@ export default function RegisterPage() {
                 </p>
               </div>
             </div>
-
-            {/* Error Alert */}
-            {error && (
-              <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold text-center">
-                {error}
-              </div>
-            )}
 
             {/* Register Form */}
             <form onSubmit={handleSubmit} className="space-y-3">

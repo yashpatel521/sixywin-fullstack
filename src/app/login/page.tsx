@@ -4,28 +4,30 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
 
     try {
       if (!email || !password) {
-        throw new Error('Please enter both email and password.');
+        toast.error('Please enter both email and password.');
+        return;
       }
       
       await new Promise((resolve) => setTimeout(resolve, 800));
-      alert(`Welcome back to SixyWin! Logged in as ${email}`);
+      toast.success(`Welcome back to SixyWin! Logged in as ${email}`, {
+        description: 'Your 10,000 SC balance is active.',
+      });
     } catch (err: any) {
-      setError(err.message || 'Failed to sign in.');
+      toast.error(err.message || 'Failed to sign in.');
     } finally {
       setLoading(false);
     }
@@ -105,13 +107,6 @@ export default function LoginPage() {
                 </p>
               </div>
             </div>
-
-            {/* Error Alert */}
-            {error && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold text-center">
-                {error}
-              </div>
-            )}
 
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
