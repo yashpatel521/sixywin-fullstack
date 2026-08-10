@@ -2,17 +2,17 @@
 
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { MinimalHero } from '@/components/landing/MinimalHero';
-import { MinimalGameCard } from '@/components/landing/MinimalGameCard';
-import { JackpotCounter } from '@/components/feeds/JackpotCounter';
-import { LiveWinnersFeed } from '@/components/feeds/LiveWinnersFeed';
-import { VipSection } from '@/components/landing/VipSection';
-import { FairPlaySection } from '@/components/landing/FairPlaySection';
+import Image from 'next/image';
+import { ProvidersBlock } from '@/components/dashboard/ProvidersBlock';
+import { StatsCard } from '@/components/dashboard/StatsCard';
+import { RightSidebar } from '@/components/dashboard/RightSidebar';
+import { LastGamesTable } from '@/components/dashboard/LastGamesTable';
 import { SkeletonCard } from '@/components/ui/SkeletonCard';
-import { Zap, Sparkles } from 'lucide-react';
-import { GameMeta } from '@/types/game';
+import { Button } from '@/components/ui/Button';
+import { Zap, Sparkles, Play } from 'lucide-react';
+import { useGameStore } from '@/store/useGameStore';
 
-// Lazy load heavy interactive game modules with dynamic imports & fallback skeletons
+// Dynamic interactive game modules
 const FortuneWheel = dynamic(() => import('@/components/games/FortuneWheel'), {
   loading: () => <SkeletonCard />,
 });
@@ -23,142 +23,149 @@ const HighLowGame = dynamic(() => import('@/components/games/HighLowGame'), {
   loading: () => <SkeletonCard />,
 });
 
-const GAMES_CATALOG: GameMeta[] = [
-  {
-    id: 'fortune-wheel',
-    title: 'Cyber Fortune Wheel',
-    category: 'Wheel',
-    description: 'Spin the 12-segment wheel for multipliers up to 50x evaluated server-side.',
-    rtp: '98.5%',
-    minBet: 10,
-    maxMultiplier: '50x',
-    bgGradient: '',
-    iconName: '🎡',
-    hot: true,
-  },
-  {
-    id: 'slot-machine',
-    title: 'Neon Slot 777',
-    category: 'Slots',
-    description: 'Classic 3x3 slot reels featuring triple 777 progressive jackpot settlement.',
-    rtp: '97.8%',
-    minBet: 10,
-    maxMultiplier: '100x',
-    bgGradient: '',
-    iconName: '🎰',
-    popular: true,
-  },
-  {
-    id: 'high-low',
-    title: 'High-Low Cards',
-    category: 'Cards',
-    description: 'Predict whether the next card is higher or lower for instant 2x payouts.',
-    rtp: '99.0%',
-    minBet: 10,
-    maxMultiplier: '2x',
-    bgGradient: '',
-    iconName: '🃏',
-  },
-];
-
 export default function HomePage() {
   const [activeGame, setActiveGame] = useState<string | null>('fortune-wheel');
-  const [filterCategory, setFilterCategory] = useState<string>('All');
-
-  const filteredGames =
-    filterCategory === 'All'
-      ? GAMES_CATALOG
-      : GAMES_CATALOG.filter((g) => g.category === filterCategory);
+  const { balance } = useGameStore();
 
   const handleLaunchGame = (gameId: string) => {
     setActiveGame(gameId);
-    const arenaEl = document.getElementById('game-arena');
-    if (arenaEl) {
-      arenaEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    const arena = document.getElementById('game-arena');
+    if (arena) arena.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div className="space-y-14 pb-16">
-      {/* 1. Hero Section */}
-      <MinimalHero onLaunchGame={handleLaunchGame} />
+    <div className="space-y-8 pb-16">
+      {/* 3-Column Layout Matching Reference Image */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column: Providers & Stats */}
+        <div className="lg:col-span-3 space-y-6">
+          <ProvidersBlock />
+          <StatsCard />
+        </div>
 
-      {/* 2. Live Progressive Jackpot Bar */}
-      <JackpotCounter />
+        {/* Center Main Area: Welcome Banner & Games Showcase */}
+        <div className="lg:col-span-6 space-y-8">
+          {/* Welcome Bonus Hero Banner */}
+          <div className="rounded-[2.5rem] bg-[#181d2e] border border-slate-800/80 p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div className="space-y-4 max-w-xs relative z-10">
+              <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight tracking-tight">
+                Welcome <br /> Bonus!
+              </h1>
+              <p className="text-sm font-bold text-indigo-300">200+ free pixels</p>
 
-      {/* 3. Interactive Active Game Arena */}
-      {activeGame && (
-        <section className="space-y-4 scroll-mt-24" id="game-arena">
-          <div className="flex items-center justify-between bg-slate-900/80 p-4 rounded-2xl border border-slate-800 backdrop-blur-xl">
-            <div className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <h2 className="text-lg font-extrabold text-white flex items-center gap-2">
-                <Zap className="w-4 h-4 text-emerald-400" /> Active Arena
-              </h2>
+              <div className="flex items-center gap-1 text-slate-500 text-xs">
+                <span className="w-2 h-2 rounded-full bg-indigo-500" />
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-700" />
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-700" />
+              </div>
+
+              <div className="flex items-center gap-3 pt-2">
+                <Button
+                  size="md"
+                  onClick={() => handleLaunchGame('fortune-wheel')}
+                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold px-6 py-3 rounded-2xl shadow-lg shadow-indigo-600/30 border border-indigo-400/30"
+                >
+                  REGISTER
+                </Button>
+                <div className="flex items-center gap-2 text-xl text-slate-400">
+                  <span>🎮</span>
+                  <span>🦊</span>
+                </div>
+              </div>
             </div>
-            <button
-              onClick={() => setActiveGame(null)}
-              className="px-3 py-1 rounded-xl text-xs font-bold text-slate-400 hover:text-white bg-slate-950 border border-slate-800"
+
+            {/* Right Character Image */}
+            <div className="w-56 h-56 sm:w-64 sm:h-64 relative rounded-3xl overflow-hidden shadow-2xl shrink-0 border border-slate-700/50">
+              <Image
+                src="/landing/hero_character.png"
+                alt="Welcome Character"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Interactive Game Arena */}
+          {activeGame && (
+            <section className="space-y-4 scroll-mt-24" id="game-arena">
+              <div className="flex items-center justify-between bg-[#181d2e] p-4 rounded-2xl border border-slate-800">
+                <div className="flex items-center gap-3">
+                  <span className="w-2.5 h-2.5 rounded-full bg-indigo-400 animate-pulse" />
+                  <h2 className="text-lg font-black text-white flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-indigo-400" /> Active Arena
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setActiveGame(null)}
+                  className="px-3 py-1 rounded-xl text-xs font-bold text-slate-400 hover:text-white bg-slate-950 border border-slate-800"
+                >
+                  Close Arena ✕
+                </button>
+              </div>
+
+              <div className="transition-all duration-300">
+                {activeGame === 'fortune-wheel' && <FortuneWheel />}
+                {activeGame === 'slot-machine' && <SlotMachine />}
+                {activeGame === 'high-low' && <HighLowGame />}
+              </div>
+            </section>
+          )}
+
+          {/* Featured Games Grid Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {/* Game 1: Space Donkey */}
+            <div
+              onClick={() => handleLaunchGame('fortune-wheel')}
+              className="group rounded-3xl bg-[#181d2e] border border-slate-800/80 hover:border-indigo-500/60 p-3 space-y-3 cursor-pointer transition-all hover:-translate-y-1 shadow-xl"
             >
-              Close Arena ✕
-            </button>
-          </div>
+              <div className="w-full h-40 relative rounded-2xl overflow-hidden">
+                <Image src="/landing/space_donkey.png" alt="Space Donkey" fill className="object-cover group-hover:scale-105 transition-transform" />
+                <span className="absolute bottom-2 right-2 w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-xs text-white font-bold shadow-md">
+                  A
+                </span>
+              </div>
+              <h3 className="text-sm font-extrabold text-white px-1">Space Donkey</h3>
+            </div>
 
-          <div className="transition-all duration-300">
-            {activeGame === 'fortune-wheel' && <FortuneWheel />}
-            {activeGame === 'slot-machine' && <SlotMachine />}
-            {activeGame === 'high-low' && <HighLowGame />}
-          </div>
-        </section>
-      )}
+            {/* Game 2: Divine Lotus */}
+            <div
+              onClick={() => handleLaunchGame('slot-machine')}
+              className="group rounded-3xl bg-[#181d2e] border border-slate-800/80 hover:border-indigo-500/60 p-3 space-y-3 cursor-pointer transition-all hover:-translate-y-1 shadow-xl"
+            >
+              <div className="w-full h-40 relative rounded-2xl overflow-hidden">
+                <Image src="/landing/divine_lotus.png" alt="Divine Lotus" fill className="object-cover group-hover:scale-105 transition-transform" />
+                <span className="absolute bottom-2 right-2 w-6 h-6 rounded-lg bg-purple-600 flex items-center justify-center text-xs text-white font-bold shadow-md">
+                  S
+                </span>
+              </div>
+              <h3 className="text-sm font-extrabold text-white px-1">Divine Lotus</h3>
+            </div>
 
-      {/* 4. Games Catalog Section */}
-      <section className="space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-extrabold text-white">Games Catalog</h2>
-            <p className="text-slate-400 text-xs mt-1">Provably fair instant mini-games</p>
-          </div>
-
-          {/* Minimal Category Tabs */}
-          <div className="flex items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
-            {['All', 'Wheel', 'Slots', 'Cards'].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilterCategory(cat)}
-                className={`px-4 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                  filterCategory === cat
-                    ? 'bg-slate-800 text-emerald-400 border border-slate-700 shadow-sm'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+            {/* Game 3: Rainbow Reels */}
+            <div
+              onClick={() => handleLaunchGame('high-low')}
+              className="group rounded-3xl bg-[#181d2e] border border-slate-800/80 hover:border-indigo-500/60 p-3 space-y-3 cursor-pointer transition-all hover:-translate-y-1 shadow-xl"
+            >
+              <div className="w-full h-40 relative rounded-2xl overflow-hidden">
+                <Image src="/landing/rainbow_reels.png" alt="Rainbow Reels" fill className="object-cover group-hover:scale-105 transition-transform" />
+                <span className="absolute bottom-2 right-2 w-6 h-6 rounded-lg bg-pink-600 flex items-center justify-center text-xs text-white font-bold shadow-md">
+                  Σ
+                </span>
+              </div>
+              <h3 className="text-sm font-extrabold text-white px-1">Rainbow Reels</h3>
+            </div>
           </div>
         </div>
 
-        {/* Game Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {filteredGames.map((game) => (
-            <MinimalGameCard
-              key={game.id}
-              {...game}
-              isActive={activeGame === game.id}
-              onLaunch={handleLaunchGame}
-            />
-          ))}
+        {/* Right Sidebar Column */}
+        <div className="lg:col-span-3">
+          <RightSidebar onLaunchGame={handleLaunchGame} />
         </div>
-      </section>
+      </div>
 
-      {/* 5. VIP Rewards & Rakeback Section */}
-      <VipSection />
-
-      {/* 6. Provably Fair Security & Infrastructure */}
-      <FairPlaySection />
-
-      {/* 7. Live Verified Winners Stream */}
-      <LiveWinnersFeed />
+      {/* Bottom Live Bets Table */}
+      <LastGamesTable />
     </div>
   );
 }
