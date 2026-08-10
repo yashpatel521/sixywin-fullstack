@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://sixywin.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Disallow admin or private areas (if any)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+# Allow important pages
+Allow: /games/play-lottery
+Allow: /games/double-trouble
+Allow: /games/aviator
+Allow: /games/minefield
+Allow: /leaderboard
+Allow: /games
+Allow: /about-us
+Allow: /contact-us
+Allow: /privacy-policy
+Allow: /terms-of-service
+Allow: /faq
+Allow: /how-to-play
+Allow: /blog
