@@ -12,26 +12,16 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick }) => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-[#121624]/95 backdrop-blur-2xl px-4 sm:px-8 py-4">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-[#121624]/95 backdrop-blur-2xl px-4 sm:px-8 py-3.5">
       <div className="max-w-[1600px] mx-auto flex items-center justify-between">
-        {/* Left: Prominent Large Logo Emblem + Logo5 Name Image */}
-        <Link href="/" className="flex items-center gap-4 group">
-          <div className="relative w-16 h-16 sm:w-20 sm:h-20 overflow-hidden flex items-center justify-center p-0 m-0 shrink-0">
+        {/* Left: Official Full Logo7 Image */}
+        <Link href="/" className="flex items-center group">
+          <div className="relative w-64 h-16 sm:w-80 sm:h-20 overflow-hidden flex items-center justify-center p-0 m-0">
             <Image
-              src="/logo/logo1.png"
-              alt="SixyWin Emblem"
+              src="/logo/logo7.png"
+              alt="SixyWin Official Logo"
               fill
               className="object-contain p-0 m-0 group-hover:scale-105 transition-transform"
-              priority
-            />
-          </div>
-
-          <div className="relative w-48 h-12 sm:w-60 sm:h-16 overflow-hidden flex items-center justify-center p-0 m-0">
-            <Image
-              src="/logo/logo5.png"
-              alt="SixyWin Brand"
-              fill
-              className="object-contain p-0 m-0"
               priority
             />
           </div>
