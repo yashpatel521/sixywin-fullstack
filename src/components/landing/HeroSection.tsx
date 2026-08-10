@@ -10,7 +10,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlayClick }) => {
   return (
-    <section className="relative w-full min-h-[calc(100vh-5rem)] bg-[#1c120c] px-6 sm:px-16 flex flex-col justify-between py-12 sm:py-20 overflow-hidden border-b border-[#8c5a2b]/30 m-0">
+    <section className="relative w-full min-h-[calc(100vh-5rem)] bg-[#1c120c] px-6 sm:px-16 flex flex-col justify-between pt-12 sm:pt-20 pb-24 overflow-hidden m-0">
       {/* Warm Cream & Gold Ambient Glows */}
       <div className="absolute -top-32 right-0 w-[500px] h-[500px] bg-[#d4af37]/10 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute bottom-0 left-10 w-[450px] h-[450px] bg-[#8c5a2b]/20 rounded-full blur-[140px] pointer-events-none" />
@@ -57,7 +57,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
         </div>
       </div>
 
-      {/* Cream & Bronze Stats Ribbon Fixed at Bottom */}
+      {/* Cream & Bronze Stats Ribbon */}
       <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 pt-8 border-t border-[#8c5a2b]/40 text-xs sm:text-sm">
         <div>
           <span className="text-[#a89582] font-semibold block mb-1">TOTAL PAYOUTS</span>
@@ -76,6 +76,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
           <span className="text-xl sm:text-2xl font-bold text-[#fbf8f3] font-mono">&lt; 1 SEC</span>
         </div>
       </div>
+
+      {/* Smooth Bottom Gradient Blend Transition into Cream */}
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent via-[#8c5a2b]/10 to-[#fbf8f3] pointer-events-none" />
     </section>
   );
 };

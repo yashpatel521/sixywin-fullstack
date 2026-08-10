@@ -1,12 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Play, Sparkles, Gem, Dices, Trophy } from 'lucide-react';
+import { Play, Gem } from 'lucide-react';
 
 export const GamesSection: React.FC = () => {
   return (
-    <section className="w-full bg-[#1c120c] -mx-4 sm:-mx-12 px-4 sm:px-12 py-20 border-b border-[#8c5a2b]/30 text-[#fbf8f3]">
-      <div className="w-full max-w-7xl mx-auto space-y-12">
+    <section className="relative w-full bg-[#1c120c] px-6 sm:px-16 pt-24 pb-28 text-[#fbf8f3] m-0 overflow-hidden">
+      {/* Top Gradient Blend Transition from Features Cream */}
+      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#fbf8f3] via-[#e8dfd1]/20 to-transparent pointer-events-none" />
+
+      <div className="relative z-10 w-full max-w-7xl mx-auto space-y-12">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-[#8c5a2b]/30 pb-6">
           <div className="space-y-2 max-w-2xl">

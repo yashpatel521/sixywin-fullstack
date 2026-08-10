@@ -5,8 +5,11 @@ import { ShieldCheck, Crown, Zap } from 'lucide-react';
 
 export const FeaturesSection: React.FC = () => {
   return (
-    <section className="w-full bg-[#fbf8f3] px-6 sm:px-16 py-20 border-b border-[#e8dfd1] text-[#1a100a] m-0">
-      <div className="w-full max-w-7xl mx-auto space-y-12">
+    <section className="relative w-full bg-[#fbf8f3] px-6 sm:px-16 pt-24 pb-28 text-[#1a100a] m-0 overflow-hidden">
+      {/* Top Gradient Blend Transition from Hero Espresso */}
+      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#1c120c] via-[#8c5a2b]/10 to-transparent pointer-events-none" />
+
+      <div className="relative z-10 w-full max-w-7xl mx-auto space-y-12">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-[#e8dfd1] pb-6">
           <div className="space-y-2 max-w-2xl">
@@ -59,6 +62,9 @@ export const FeaturesSection: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Bottom Gradient Blend Transition into Games Espresso */}
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-transparent via-[#e8dfd1]/30 to-[#1c120c] pointer-events-none" />
     </section>
   );
 };
