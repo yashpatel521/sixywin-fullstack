@@ -12,7 +12,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick }) => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-black/95 backdrop-blur-2xl px-4 sm:px-8 py-2 sm:py-2.5">
+    <header className="sticky top-0 z-50 w-full border-b border-[#9c663b]/30 bg-[#0c0a09]/95 backdrop-blur-2xl px-4 sm:px-8 py-2 sm:py-2.5">
       <div className="max-w-[1600px] mx-auto flex items-center justify-between">
         {/* Left: Official Logo7 Image */}
         <Link href="/" className="flex items-center group">
@@ -32,16 +32,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
           {/* Login Button */}
           <button
             onClick={onLoginClick}
-            className="px-4 py-2 text-xs font-extrabold text-slate-200 hover:text-white bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
+            className="px-4 py-2 text-xs font-extrabold text-[#faf6f0] hover:text-white bg-[#18120e] border border-[#9c663b]/50 hover:border-[#e6ca65] rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
           >
-            <LogIn className="w-3.5 h-3.5 text-amber-400" />
+            <LogIn className="w-3.5 h-3.5 text-[#e6ca65]" />
             <span>LOGIN</span>
           </button>
 
           {/* Register Button */}
           <button
             onClick={onRegisterClick}
-            className="px-5 py-2 text-xs font-extrabold text-slate-950 bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:from-amber-300 hover:to-orange-300 border border-amber-300/40 rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center gap-1.5 cursor-pointer"
+            className="px-5 py-2 text-xs font-extrabold text-[#0c0a09] bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] border border-[#faf6f0]/40 rounded-xl transition-all shadow-lg shadow-[#d4af37]/25 active:scale-95 flex items-center gap-1.5 cursor-pointer"
           >
             <UserPlus className="w-3.5 h-3.5" />
             <span>REGISTER</span>
