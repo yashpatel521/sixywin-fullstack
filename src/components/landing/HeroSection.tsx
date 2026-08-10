@@ -11,7 +11,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlayClick }) => {
   return (
-    <section className="relative w-full min-h-[calc(100vh-5rem)] bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#faf6f0] px-6 sm:px-16 flex flex-col justify-between pt-12 sm:pt-20 pb-20 overflow-hidden m-0">
+    <section className="relative w-full min-h-[calc(100vh-5rem)] bg-gradient-to-b from-[#0c0a09] via-[#140e0b] to-[#18120e] px-6 sm:px-16 flex flex-col justify-between pt-12 sm:pt-20 pb-20 overflow-hidden m-0">
       {/* 24K Champagne Gold Ambient Glows */}
       <div className="absolute -top-32 right-0 w-[550px] h-[550px] bg-[#d4af37]/12 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-[#9c663b]/18 rounded-full blur-[140px] pointer-events-none" />

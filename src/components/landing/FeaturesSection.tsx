@@ -5,7 +5,7 @@ import { ShieldCheck, Crown, Zap } from 'lucide-react';
 
 export const FeaturesSection: React.FC = () => {
   return (
-    <section className="relative w-full bg-gradient-to-b from-[#faf6f0] via-[#f3ebd9] to-[#0c0a09] px-6 sm:px-16 py-24 text-[#18120e] m-0 overflow-hidden">
+    <section className="relative w-full bg-gradient-to-b from-[#faf6f0] via-[#f3ebd9] to-[#18120e] px-6 sm:px-16 py-24 text-[#18120e] m-0 overflow-hidden">
       <div className="relative z-10 w-full max-w-7xl mx-auto space-y-14">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-[#9c663b]/25 pb-6">
@@ -30,9 +30,9 @@ export const FeaturesSection: React.FC = () => {
             <div className="w-12 h-12 rounded-2xl bg-[#e6ca65]/20 border border-[#e6ca65]/40 flex items-center justify-center text-[#e6ca65]">
               <Crown className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-extrabold text-[#faf6f0]">15% Weekly Rakeback</h3>
+            <h3 className="text-xl font-extrabold text-[#faf6f0]">15% Weekly SC Bonus</h3>
             <p className="text-[#b5a391] text-xs leading-relaxed">
-              Auto-credited to your wallet every Monday. Enjoy zero wagering requirements on all cashback.
+              Auto-credited to your virtual wallet every Monday. Enjoy zero wagering requirements on all cashback.
             </p>
           </div>
 
@@ -54,7 +54,7 @@ export const FeaturesSection: React.FC = () => {
             </div>
             <h3 className="text-xl font-extrabold text-[#faf6f0]">Provably Fair Engine</h3>
             <p className="text-[#b5a391] text-xs leading-relaxed">
-              100% verifiable server seeds for Fortune Wheel, Slot Machine, and High-Low card outcomes.
+              100% verifiable server seeds for 6/49 Lottery, Fortune Wheel, and High-Low card outcomes.
             </p>
           </div>
         </div>

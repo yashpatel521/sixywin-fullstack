@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Play, Gem, Ticket, Dices, Bomb, Flame } from 'lucide-react';
+import { Play, Gem } from 'lucide-react';
 
 interface GamesSectionProps {
   onPlayGame?: (gameId: string) => void;
@@ -62,7 +62,7 @@ export const GamesSection: React.FC<GamesSectionProps> = ({ onPlayGame }) => {
   ];
 
   return (
-    <section className="relative w-full bg-[#0c0a09] px-6 sm:px-16 py-24 text-[#faf6f0] m-0 overflow-hidden border-b border-[#9c663b]/30">
+    <section className="relative w-full bg-gradient-to-b from-[#18120e] via-[#100b08] to-[#0c0a09] px-6 sm:px-16 py-24 text-[#faf6f0] m-0 overflow-hidden">
       <div className="relative z-10 w-full max-w-7xl mx-auto space-y-12">
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-[#9c663b]/30 pb-6">

@@ -30,7 +30,7 @@ export const LotterySection: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] px-6 sm:px-16 py-24 text-[#faf6f0] m-0 overflow-hidden border-t border-b border-[#9c663b]/30">
+    <section className="relative w-full bg-gradient-to-b from-[#18120e] via-[#281c14] to-[#faf6f0] px-6 sm:px-16 py-24 text-[#faf6f0] m-0 overflow-hidden">
       {/* Ambient Gold Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#d4af37]/8 rounded-full blur-[180px] pointer-events-none" />
 
