@@ -16,31 +16,31 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
       <div className="absolute -top-32 right-0 w-[650px] h-[650px] bg-[#d4af37]/12 rounded-full blur-[180px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-[550px] h-[550px] bg-[#9c663b]/18 rounded-full blur-[160px] pointer-events-none" />
 
-      {/* 50-50 2-Column Grid Layout (Fits Screen Height Strictly) */}
+      {/* 50-50 2-Column Grid Layout */}
       <div className="relative z-10 w-full max-w-[1800px] mx-auto my-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center py-2">
         {/* Left 50% Column: Headline & Controls */}
         <div className="space-y-6">
           {/* VIP Suite & Security Info (Unboxed Clean Badges) */}
           <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold tracking-widest uppercase">
-              <Crown className="w-5 h-5 text-[#e6ca65] animate-pulse" />
+            <div className="flex items-center gap-2 text-xs sm:text-sm font-bold tracking-widest uppercase">
+              <Crown className="w-4 h-4 text-[#e6ca65] animate-pulse" />
               <span className="text-[#faf6f0]">SIXYWIN 24K VIP SUITE</span>
             </div>
 
             <span className="text-[#9c663b]">•</span>
 
             <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#e6ca65]">
-              <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-[#e6ca65]" />
+              <ShieldCheck className="w-4 h-4 text-[#e6ca65]" />
               <span>Free Virtual Currency</span>
             </div>
           </div>
 
-          {/* High-Contrast Headline */}
+          {/* Well-Proportioned Headline */}
           <div className="space-y-2">
-            <span className="text-xs sm:text-sm font-extrabold uppercase tracking-[0.3em] text-[#e6ca65] block">
+            <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#e6ca65] block">
               NEXT-GEN SPATIAL GAMING ENGINE
             </span>
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl 2xl:text-8xl font-black tracking-tight text-[#faf6f0] leading-[1.04]">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#faf6f0] leading-[1.08]">
               The Realm Of <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
                 6/49 Lottery & Casino
@@ -49,60 +49,60 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
           </div>
 
           {/* Description */}
-          <p className="text-[#e3d8c8] text-base sm:text-xl 2xl:text-2xl max-w-3xl font-normal leading-relaxed">
+          <p className="text-[#e3d8c8] text-sm sm:text-lg max-w-2xl font-normal leading-relaxed">
             Enter an elite virtual gaming environment. Play 6/49 Lottery, 3D Fortune Wheel, and High-Low tables with free virtual Sixy Coins (SC).
           </p>
 
           {/* Quick Launch Game Pills */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
               onClick={() => onPlayClick?.('lottery-649')}
-              className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
+              className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
             >
               <span>🎟️ 6/49 Lottery</span>
-              <span className="text-xs font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">1.25M SC</span>
+              <span className="text-[11px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">1.25M SC</span>
             </button>
 
             <button
               onClick={() => onPlayClick?.('fortune-wheel')}
-              className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
+              className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
             >
               <span>🎡 Cyber Wheel</span>
-              <span className="text-xs font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">50x</span>
+              <span className="text-[11px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">50x</span>
             </button>
 
             <button
               onClick={() => onPlayClick?.('high-low')}
-              className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
+              className="px-4 py-2 rounded-xl bg-[#18120e] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#faf6f0] text-xs font-bold transition-all flex items-center gap-2 cursor-pointer shadow-md hover:-translate-y-0.5"
             >
               <span>🃏 High-Low</span>
-              <span className="text-xs font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">2x</span>
+              <span className="text-[11px] font-mono text-[#e6ca65] bg-[#0c0a09] px-2 py-0.5 rounded-md">2x</span>
             </button>
           </div>
 
           {/* 24K Gold Action Buttons */}
-          <div className="flex flex-wrap items-center gap-4 pt-1">
+          <div className="flex flex-wrap items-center gap-3 pt-1">
             <button
               onClick={() => onPlayClick?.('lottery-649')}
-              className="px-9 py-4 text-base sm:text-lg font-extrabold text-[#0c0a09] bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] rounded-2xl transition-all shadow-xl shadow-[#d4af37]/25 active:scale-95 flex items-center gap-3 cursor-pointer border border-[#faf6f0]/40"
+              className="px-7 py-3.5 text-sm sm:text-base font-extrabold text-[#0c0a09] bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] rounded-xl transition-all shadow-xl shadow-[#d4af37]/25 active:scale-95 flex items-center gap-2 cursor-pointer border border-[#faf6f0]/40"
             >
-              <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current" />
+              <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
               <span>PLAY 6/49 LOTTERY</span>
             </button>
 
             <button
               onClick={onExploreClick}
-              className="px-8 py-4 text-base sm:text-lg font-bold text-[#faf6f0] hover:text-white bg-[#18120e] hover:bg-[#281d14] border border-[#9c663b]/60 rounded-2xl transition-all flex items-center gap-3 cursor-pointer shadow-md"
+              className="px-6 py-3.5 text-sm sm:text-base font-bold text-[#faf6f0] hover:text-white bg-[#18120e] hover:bg-[#281d14] border border-[#9c663b]/60 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-md"
             >
               <span>EXPLORE TABLES</span>
-              <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-[#e6ca65]" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#e6ca65]" />
             </button>
           </div>
         </div>
 
         {/* Right 50% Column: CSS-Processed 3D Picture */}
         <div className="relative flex items-center justify-center">
-          <div className="relative w-full max-w-lg 2xl:max-w-xl aspect-square hover:scale-105 transition-transform duration-500">
+          <div className="relative w-full max-w-md 2xl:max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
             <Image
               src="/landing/blendable_hero_3d.png"
               alt="3D Luxury Casino Crown & Dice"
@@ -116,23 +116,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
         </div>
       </div>
 
-      {/* 24K Gold Stats Ribbon Fixed at Bottom of Viewport */}
+      {/* 24K Gold Stats Ribbon */}
       <div className="relative z-10 w-full max-w-[1800px] mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 pt-4 border-t border-[#9c663b]/40 text-xs sm:text-sm">
         <div>
           <span className="text-[#b5a391] font-semibold block mb-0.5">TOTAL COINS WON</span>
-          <span className="text-lg sm:text-2xl font-bold text-[#faf6f0] font-mono">24,850,000 SC</span>
+          <span className="text-base sm:text-xl font-bold text-[#faf6f0] font-mono">24,850,000 SC</span>
         </div>
         <div>
           <span className="text-[#b5a391] font-semibold block mb-0.5">AVERAGE RTP</span>
-          <span className="text-lg sm:text-2xl font-bold text-[#e6ca65] font-mono">99.1%</span>
+          <span className="text-base sm:text-xl font-bold text-[#e6ca65] font-mono">99.1%</span>
         </div>
         <div>
           <span className="text-[#b5a391] font-semibold block mb-0.5">WEEKLY BONUS</span>
-          <span className="text-lg sm:text-2xl font-bold text-[#f0d885] font-mono">15% SC BACK</span>
+          <span className="text-base sm:text-xl font-bold text-[#f0d885] font-mono">15% SC BACK</span>
         </div>
         <div>
           <span className="text-[#b5a391] font-semibold block mb-0.5">SETTLEMENT</span>
-          <span className="text-lg sm:text-2xl font-bold text-[#faf6f0] font-mono">&lt; 1 SEC</span>
+          <span className="text-base sm:text-xl font-bold text-[#faf6f0] font-mono">&lt; 1 SEC</span>
         </div>
       </div>
     </section>
