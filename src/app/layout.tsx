@@ -10,8 +10,11 @@ export const metadata: Metadata = {
   title: 'SixyWin - Modern 6/49 Lottery & Casino Platform',
   description: 'SixyWin iGaming Platform with 6/49 Lottery and free Virtual Sixy Coins (SC)',
   icons: {
-    icon: '/logo/logo10.png',
-    apple: '/logo/logo10.png',
+    icon: [
+      { url: '/logo/logo10.png?v=2', type: 'image/png' },
+      { url: '/favicon.ico?v=2' },
+    ],
+    apple: '/logo/logo10.png?v=2',
   },
 };
 
