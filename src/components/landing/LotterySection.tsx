@@ -35,33 +35,43 @@ export const LotterySection: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-[#d4af37]/8 rounded-full blur-[200px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-16">
-        {/* Header with Virtual Jackpot Counter */}
+        {/* Updated Header with Unboxed Badges & 24K Gold Live Jackpot */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 border-b border-[#9c663b]/30 pb-8">
-          <div className="space-y-3 max-w-3xl">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#faf6f0]/10 border border-[#e6ca65]/40 text-[#e6ca65] text-xs sm:text-sm font-bold backdrop-blur-md">
-              <Trophy className="w-4 h-4 text-[#e6ca65] animate-bounce" />
-              <span className="tracking-wider uppercase">SIXYWIN 6/49 LOTTERY</span>
+          <div className="space-y-4 max-w-3xl">
+            {/* Unboxed Badge */}
+            <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold tracking-widest uppercase">
+              <div className="flex items-center gap-2 text-[#e6ca65]">
+                <Trophy className="w-5 h-5 text-[#e6ca65] animate-bounce" />
+                <span className="text-[#faf6f0]">SIXYWIN 6/49 LOTTERY</span>
+              </div>
               <span className="text-[#9c663b]">•</span>
-              <span className="text-[#faf6f0]">VIRTUAL PLAY</span>
+              <div className="flex items-center gap-1.5 text-[#e6ca65]">
+                <Coins className="w-4 h-4 text-[#e6ca65]" />
+                <span>FREE VIRTUAL PLAY</span>
+              </div>
             </div>
+
+            {/* High-Contrast Headline */}
             <h2 className="text-4xl sm:text-6xl 2xl:text-7xl font-black tracking-tight text-[#faf6f0] leading-[1.08]">
               Pick 6 Numbers (1 to 49) & Win Up To <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
                 1,000,000 SIXY COINS (SC)
               </span>
             </h2>
           </div>
 
-          {/* Live Jackpot Banner */}
-          <div className="rounded-3xl bg-[#18120e] border border-[#e6ca65]/50 p-8 space-y-2 shadow-2xl shrink-0">
+          {/* Redesigned 24K Live Jackpot Banner */}
+          <div className="rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border-2 border-[#e6ca65]/70 p-8 space-y-3 shadow-[0_0_50px_rgba(212,175,55,0.2)] shrink-0">
             <div className="flex items-center justify-between gap-6 text-xs sm:text-sm text-[#b5a391]">
-              <span className="flex items-center gap-1.5">
-                <Clock className="w-4 h-4 text-[#e6ca65]" />
-                NEXT DRAW IN: <strong className="text-[#faf6f0] font-mono">04h 22m 15s</strong>
+              <span className="flex items-center gap-2 text-[#e6ca65] font-bold">
+                <Clock className="w-4 h-4 animate-pulse text-[#e6ca65]" />
+                NEXT DRAW: <strong className="text-[#faf6f0] font-mono font-black">04h 22m 15s</strong>
               </span>
-              <span className="text-[#e6ca65] font-bold">DRAW #1492</span>
+              <span className="text-[#e6ca65] font-mono font-bold bg-[#0c0a09] px-3 py-1 rounded-full border border-[#9c663b]/50">
+                DRAW #1492
+              </span>
             </div>
-            <div className="flex items-center gap-3 text-4xl sm:text-5xl font-black text-[#e6ca65] font-mono tracking-tight">
+            <div className="flex items-center gap-3 text-4xl sm:text-5xl font-black text-[#e6ca65] font-mono tracking-tight pt-1">
               <Coins className="w-10 h-10 text-[#e6ca65]" />
               <span>1,250,000 SC</span>
             </div>
@@ -80,7 +90,7 @@ export const LotterySection: React.FC = () => {
 
               <button
                 onClick={handleQuickPick}
-                className="px-5 py-2.5 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#9c663b]/60 text-[#e6ca65] text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#9c663b]/60 text-[#e6ca65] text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all cursor-pointer shadow-md"
               >
                 <Shuffle className="w-4 h-4" />
                 <span>QUICK PICK</span>
