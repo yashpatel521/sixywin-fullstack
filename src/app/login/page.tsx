@@ -3,12 +3,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy } from 'lucide-react';
 import { toast } from 'sonner';
+import { loginUserAction } from '@/app/actions/authActions';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -21,13 +25,31 @@ export default function LoginPage() {
         toast.error('Please enter both email and password.');
         return;
       }
-      
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      toast.success(`Welcome back to SixyWin! Logged in as ${email}`, {
-        description: 'Your 10,000 SC balance is active.',
+
+      // Call Server Action for Login & Session Cookie Persistence
+      const result = await loginUserAction({
+        email,
+        password,
+        rememberMe,
       });
+
+      if (!result.success) {
+        toast.error(result.error || 'Failed to sign in.');
+        return;
+      }
+
+      toast.success(result.message, {
+        description: rememberMe
+          ? 'Session saved for 30 days. Welcome back!'
+          : `Active balance: ${result.user?.sixyCoinsBalance} SC`,
+      });
+
+      // Redirect user to home page after login
+      setTimeout(() => {
+        router.push('/');
+      }, 1200);
     } catch (err: any) {
-      toast.error(err.message || 'Failed to sign in.');
+      toast.error(err.message || 'An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
@@ -113,16 +135,16 @@ export default function LoginPage() {
               {/* Email Field */}
               <div className="space-y-1.5">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
-                  Email Address
+                  Email Address or Username
                 </label>
                 <div className="relative">
                   <Mail className="w-4 h-4 text-[#b5a391] absolute left-4 top-1/2 -translate-y-1/2" />
                   <input
-                    type="email"
+                    type="text"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@example.com"
+                    placeholder="name@example.com or username"
                     className="w-full pl-11 pr-4 py-3 rounded-xl bg-[#0c0a09] border border-[#9c663b]/50 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
                   />
                 </div>
@@ -158,15 +180,17 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Remember Me Checkbox */}
+              {/* Remember Me Checkbox (30 Days Cookie Persistence) */}
               <div className="flex items-center gap-2 pt-0.5">
                 <input
                   type="checkbox"
                   id="remember"
-                  className="w-4 h-4 rounded bg-[#0c0a09] border-[#9c663b]/60 text-[#e6ca65] focus:ring-0 cursor-pointer"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded bg-[#0c0a09] border-[#9c663b]/60 text-[#e6ca65] focus:ring-0 cursor-pointer accent-[#d4af37]"
                 />
                 <label htmlFor="remember" className="text-xs text-[#b5a391] cursor-pointer select-none">
-                  Keep me signed in on this device
+                  Keep me signed in on this device (30 Days)
                 </label>
               </div>
 
@@ -177,7 +201,7 @@ export default function LoginPage() {
                 className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-sm font-extrabold flex items-center justify-center gap-2 shadow-xl shadow-[#d4af37]/25 transition-all cursor-pointer active:scale-95 border border-[#faf6f0]/40 disabled:opacity-50"
               >
                 <LogIn className="w-4 h-4 fill-current" />
-                <span>{loading ? 'SIGNING IN...' : 'LOGIN TO ACCOUNT'}</span>
+                <span>{loading ? 'AUTHENTICATING...' : 'LOGIN TO ACCOUNT'}</span>
               </button>
             </form>
 
