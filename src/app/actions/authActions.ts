@@ -1,9 +1,9 @@
-'use server';
+"use server";
 
-import { db } from '@/db';
-import { users } from '@/db/schema';
-import { eq, or } from 'drizzle-orm';
-import crypto from 'crypto';
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq, or } from "drizzle-orm";
+import crypto from "crypto";
 
 interface RegisterInput {
   username: string;
@@ -14,7 +14,10 @@ interface RegisterInput {
 
 // Helper to hash password securely
 function hashPassword(password: string): string {
-  return crypto.createHash('sha256').update(password + 'sixywin_salt_2026').digest('hex');
+  return crypto
+    .createHash("sha256")
+    .update(password + "sixywin_salt_2026")
+    .digest("hex");
 }
 
 export async function registerUserAction(input: RegisterInput) {
@@ -23,30 +26,51 @@ export async function registerUserAction(input: RegisterInput) {
 
     // 1. Basic validation
     if (!username || !email || !password) {
-      return { success: false, error: 'Username, email, and password are required.' };
+      return {
+        success: false,
+        error: "Username, email, and password are required.",
+      };
     }
 
     if (password.length < 6) {
-      return { success: false, error: 'Password must be at least 6 characters long.' };
+      return {
+        success: false,
+        error: "Password must be at least 6 characters long.",
+      };
     }
 
     if (!db) {
-      return { success: false, error: 'Database connection is not initialized. Please check DATABASE_URL.' };
+      return {
+        success: false,
+        error:
+          "Database connection is not initialized. Please check DATABASE_URL.",
+      };
     }
 
     // 2. Check if user already exists
     const existingUsers = await db
       .select()
       .from(users)
-      .where(or(eq(users.username, username.trim()), eq(users.email, email.trim().toLowerCase())));
+      .where(
+        or(
+          eq(users.username, username.trim()),
+          eq(users.email, email.trim().toLowerCase()),
+        ),
+      );
 
     if (existingUsers.length > 0) {
       const existing = existingUsers[0];
       if (existing.email.toLowerCase() === email.trim().toLowerCase()) {
-        return { success: false, error: 'An account with this email address already exists.' };
+        return {
+          success: false,
+          error: "An account with this email address already exists.",
+        };
       }
       if (existing.username.toLowerCase() === username.trim().toLowerCase()) {
-        return { success: false, error: 'This username is already taken. Please choose another.' };
+        return {
+          success: false,
+          error: "This username is already taken. Please choose another.",
+        };
       }
     }
 
@@ -63,8 +87,8 @@ export async function registerUserAction(input: RegisterInput) {
         passwordHash,
         referralCode: userReferralCode,
         referredBy: referralCode ? referralCode.trim() : null,
-        sixyCoinsBalance: '10000.00', // 10,000 SC Welcome Bonus
-        vipLevel: 'BRONZE',
+        sixyCoinsBalance: "10000.00", // 10,000 SC Welcome Bonus
+        vipLevel: "BRONZE",
         isVerified: true,
       })
       .returning();
@@ -84,7 +108,10 @@ export async function registerUserAction(input: RegisterInput) {
       },
     };
   } catch (err: any) {
-    console.error('Error in registerUserAction:', err);
-    return { success: false, error: err.message || 'An unexpected error occurred during registration.' };
+    console.error("Error in registerUserAction:", err);
+    return {
+      success: false,
+      error: err.message || "An unexpected error occurred during registration.",
+    };
   }
 }
