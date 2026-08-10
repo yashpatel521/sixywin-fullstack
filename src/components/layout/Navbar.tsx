@@ -12,9 +12,9 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick }) => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-[#121624]/95 backdrop-blur-2xl px-4 sm:px-8 py-2 sm:py-2.5">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-black/95 backdrop-blur-2xl px-4 sm:px-8 py-2 sm:py-2.5">
       <div className="max-w-[1600px] mx-auto flex items-center justify-between">
-        {/* Left: Official Logo7 Image (Compact Sleek Height) */}
+        {/* Left: Official Logo7 Image */}
         <Link href="/" className="flex items-center group">
           <div className="relative w-44 h-10 sm:w-56 sm:h-12 overflow-hidden flex items-center justify-center p-0 m-0">
             <Image
@@ -32,7 +32,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
           {/* Login Button */}
           <button
             onClick={onLoginClick}
-            className="px-4 py-2 text-xs font-extrabold text-slate-200 hover:text-white bg-[#181d2e] border border-slate-800 hover:border-slate-700 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
+            className="px-4 py-2 text-xs font-extrabold text-slate-200 hover:text-white bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
           >
             <LogIn className="w-3.5 h-3.5 text-amber-400" />
             <span>LOGIN</span>
