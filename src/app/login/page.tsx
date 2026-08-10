@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy, UserCheck, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { loginUserAction, quickLoginAction } from '@/app/actions/authActions';
+import { useAuthStore } from '@/store/useAuthStore';
 
 interface SavedProfile {
   username: string;
@@ -19,6 +20,8 @@ interface SavedProfile {
 
 export default function LoginPage() {
   const router = useRouter();
+  const setUser = useAuthStore((state) => state.setUser);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
@@ -42,15 +45,13 @@ export default function LoginPage() {
   }, []);
 
   // Helper to save a profile into localStorage upon login
-  const saveProfileToLocalStorage = (user: { username: string; email: string; sixyCoinsBalance: string; vipLevel: string }) => {
+  const saveProfileToLocalStorage = (user: { id: string; username: string; email: string; sixyCoinsBalance: string; vipLevel: string }) => {
     try {
       const stored = localStorage.getItem('sixywin_saved_profiles');
       let currentProfiles: SavedProfile[] = stored ? JSON.parse(stored) : [];
       
-      // Filter out existing profile if already saved to update it
       currentProfiles = currentProfiles.filter((p) => p.email.toLowerCase() !== user.email.toLowerCase());
       
-      // Prepend newly logged-in profile
       const newProfile: SavedProfile = {
         username: user.username,
         email: user.email,
@@ -98,6 +99,7 @@ export default function LoginPage() {
       }
 
       if (result.user) {
+        setUser(result.user);
         saveProfileToLocalStorage(result.user);
       }
 
@@ -107,7 +109,7 @@ export default function LoginPage() {
 
       setTimeout(() => {
         router.push('/');
-      }, 1000);
+      }, 800);
     } catch (err: any) {
       toast.error('Quick login error.');
     } finally {
@@ -137,8 +139,9 @@ export default function LoginPage() {
         return;
       }
 
-      // Save user profile to localStorage on successful login
+      // Update global auth store and localStorage
       if (result.user) {
+        setUser(result.user);
         saveProfileToLocalStorage(result.user);
       }
 
@@ -150,7 +153,7 @@ export default function LoginPage() {
 
       setTimeout(() => {
         router.push('/');
-      }, 1200);
+      }, 1000);
     } catch (err: any) {
       toast.error(err.message || 'An unexpected error occurred.');
     } finally {
@@ -228,12 +231,12 @@ export default function LoginPage() {
                   Account Sign In
                 </h2>
                 <p className="text-xs text-[#b5a391]">
-                  Enter your credentials to access your account
+                  Select a saved account or enter credentials
                 </p>
               </div>
             </div>
 
-            {/* LocalStorage Saved Profiles Selector (ONLY shown if user previously logged in on this device) */}
+            {/* LocalStorage Saved Profiles Selector */}
             {savedProfiles.length > 0 && (
               <div className="space-y-2 pb-1">
                 <span className="text-[11px] font-extrabold tracking-wider uppercase text-[#e6ca65] flex items-center justify-between">
