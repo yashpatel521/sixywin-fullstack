@@ -21,3 +21,11 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Custom CSS to remove image background and isolate 3D subject */
+.remove-img-bg {
+  mix-blend-mode: screen;
+  filter: contrast(130%) brightness(110%);
+  mask-image: radial-gradient(circle at center, black 45%, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at center, black 45%, transparent 75%);
+}

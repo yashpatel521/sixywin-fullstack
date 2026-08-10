@@ -98,17 +98,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onExploreClick, onPlay
           </div>
         </div>
 
-        {/* Right 50% Column: Floating 3D Cutout (Zero Background) */}
+        {/* Right 50% Column: CSS-Processed 3D Picture with Background Removed */}
         <div className="relative flex items-center justify-center">
           <div className="relative w-full max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
             <Image
-              src="/landing/cutout_crown_3d.png"
-              alt="3D Luxury Casino Crown Cutout"
+              src="/landing/blendable_hero_3d.png"
+              alt="3D Luxury Casino Crown & Dice"
               fill
-              className="object-contain mix-blend-multiply contrast-125 [mask-image:radial-gradient(circle_at_center,black_65%,transparent_98%)]"
+              className="object-contain remove-img-bg"
               priority
             />
-            {/* Ambient Gold Glow Ring behind floating crown */}
+            {/* Ambient Gold Glow Ring */}
             <div className="absolute inset-0 bg-[#d4af37]/20 rounded-full blur-3xl pointer-events-none -z-10" />
           </div>
         </div>
