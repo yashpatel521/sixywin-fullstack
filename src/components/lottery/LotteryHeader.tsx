@@ -8,8 +8,8 @@ export const LotteryHeader: React.FC = () => {
   const { user } = useAuthStore();
 
   return (
-    <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4 py-2 border-b border-[#9c663b]/30 pb-4">
-      {/* Unboxed Draw Countdown & Jackpot Status */}
+    <div className="w-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-[#18120e]/80 border border-[#e6ca65]/40 shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
+      {/* 3D Gold Live Ticker Ribbon */}
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2 text-xs font-black text-[#e6ca65] tracking-widest uppercase">
           <Crown className="w-4.5 h-4.5 text-[#e6ca65] animate-pulse" />
@@ -31,11 +31,11 @@ export const LotteryHeader: React.FC = () => {
         </div>
       </div>
 
-      {/* User Wallet SC Balance Readout */}
-      <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#18120e] border border-[#e6ca65]/50">
+      {/* User SC Wallet Pill */}
+      <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0c0a09]/90 border border-[#e6ca65]/50 shadow-md">
         <Coins className="w-4 h-4 text-[#e6ca65]" />
-        <div className="flex items-center gap-1.5">
-          <span className="text-[9px] text-[#b5a391] uppercase tracking-wider font-extrabold">
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] text-[#b5a391] uppercase tracking-wider font-extrabold">
             SC BALANCE:
           </span>
           <span className="text-xs sm:text-sm font-black font-mono text-[#e6ca65]">

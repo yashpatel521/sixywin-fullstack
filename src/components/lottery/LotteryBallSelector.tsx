@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Shuffle, Trash2, Plus, Sparkles, Check, Ticket, Award } from 'lucide-react';
-import { toast } from 'sonner';
+import React from 'react';
+import { Shuffle, Trash2, Plus, Sparkles, Ticket } from 'lucide-react';
 
 interface LotteryBallSelectorProps {
   selectedNumbers: number[];
@@ -23,20 +22,20 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
 
   return (
     <div className="w-full space-y-6">
-      {/* 🎟️ Physical 3D Golden Ticket Receipt Representation */}
-      <div className="relative w-full rounded-2xl bg-gradient-to-b from-[#241810] via-[#1a120c] to-[#0f0a07] border border-[#d4af37]/60 p-5 sm:p-6 shadow-[0_20px_50px_rgba(212,175,55,0.18)] space-y-4 backdrop-blur-xl">
-        {/* Ticket Perforated Edges Design Header */}
-        <div className="flex items-center justify-between border-b-2 border-dashed border-[#d4af37]/40 pb-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#9c663b] flex items-center justify-center text-[#0c0a09] font-black shadow-md">
-              <Ticket className="w-4 h-4" />
+      {/* 🎟️ Physical 3D Golden Ticket Receipt Card with Glassmorphism */}
+      <div className="relative w-full rounded-3xl bg-[#18120e]/85 border border-[#e6ca65]/50 p-6 sm:p-7 shadow-[0_20px_50px_rgba(212,175,55,0.15)] backdrop-blur-2xl space-y-5">
+        {/* Ticket Perforated Header */}
+        <div className="flex items-center justify-between border-b-2 border-dashed border-[#e6ca65]/40 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] flex items-center justify-center text-[#0c0a09] font-black shadow-md">
+              <Ticket className="w-4.5 h-4.5" />
             </div>
             <div>
-              <span className="text-[10px] font-mono font-extrabold uppercase tracking-widest text-[#d4af37] block">
-                SIXYWIN 6/49 OFFICIAL SLIP
+              <span className="text-[10px] font-mono font-extrabold uppercase tracking-widest text-[#e6ca65] block">
+                OFFICIAL 6/49 ENTRY SLIP
               </span>
-              <h2 className="text-base sm:text-lg font-black text-[#faf6f0] tracking-tight">
-                Jackpot Ticket Entry
+              <h2 className="text-base sm:text-xl font-black text-[#faf6f0] tracking-tight">
+                6/49 Ticket Generator
               </h2>
             </div>
           </div>
@@ -44,16 +43,16 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={onQuickPick}
-              className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#f0d885] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs font-black flex items-center gap-1.5 shadow-lg shadow-[#d4af37]/25 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#f0d885] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs font-black flex items-center gap-1.5 shadow-lg shadow-[#d4af37]/25 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#faf6f0]/40"
             >
               <Shuffle className="w-3.5 h-3.5" />
-              <span>QUICK PICK</span>
+              <span>AUTO QUICK PICK</span>
             </button>
 
             {selectedNumbers.length > 0 && (
               <button
                 onClick={onClear}
-                className="px-2.5 py-1.5 rounded-xl bg-[#0c0a09] hover:bg-red-500/20 text-[#b5a391] hover:text-red-400 border border-[#9c663b]/40 text-xs font-bold transition-all cursor-pointer"
+                className="px-3 py-2 rounded-xl bg-[#0c0a09]/80 hover:bg-red-500/20 text-[#b5a391] hover:text-red-400 border border-[#9c663b]/40 text-xs font-bold transition-all cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
@@ -61,11 +60,11 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
           </div>
         </div>
 
-        {/* 6 Printed Golden Sphere Ball Slots */}
-        <div className="space-y-2">
+        {/* 6 Printed Golden 3D Spherical Ball Slots */}
+        <div className="space-y-2.5">
           <div className="flex justify-between items-center text-xs font-bold">
-            <span className="text-[#b5a391]">PRINTED BALL NUMBERS ({selectedNumbers.length}/6)</span>
-            <span className="text-[#d4af37] font-mono font-extrabold">200 SC / ENTRY</span>
+            <span className="text-[#b5a391]">PRINTED BALL SLOTS ({selectedNumbers.length}/6)</span>
+            <span className="text-[#e6ca65] font-mono font-extrabold">200 SC / TICKET</span>
           </div>
 
           <div className="grid grid-cols-6 gap-2 sm:gap-3 py-1">
@@ -76,8 +75,8 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
                   key={i}
                   className={`aspect-square rounded-full flex items-center justify-center font-black font-mono text-sm sm:text-base transition-all duration-300 ${
                     num !== undefined
-                      ? 'bg-gradient-to-br from-[#fff3cc] via-[#d4af37] to-[#7a5711] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_20px_rgba(212,175,55,0.7)] scale-105 animate-in zoom-in-50'
-                      : 'bg-[#120d09] border-2 border-dashed border-[#9c663b]/40 text-[#b5a391]/30'
+                      ? 'bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_20px_rgba(212,175,55,0.7)] scale-105 animate-in zoom-in-50'
+                      : 'bg-[#0c0a09] border-2 border-dashed border-[#9c663b]/40 text-[#b5a391]/30'
                   }`}
                 >
                   {num !== undefined ? num.toString().padStart(2, '0') : '?'}
@@ -92,10 +91,10 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
       <div className="space-y-3 pt-1">
         <div className="flex justify-between items-center text-xs text-[#b5a391] font-extrabold">
           <span className="flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-[#d4af37]" />
+            <Sparkles className="w-3.5 h-3.5 text-[#e6ca65]" />
             <span>3D GOLDEN BALL MATRIX (1 - 49)</span>
           </span>
-          <span className="text-[10px] text-[#d4af37]">SELECT 6 BALLS</span>
+          <span className="text-[10px] text-[#e6ca65]">SELECT 6 BALLS</span>
         </div>
 
         <div className="grid grid-cols-7 sm:grid-cols-10 gap-2 sm:gap-2.5 justify-items-center py-1">
@@ -106,10 +105,10 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
                 key={num}
                 type="button"
                 onClick={() => onToggleNumber(num)}
-                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full font-black font-mono text-xs sm:text-sm flex items-center justify-center transition-all cursor-pointer active:scale-90 shadow-md ${
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full font-black font-mono text-xs sm:text-sm flex items-center justify-center transition-all duration-300 cursor-pointer active:scale-90 shadow-md ${
                   isSelected
-                    ? 'bg-gradient-to-br from-[#fff3cc] via-[#d4af37] to-[#7a5711] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_18px_rgba(212,175,55,0.8)] scale-110'
-                    : 'bg-gradient-to-br from-[#1c1510] to-[#0d0906] hover:from-[#2e2016] hover:to-[#18100a] text-[#faf6f0] border border-[#9c663b]/40 hover:border-[#d4af37] hover:scale-105'
+                    ? 'bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_18px_rgba(212,175,55,0.8)] scale-110'
+                    : 'bg-gradient-to-br from-[#18120e] to-[#0c0a09] hover:from-[#281d14] hover:to-[#18120e] text-[#faf6f0] border border-[#9c663b]/50 hover:border-[#e6ca65] hover:scale-105'
                 }`}
               >
                 {num.toString().padStart(2, '0')}
@@ -119,14 +118,14 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
         </div>
       </div>
 
-      {/* Add Ticket Button */}
+      {/* Add Ticket to Slip Action Button */}
       <button
         onClick={onAddTicketToSlip}
         disabled={selectedNumbers.length !== 6}
         className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#f0d885] via-[#d4af37] to-[#b5952f] hover:from-[#fff0ad] hover:to-[#d4af37] text-[#0c0a09] text-sm sm:text-base font-black flex items-center justify-center gap-2 shadow-xl shadow-[#d4af37]/30 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border border-[#faf6f0]/50 active:scale-95"
       >
         <Plus className="w-5 h-5 stroke-[3]" />
-        <span>ADD TICKET TO ORDER SLIP (200 SC)</span>
+        <span>ADD TICKET TO SLIP (200 SC)</span>
       </button>
     </div>
   );

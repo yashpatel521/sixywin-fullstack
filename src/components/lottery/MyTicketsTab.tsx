@@ -21,7 +21,7 @@ export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) 
       <div className="flex justify-between items-center pb-1">
         <div>
           <h2 className="text-lg sm:text-xl font-black text-[#faf6f0] flex items-center gap-2">
-            <Ticket className="w-5 h-5 text-[#d4af37]" />
+            <Ticket className="w-5 h-5 text-[#e6ca65]" />
             <span>My Active 6/49 Lottery Tickets ({purchasedTickets.length})</span>
           </h2>
           <p className="text-xs text-[#b5a391]">
@@ -41,13 +41,13 @@ export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) 
           {purchasedTickets.map((t) => (
             <div
               key={t.id}
-              className="p-4 rounded-2xl bg-gradient-to-br from-[#241810] to-[#0f0a07] border border-[#d4af37]/50 space-y-3 shadow-xl group hover:border-[#d4af37] transition-all"
+              className="p-4 rounded-2xl bg-[#18120e]/85 border border-[#e6ca65]/50 space-y-3 shadow-xl backdrop-blur-xl group hover:border-[#e6ca65] transition-all"
             >
               <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-2">
-                <span className="text-xs font-mono font-extrabold text-[#d4af37]">
+                <span className="text-xs font-mono font-extrabold text-[#e6ca65]">
                   {t.id}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#d4af37]/20 border border-[#d4af37]/40 text-[#d4af37] text-[10px] font-bold font-mono flex items-center gap-1">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#e6ca65]/20 border border-[#e6ca65]/40 text-[#e6ca65] text-[10px] font-bold font-mono flex items-center gap-1">
                   <Clock className="w-3 h-3 animate-pulse" /> PENDING DRAW
                 </span>
               </div>
@@ -57,7 +57,7 @@ export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) 
                 {t.numbers.map((num) => (
                   <span
                     key={num}
-                    className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#9c663b] text-[#0c0a09] text-xs font-mono font-black flex items-center justify-center shadow-md"
+                    className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] text-xs font-mono font-black flex items-center justify-center shadow-md"
                   >
                     {num.toString().padStart(2, '0')}
                   </span>
@@ -66,7 +66,7 @@ export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) 
 
               <div className="pt-2 border-t border-[#9c663b]/30 flex justify-between items-center text-xs text-[#b5a391]">
                 <span>Purchased: {t.purchasedAt}</span>
-                <span className="text-[#d4af37] font-black">Jackpot: {t.potentialWin}</span>
+                <span className="text-[#e6ca65] font-black">Jackpot: {t.potentialWin}</span>
               </div>
             </div>
           ))}
