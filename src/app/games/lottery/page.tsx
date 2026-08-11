@@ -139,46 +139,17 @@ export default function LotteryPage() {
     }
   };
 
-  // Build live activity feed from user purchased tickets + default network activity
-  const liveNetworkActivities: LiveLotteryActivity[] = [
-    ...purchasedTickets.map((t) => ({
-      id: t.id,
-      player: `@${user?.username || 'you'}`,
-      ticketCode: t.id,
-      numbers: t.numbers,
-      cost: '200.00 SC',
-      status: t.status === 'WON' ? '🎉 WON' : t.status === 'LOST' ? 'LOST' : 'PENDING DRAW',
-      timeAgo: t.purchasedAt,
-      isCurrentUser: true,
-    })),
-    {
-      id: 'net-1',
-      player: '@gold_viper',
-      ticketCode: 'TICK-649-9012',
-      numbers: [4, 11, 22, 33, 41, 48],
-      cost: '200.00 SC',
-      status: 'PENDING DRAW',
-      timeAgo: '1m ago',
-    },
-    {
-      id: 'net-2',
-      player: '@highroller_7',
-      ticketCode: 'TICK-649-8991',
-      numbers: [7, 14, 21, 28, 35, 42],
-      cost: '600.00 SC',
-      status: 'PENDING DRAW',
-      timeAgo: '3m ago',
-    },
-    {
-      id: 'net-3',
-      player: '@crypto_whale',
-      ticketCode: 'TICK-649-8974',
-      numbers: [2, 9, 17, 24, 38, 49],
-      cost: '400.00 SC',
-      status: 'PENDING DRAW',
-      timeAgo: '6m ago',
-    },
-  ];
+  // Build user-only real ticket activity feed from database
+  const userTicketsActivity: LiveLotteryActivity[] = purchasedTickets.map((t) => ({
+    id: t.id,
+    player: `@${user?.username || 'you'}`,
+    ticketCode: t.id,
+    numbers: t.numbers,
+    cost: '200.00 SC',
+    status: t.status === 'WON' ? '🎉 WON' : t.status === 'LOST' ? 'LOST' : 'PENDING DRAW',
+    timeAgo: t.purchasedAt,
+    isCurrentUser: true,
+  }));
 
   // Expanded Schema.org JSON-LD Structured Data Suite for Google Rich Snippets
   const lotteryEventJsonLd = {
@@ -317,9 +288,9 @@ export default function LotteryPage() {
           </div>
         </section>
 
-        {/* 3. Live 6/49 Network Ticket Purchases Table */}
-        <section aria-label="Live Network Activity Table">
-          <LotteryActivityTable recentActivity={liveNetworkActivities} />
+        {/* 3. User's Ticket Purchase & Settlement History Table */}
+        <section aria-label="My Ticket Purchase & Settlement History">
+          <LotteryActivityTable recentActivity={userTicketsActivity} />
         </section>
       </div>
     </main>
