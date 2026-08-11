@@ -17,56 +17,47 @@ interface MyTicketsTabProps {
 
 export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) => {
   return (
-    <div className="w-full space-y-4 pt-6 border-t border-[#9c663b]/30">
-      <div className="flex justify-between items-center pb-1">
-        <div>
-          <h2 className="text-lg sm:text-xl font-black text-[#faf6f0] flex items-center gap-2">
-            <Ticket className="w-5 h-5 text-[#e6ca65]" />
-            <span>My Active 6/49 Lottery Tickets ({purchasedTickets.length})</span>
-          </h2>
-          <p className="text-xs text-[#b5a391]">
-            Active entries registered for Live Draw #1492 (Settlement in 04h 22m)
-          </p>
-        </div>
+    <div className="w-full rounded-2xl bg-[#18120e]/90 border border-[#e6ca65]/50 p-4 shadow-xl backdrop-blur-xl space-y-3">
+      <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-2">
+        <h2 className="text-sm font-black text-[#faf6f0] flex items-center gap-1.5">
+          <Ticket className="w-4 h-4 text-[#e6ca65]" />
+          <span>My Purchased Tickets ({purchasedTickets.length})</span>
+        </h2>
+        <span className="text-[10px] text-[#b5a391]">Draw #1492</span>
       </div>
 
       {purchasedTickets.length === 0 ? (
-        <div className="py-10 text-center space-y-2 border-2 border-dashed border-[#9c663b]/30 rounded-2xl bg-[#0c0a09]/60 p-6">
-          <Trophy className="w-9 h-9 text-[#b5a391]/30 mx-auto" />
-          <p className="text-sm text-[#b5a391] font-bold">No active tickets for today's draw.</p>
-          <p className="text-xs text-[#b5a391]/60">Select 6 numbers above to buy your first ticket!</p>
+        <div className="py-6 text-center space-y-1 border border-dashed border-[#9c663b]/30 rounded-xl bg-[#0c0a09]/60 p-3">
+          <Trophy className="w-6 h-6 text-[#b5a391]/30 mx-auto" />
+          <p className="text-xs text-[#b5a391] font-bold">No active tickets.</p>
+          <p className="text-[10px] text-[#b5a391]/60">Select 6 numbers to buy your first ticket!</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-48 overflow-y-auto pr-1">
           {purchasedTickets.map((t) => (
             <div
               key={t.id}
-              className="p-4 rounded-2xl bg-[#18120e]/85 border border-[#e6ca65]/50 space-y-3 shadow-xl backdrop-blur-xl group hover:border-[#e6ca65] transition-all"
+              className="p-2.5 rounded-xl bg-[#0c0a09]/90 border border-[#e6ca65]/40 space-y-1.5 shadow-xs"
             >
-              <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-2">
-                <span className="text-xs font-mono font-extrabold text-[#e6ca65]">
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] font-mono font-extrabold text-[#e6ca65]">
                   {t.id}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#e6ca65]/20 border border-[#e6ca65]/40 text-[#e6ca65] text-[10px] font-bold font-mono flex items-center gap-1">
-                  <Clock className="w-3 h-3 animate-pulse" /> PENDING DRAW
+                <span className="px-2 py-0.5 rounded-full bg-[#e6ca65]/20 text-[#e6ca65] text-[9px] font-bold font-mono">
+                  PENDING
                 </span>
               </div>
 
               {/* Numbers Badges */}
-              <div className="flex items-center gap-2 flex-wrap pt-0.5">
+              <div className="flex items-center gap-1 flex-wrap">
                 {t.numbers.map((num) => (
                   <span
                     key={num}
-                    className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] text-xs font-mono font-black flex items-center justify-center shadow-md"
+                    className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] text-[10px] font-mono font-black flex items-center justify-center"
                   >
                     {num.toString().padStart(2, '0')}
                   </span>
                 ))}
-              </div>
-
-              <div className="pt-2 border-t border-[#9c663b]/30 flex justify-between items-center text-xs text-[#b5a391]">
-                <span>Purchased: {t.purchasedAt}</span>
-                <span className="text-[#e6ca65] font-black">Jackpot: {t.potentialWin}</span>
               </div>
             </div>
           ))}

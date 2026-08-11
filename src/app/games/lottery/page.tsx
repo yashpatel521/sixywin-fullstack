@@ -170,7 +170,7 @@ export default function LotteryPage() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] text-[#faf6f0] px-6 sm:px-16 py-8 overflow-hidden">
+    <div className="w-full min-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] text-[#faf6f0] px-4 sm:px-10 py-5 overflow-hidden">
       {/* Schema.org JSON-LD Script */}
       <script
         type="application/ld+json"
@@ -178,16 +178,15 @@ export default function LotteryPage() {
       />
 
       {/* Ambient Gold Glows */}
-      <div className="absolute top-20 right-10 w-[600px] h-[600px] bg-[#d4af37]/10 rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-20 left-10 w-[550px] h-[550px] bg-[#9c663b]/15 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-20 right-10 w-[500px] h-[500px] bg-[#d4af37]/10 rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-8">
-        {/* 1. Header Banner */}
+      <div className="relative z-10 w-full max-w-[1600px] mx-auto space-y-4">
+        {/* 1. Ultra-Compact Top Bar Ticker */}
         <LotteryHeader />
 
         {/* 2. Main Ticket Purchase Area (2 Columns) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: 1-49 Ball Selector */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          {/* Left Column (60%): 1-49 Ball Selector */}
           <div className="lg:col-span-7">
             <LotteryBallSelector
               selectedNumbers={selectedNumbers}
@@ -198,7 +197,7 @@ export default function LotteryPage() {
             />
           </div>
 
-          {/* Right Column: Ticket Cart / Order Slip */}
+          {/* Right Column (40%): Ticket Cart Order Slip */}
           <div className="lg:col-span-5">
             <LotteryCart
               slips={slips}
@@ -211,11 +210,11 @@ export default function LotteryPage() {
           </div>
         </div>
 
-        {/* 3. Live 6/49 Draw Schedule & Previous Draw Results */}
-        <DrawHistorySection />
-
-        {/* 4. User's Purchased Tickets History Tab */}
-        <MyTicketsTab purchasedTickets={purchasedTickets} />
+        {/* 3. Bottom Row: Side-by-Side Draw History & Purchased Tickets */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <DrawHistorySection />
+          <MyTicketsTab purchasedTickets={purchasedTickets} />
+        </div>
       </div>
     </div>
   );
