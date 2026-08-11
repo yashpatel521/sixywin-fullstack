@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Crown, Gem, Clock, Ticket } from 'lucide-react';
+import { LeaderboardWidget } from './LeaderboardWidget';
 
 interface GamesHeroSectionProps {
   onPlayLottery?: () => void;
@@ -11,10 +12,10 @@ interface GamesHeroSectionProps {
 
 export const GamesHeroSection: React.FC<GamesHeroSectionProps> = () => {
   return (
-    <div className="relative w-full py-2 overflow-hidden">
+    <div className="relative w-full py-2 overflow-hidden space-y-8">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-        {/* Left 50% Column: Headline & Live Draw Counter */}
-        <div className="lg:col-span-7 space-y-4">
+        {/* Left Column (6/12 Width): Headline & Live Draw Counter */}
+        <div className="lg:col-span-6 space-y-4">
           {/* Unboxed Clean Badges */}
           <div className="flex flex-wrap items-center gap-2.5 text-xs font-bold tracking-widest uppercase">
             <div className="flex items-center gap-1.5 text-[#e6ca65]">
@@ -71,18 +72,9 @@ export const GamesHeroSection: React.FC<GamesHeroSectionProps> = () => {
           </div>
         </div>
 
-        {/* Right 50% Column: 3D Golden 6/49 Lottery Ticket Image */}
-        <div className="lg:col-span-5 flex items-center justify-center">
-          <Link href="/games/lottery" className="relative w-full max-w-xs sm:max-w-sm aspect-square hover:scale-105 transition-transform duration-500 block">
-            <Image
-              src="/landing/lottery_ticket_3d.png"
-              alt="3D Gold 6/49 Lottery Ticket Render"
-              fill
-              className="object-contain remove-img-bg"
-              priority
-            />
-            <div className="absolute inset-0 bg-[#d4af37]/20 rounded-full blur-3xl pointer-events-none -z-10" />
-          </Link>
+        {/* Right Column (6/12 Width): Integrated High-Roller Leaderboard */}
+        <div className="lg:col-span-6 flex items-center justify-center">
+          <LeaderboardWidget />
         </div>
       </div>
     </div>
