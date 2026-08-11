@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Activity, Ticket, History, Trophy } from 'lucide-react';
+import { Ticket, History } from 'lucide-react';
 
 export interface LiveLotteryActivity {
   id: string;
-  player: string;
+  player?: string;
   ticketCode: string;
   numbers: number[];
   cost: string;
@@ -61,7 +61,6 @@ export const LotteryActivityTable: React.FC<LotteryActivityTableProps> = ({
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="border-b border-[#9c663b]/30 text-[10px] uppercase font-extrabold text-[#b5a391]">
-                <th className="py-2 px-2">Player</th>
                 <th className="py-2 px-2">Ticket Code</th>
                 <th className="py-2 px-2">Selected Numbers & Matched Highlights</th>
                 <th className="py-2 px-2">Cost</th>
@@ -75,10 +74,6 @@ export const LotteryActivityTable: React.FC<LotteryActivityTableProps> = ({
                   key={act.id}
                   className="hover:bg-[#281d14]/50 transition-colors bg-[#e6ca65]/10"
                 >
-                  <td className="py-2 px-2 font-bold text-[#faf6f0] flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    {act.player}
-                  </td>
                   <td className="py-2 px-2 font-mono font-extrabold text-[#e6ca65]">
                     {act.ticketCode}
                   </td>
