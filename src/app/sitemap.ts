@@ -11,16 +11,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/#lottery-649`,
+      url: `${baseUrl}/games`,
       lastModified: new Date(),
       changeFrequency: 'always',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/#games`,
+      url: `${baseUrl}/login`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/register`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
   ];
 }

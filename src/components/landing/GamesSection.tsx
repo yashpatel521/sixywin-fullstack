@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Play, Gem } from 'lucide-react';
+import Link from 'next/link';
+import { Play, Gem, ArrowRight } from 'lucide-react';
 
 interface GamesSectionProps {
   onPlayGame?: (gameId: string) => void;
@@ -75,17 +76,21 @@ export const GamesSection: React.FC<GamesSectionProps> = ({ onPlayGame }) => {
               Available Games & Tables
             </h2>
           </div>
-          <p className="text-sm sm:text-base font-medium text-[#b5a391] max-w-md">
-            Select any table to launch instant sub-second 3D mini-games with free Sixy Coins (SC).
-          </p>
+          <Link
+            href="/games"
+            className="px-6 py-3 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#9c663b]/60 hover:border-[#e6ca65] text-[#e6ca65] text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all cursor-pointer shadow-md"
+          >
+            <span>VIEW ALL GAMES</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
 
         {/* Featured Games Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 sm:gap-8">
           {games.map((game) => (
-            <div
+            <Link
               key={game.id}
-              onClick={() => onPlayGame?.(game.id)}
+              href="/games"
               className="rounded-3xl bg-[#18120e] border border-[#9c663b]/50 p-7 space-y-5 hover:border-[#e6ca65] transition-all group shadow-2xl cursor-pointer hover:-translate-y-1 flex flex-col justify-between"
             >
               <div className="space-y-4">
@@ -115,7 +120,7 @@ export const GamesSection: React.FC<GamesSectionProps> = ({ onPlayGame }) => {
                   <Play className="w-3.5 h-3.5 fill-current" /> PLAY NOW
                 </button>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
