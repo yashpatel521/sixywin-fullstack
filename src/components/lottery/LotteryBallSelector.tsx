@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Shuffle, Trash2, Plus, Ticket } from 'lucide-react';
+import { Shuffle, Trash2, Plus, Ticket, Flame } from 'lucide-react';
 
 interface LotteryBallSelectorProps {
   selectedNumbers: number[];
@@ -9,6 +9,7 @@ interface LotteryBallSelectorProps {
   onQuickPick: () => void;
   onClear: () => void;
   onAddTicketToSlip: () => void;
+  luckyBall?: number;
 }
 
 export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
@@ -17,6 +18,7 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
   onQuickPick,
   onClear,
   onAddTicketToSlip,
+  luckyBall = 9,
 }) => {
   const numbers = Array.from({ length: 49 }, (_, i) => i + 1);
 
@@ -29,6 +31,9 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
           <h2 className="text-sm sm:text-base font-black text-[#faf6f0]">
             6/49 Ticket Selector
           </h2>
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/50 text-[#e6ca65] text-[10px] font-mono font-extrabold">
+            <Flame className="w-3 h-3 text-amber-400 animate-pulse" /> 5X LUCKY BALL: #{luckyBall.toString().padStart(2, '0')}
+          </span>
         </div>
 
         <div className="flex items-center gap-1.5">
@@ -61,16 +66,24 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
         <div className="grid grid-cols-6 gap-2 py-0.5 justify-items-center">
           {Array.from({ length: 6 }).map((_, i) => {
             const num = selectedNumbers[i];
+            const isLucky = num === luckyBall;
             return (
               <div
                 key={i}
-                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-black font-mono text-xs transition-all duration-200 ${
+                className={`relative w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-black font-mono text-xs transition-all duration-200 ${
                   num !== undefined
-                    ? 'bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_12px_rgba(212,175,55,0.6)] scale-105'
+                    ? isLucky
+                      ? 'bg-gradient-to-tr from-amber-400 via-[#d4af37] to-red-600 text-[#faf6f0] border-2 border-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.9)] scale-110'
+                      : 'bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_12px_rgba(212,175,55,0.6)] scale-105'
                     : 'bg-[#18120e] border border-dashed border-[#9c663b]/40 text-[#b5a391]/30'
                 }`}
               >
                 {num !== undefined ? num.toString().padStart(2, '0') : '?'}
+                {isLucky && (
+                  <span className="absolute -top-2 -right-1 text-[9px] font-extrabold bg-red-600 text-[#faf6f0] px-1 rounded-full border border-[#faf6f0] shadow-sm">
+                    5X
+                  </span>
+                )}
               </div>
             );
           })}
@@ -81,18 +94,29 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
       <div className="grid grid-cols-7 sm:grid-cols-10 gap-1.5 justify-items-center py-1">
         {numbers.map((num) => {
           const isSelected = selectedNumbers.includes(num);
+          const isLucky = num === luckyBall;
           return (
             <button
               key={num}
               type="button"
               onClick={() => onToggleNumber(num)}
-              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full font-black font-mono text-[11px] sm:text-xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shadow-xs ${
+              className={`relative w-7 h-7 sm:w-8 sm:h-8 rounded-full font-black font-mono text-[11px] sm:text-xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shadow-xs ${
                 isSelected
-                  ? 'bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_10px_rgba(212,175,55,0.7)] scale-110'
+                  ? isLucky
+                    ? 'bg-gradient-to-tr from-amber-400 via-[#d4af37] to-red-600 text-[#faf6f0] border-2 border-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.9)] scale-110'
+                    : 'bg-gradient-to-tr from-[#f0d885] via-[#d4af37] to-[#7a5711] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_10px_rgba(212,175,55,0.7)] scale-110'
+                  : isLucky
+                  ? 'bg-[#18120e] text-[#e6ca65] border-2 border-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.6)] font-black'
                   : 'bg-[#0c0a09] hover:bg-[#281d14] text-[#faf6f0] border border-[#9c663b]/40 hover:border-[#e6ca65]'
               }`}
+              title={isLucky ? `Today's 5X Lucky Ball #${num}! Selecting this ball multiplies payouts by 5X!` : undefined}
             >
               {num.toString().padStart(2, '0')}
+              {isLucky && !isSelected && (
+                <span className="absolute -top-1 -right-1 text-[8px] bg-amber-500 text-[#0c0a09] font-black px-0.5 rounded-full">
+                  5X
+                </span>
+              )}
             </button>
           );
         })}

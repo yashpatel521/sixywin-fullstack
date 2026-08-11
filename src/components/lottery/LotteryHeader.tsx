@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Crown, Clock, Trophy, Coins, HelpCircle } from 'lucide-react';
+import { Crown, Clock, Trophy, Coins, HelpCircle, Flame, Sparkles } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { LotteryRulesModal } from './LotteryRulesModal';
 import { getLatestDrawAction } from '@/actions/lottery/lotteryActions';
@@ -11,13 +11,15 @@ export const LotteryHeader: React.FC = () => {
   const [showRulesModal, setShowRulesModal] = useState(false);
   const [targetTimestamp, setTargetTimestamp] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 22, seconds: 15 });
+  const [luckyBall, setLuckyBall] = useState<number>(9);
 
   // 1. Fetch DB next draw target timestamp on mount
   useEffect(() => {
     async function loadDbTimer() {
       const res = await getLatestDrawAction();
-      if (res.success && res.nextDrawTimestamp) {
-        setTargetTimestamp(res.nextDrawTimestamp);
+      if (res.success) {
+        if (res.nextDrawTimestamp) setTargetTimestamp(res.nextDrawTimestamp);
+        if (res.draw?.bonusBall) setLuckyBall(res.draw.bonusBall);
       }
     }
     loadDbTimer();
@@ -27,7 +29,6 @@ export const LotteryHeader: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       if (!targetTimestamp) {
-        // Fallback live decrement if DB target not loaded yet
         setTimeLeft((prev) => {
           if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
           if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
@@ -68,6 +69,14 @@ export const LotteryHeader: React.FC = () => {
                 {timeLeft.hours.toString().padStart(2, '0')}h : {timeLeft.minutes.toString().padStart(2, '0')}m : {timeLeft.seconds.toString().padStart(2, '0')}s
               </strong>
             </span>
+          </div>
+
+          <span className="text-[#9c663b] hidden sm:inline">•</span>
+
+          {/* 💥 5X Lucky Ball Pill 💥 */}
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-500/50 text-[#e6ca65] text-[11px] font-mono font-bold">
+            <Flame className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
+            <span>5X LUCKY BALL: <strong className="text-[#faf6f0] font-black">#{luckyBall.toString().padStart(2, '0')}</strong> (5X PRIZE)</span>
           </div>
 
           <span className="text-[#9c663b] hidden sm:inline">•</span>

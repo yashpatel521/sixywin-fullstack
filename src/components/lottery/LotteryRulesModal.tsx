@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, HelpCircle, Trophy, ShieldCheck, Coins, CheckCircle2 } from 'lucide-react';
+import { X, HelpCircle, Trophy, ShieldCheck, Coins, CheckCircle2, Flame } from 'lucide-react';
 
 interface LotteryRulesModalProps {
   isOpen: boolean;
@@ -48,56 +48,56 @@ export const LotteryRulesModal: React.FC<LotteryRulesModalProps> = ({ isOpen, on
             </p>
           </div>
 
-          {/* Rule 2 */}
+          {/* Rule 2: 5X Lucky Ball Rule */}
+          <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-500/50 space-y-1">
+            <div className="flex items-center gap-2 font-bold text-[#faf6f0] text-sm">
+              <Flame className="w-4.5 h-4.5 text-amber-400 animate-bounce" />
+              <span>2. Today's 5X Lucky Ball Multiplier</span>
+            </div>
+            <p className="text-[#e3d8c8] pl-6">
+              Each daily draw features an official <strong className="text-[#e6ca65]">5X Lucky Ball</strong>. If your ticket includes this ball and hits any winning match tier (3/6, 4/6, 5/6, 6/6), your payout is multiplied by <strong className="text-amber-400 font-mono font-black text-sm">5X INSTANTLY</strong>!
+            </p>
+          </div>
+
+          {/* Rule 3 */}
           <div className="p-3.5 rounded-2xl bg-[#0c0a09] border border-[#9c663b]/40 space-y-1">
             <div className="flex items-center gap-2 font-bold text-[#faf6f0] text-sm">
               <Coins className="w-4 h-4 text-[#e6ca65]" />
-              <span>2. Ticket Pricing & SC Wallet Settlement</span>
+              <span>3. Ticket Pricing & SC Wallet Settlement</span>
             </div>
             <p className="text-[#b5a391] pl-6">
               Each ticket entry costs <strong className="text-[#e6ca65]">200 Sixy Coins (SC)</strong>. Sixy Coins are 100% free virtual tokens with zero real-money wagering.
             </p>
           </div>
 
-          {/* Rule 3: Payout Table */}
+          {/* Rule 4: Payout Table */}
           <div className="p-3.5 rounded-2xl bg-[#0c0a09] border border-[#9c663b]/40 space-y-2">
             <div className="flex items-center gap-2 font-bold text-[#faf6f0] text-sm">
               <Trophy className="w-4 h-4 text-[#e6ca65]" />
-              <span>3. Payout Structure & Prize Tiers</span>
+              <span>4. Payout Structure & Prize Tiers</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
               <div className="p-2.5 rounded-xl bg-[#18120e] border border-[#e6ca65]/30 text-center">
                 <span className="text-[10px] text-[#b5a391] font-bold block">MATCH 6/6</span>
                 <span className="font-mono font-black text-[#e6ca65] text-xs">1,250,000 SC</span>
-                <span className="text-[9px] text-[#b5a391]/60 block">JACKPOT POOL</span>
+                <span className="text-[9px] text-amber-400 font-bold block">(6.25M WITH 5X)</span>
               </div>
               <div className="p-2.5 rounded-xl bg-[#18120e] border border-[#e6ca65]/30 text-center">
                 <span className="text-[10px] text-[#b5a391] font-bold block">MATCH 5/6</span>
                 <span className="font-mono font-black text-[#faf6f0] text-xs">50,000 SC</span>
-                <span className="text-[9px] text-[#b5a391]/60 block">TIER 2 PRIZE</span>
+                <span className="text-[9px] text-amber-400 font-bold block">(250K WITH 5X)</span>
               </div>
               <div className="p-2.5 rounded-xl bg-[#18120e] border border-[#e6ca65]/30 text-center">
                 <span className="text-[10px] text-[#b5a391] font-bold block">MATCH 4/6</span>
                 <span className="font-mono font-black text-[#faf6f0] text-xs">2,500 SC</span>
-                <span className="text-[9px] text-[#b5a391]/60 block">TIER 3 PRIZE</span>
+                <span className="text-[9px] text-amber-400 font-bold block">(12.5K WITH 5X)</span>
               </div>
               <div className="p-2.5 rounded-xl bg-[#18120e] border border-[#e6ca65]/30 text-center">
                 <span className="text-[10px] text-[#b5a391] font-bold block">MATCH 3/6</span>
                 <span className="font-mono font-black text-[#faf6f0] text-xs">250 SC</span>
-                <span className="text-[9px] text-[#b5a391]/60 block">FREE TICKET</span>
+                <span className="text-[9px] text-amber-400 font-bold block">(1,250 WITH 5X)</span>
               </div>
             </div>
-          </div>
-
-          {/* Rule 4 */}
-          <div className="p-3.5 rounded-2xl bg-[#0c0a09] border border-[#9c663b]/40 space-y-1">
-            <div className="flex items-center gap-2 font-bold text-[#faf6f0] text-sm">
-              <ShieldCheck className="w-4 h-4 text-[#e6ca65]" />
-              <span>4. Daily Draw Schedule & Provably Fair</span>
-            </div>
-            <p className="text-[#b5a391] pl-6">
-              Daily draws execute automatically every 24 hours at 00:00 UTC using cryptographic SHA-256 seed hashes for 100% fair random selection.
-            </p>
           </div>
         </div>
 

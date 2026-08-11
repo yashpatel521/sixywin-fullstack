@@ -77,7 +77,7 @@ export async function getUserLotteryTicketsFromDb(userId: string) {
   }
 }
 
-// 24-Hour Automated Lottery Settlement Engine
+// 24-Hour Automated Lottery Settlement Engine with 5X Lucky Ball Multiplier
 export async function executeLotteryDrawInDb() {
   try {
     const database = getDb();
@@ -89,6 +89,8 @@ export async function executeLotteryDrawInDb() {
     }
     const winningNumbers = Array.from(winningSet).sort((a, b) => a - b);
     const bonusBall = Math.floor(Math.random() * 49) + 1;
+    // Today's 5X Lucky Ball (e.g. Bonus Ball)
+    const luckyBall = bonusBall;
 
     // Cryptographic Provably Fair SHA-256 Seed Hash
     const rawSeed = `${Date.now()}-${winningNumbers.join('-')}-${bonusBall}`;
@@ -102,16 +104,22 @@ export async function executeLotteryDrawInDb() {
 
     let totalWinners = 0;
 
-    // 3. Process & Settle Each Ticket against winning numbers
+    // 3. Process & Settle Each Ticket against winning numbers & 5X Lucky Ball
     for (const ticket of pendingTickets) {
       const ticketNumbers = ticket.numbers.split(',').map((n) => parseInt(n, 10));
       const matchCount = ticketNumbers.filter((n) => winningNumbers.includes(n)).length;
+      const hasLuckyBall = ticketNumbers.includes(luckyBall);
 
       let payout = 0;
       if (matchCount === 6) payout = 1250000;
       else if (matchCount === 5) payout = 50000;
       else if (matchCount === 4) payout = 2500;
       else if (matchCount === 3) payout = 200;
+
+      // 💥 5X PRIZE MULTIPLIER IF TICKET INCLUDES TODAY'S LUCKY BALL 💥
+      if (payout > 0 && hasLuckyBall) {
+        payout = payout * 5;
+      }
 
       const isWin = payout > 0;
       if (isWin) totalWinners++;
@@ -158,6 +166,7 @@ export async function executeLotteryDrawInDb() {
       draw: insertedDraw[0],
       winningNumbers,
       bonusBall,
+      luckyBall,
       totalWinners,
       seedHash,
     };
