@@ -142,8 +142,29 @@ export default function GamesPage() {
     }
   };
 
+  // Schema.org JSON-LD Structured Data for Google Rich Search Results
+  const gamesJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'SixyWin Available Gaming Tables & 6/49 Lottery',
+    description: 'List of free-to-play social casino games and 6/49 lottery jackpot tables.',
+    itemListElement: games.map((game, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: game.title,
+      description: game.description,
+      url: `https://sixywin.com/games#${game.id}`,
+    })),
+  };
+
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] text-[#faf6f0] px-6 sm:px-16 py-8 overflow-hidden">
+      {/* Schema.org JSON-LD Script */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(gamesJsonLd) }}
+      />
+
       {/* 24K Gold Glow Background Elements */}
       <div className="absolute top-20 right-10 w-[600px] h-[600px] bg-[#d4af37]/10 rounded-full blur-[180px] pointer-events-none" />
       <div className="absolute bottom-20 left-10 w-[550px] h-[550px] bg-[#9c663b]/15 rounded-full blur-[160px] pointer-events-none" />
@@ -229,10 +250,10 @@ export default function GamesPage() {
         {/* Main Games Arena Grid */}
         <div className="space-y-4 pt-4">
           <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-4">
-            <h3 className="text-xl font-extrabold text-[#faf6f0] flex items-center gap-2">
+            <h2 className="text-xl font-extrabold text-[#faf6f0] flex items-center gap-2">
               <Gem className="w-5 h-5 text-[#e6ca65]" />
               <span>Available Tables ({games.length})</span>
-            </h3>
+            </h2>
             <span className="text-xs font-mono text-[#b5a391]">
               Sub-Second Provably Fair Settlement
             </span>
@@ -242,6 +263,7 @@ export default function GamesPage() {
             {games.map((game) => (
               <div
                 key={game.id}
+                id={game.id}
                 className="rounded-3xl bg-[#18120e] border border-[#9c663b]/50 p-6 space-y-4 hover:border-[#e6ca65] transition-all group shadow-2xl flex flex-col justify-between"
               >
                 <div className="space-y-3">
@@ -256,9 +278,9 @@ export default function GamesPage() {
                     <span className="text-[10px] font-extrabold tracking-wider uppercase text-[#e6ca65] block mb-1">
                       {game.category}
                     </span>
-                    <h4 className="text-lg sm:text-xl font-black text-[#faf6f0] group-hover:text-[#e6ca65] transition-colors">
+                    <h3 className="text-lg sm:text-xl font-black text-[#faf6f0] group-hover:text-[#e6ca65] transition-colors">
                       {game.title}
-                    </h4>
+                    </h3>
                     <p className="text-xs text-[#b5a391] mt-1.5 leading-relaxed">
                       {game.description}
                     </p>
