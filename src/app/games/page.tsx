@@ -185,12 +185,12 @@ export default function GamesPage() {
       <div className="absolute bottom-20 left-10 w-[550px] h-[550px] bg-[#9c663b]/15 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-10">
-        {/* 🎟️ Dedicated 6/49 Lottery Flagship Showcase Hero Section */}
-        <div className="relative rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border-2 border-[#e6ca65]/70 p-8 sm:p-12 shadow-[0_0_60px_rgba(212,175,55,0.2)] overflow-hidden">
+        {/* Unboxed 6/49 Lottery Flagship Showcase Hero Section */}
+        <div className="relative w-full py-4 overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left 50% Column: Headline & Live Draw Counter */}
             <div className="lg:col-span-7 space-y-6">
-              {/* Unboxed Badge */}
+              {/* Unboxed Clean Badges */}
               <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold tracking-widest uppercase">
                 <div className="flex items-center gap-2 text-[#e6ca65]">
                   <Crown className="w-5 h-5 text-[#e6ca65] animate-pulse" />
@@ -222,7 +222,7 @@ export default function GamesPage() {
               </p>
 
               {/* Live Jackpot & Draw Counter Banner */}
-              <div className="inline-flex flex-wrap items-center gap-4 p-4 rounded-2xl bg-[#0c0a09] border border-[#9c663b]/50">
+              <div className="inline-flex flex-wrap items-center gap-4 p-4 rounded-2xl bg-[#18120e] border border-[#9c663b]/50">
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-[#b5a391]">
                   <Clock className="w-4 h-4 text-[#e6ca65] animate-pulse" />
                   <span>NEXT DRAW: <strong className="text-[#faf6f0] font-mono font-bold">04h 22m 15s</strong></span>
