@@ -24,7 +24,20 @@ export const lotteryTickets = pgTable('lottery_tickets', {
   ticketCode: text('ticket_code').notNull(),
   numbers: text('numbers').notNull(), // Comma separated, e.g. "6,7,14,21,42,49"
   cost: numeric('cost', { precision: 18, scale: 2 }).default('200.00').notNull(),
-  status: text('status').default('PENDING').notNull(),
+  status: text('status').default('PENDING').notNull(), // PENDING, WON, LOST
+  payoutAmount: numeric('payout_amount', { precision: 18, scale: 2 }).default('0.00').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// 24-Hour Automated Lottery Draws History Table Schema
+export const lotteryDraws = pgTable('lottery_draws', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  drawCode: text('draw_code').notNull().unique(),
+  winningNumbers: text('winning_numbers').notNull(), // e.g. "6,12,19,28,37,44"
+  bonusBall: text('bonus_ball').notNull(), // e.g. "9"
+  jackpotPool: numeric('jackpot_pool', { precision: 18, scale: 2 }).default('1250000.00').notNull(),
+  totalWinners: text('total_winners').default('0').notNull(),
+  seedHash: text('seed_hash').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
@@ -32,3 +45,5 @@ export type User = InferSelectModel<typeof users>;
 export type NewUser = InferInsertModel<typeof users>;
 export type LotteryTicket = InferSelectModel<typeof lotteryTickets>;
 export type NewLotteryTicket = InferInsertModel<typeof lotteryTickets>;
+export type LotteryDraw = InferSelectModel<typeof lotteryDraws>;
+export type NewLotteryDraw = InferInsertModel<typeof lotteryDraws>;

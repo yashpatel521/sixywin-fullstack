@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/useAuthStore';
 import { LotteryHeader } from '@/components/lottery/LotteryHeader';
@@ -20,18 +20,19 @@ export default function LotteryPage() {
   // Initialize with REAL data (empty array - no mock records!)
   const [purchasedTickets, setPurchasedTickets] = useState<PurchasedTicket[]>([]);
 
-  // Fetch user's real purchased tickets on mount
-  useEffect(() => {
-    async function loadRealTickets() {
-      if (isLoggedIn) {
-        const res = await getUserTicketsAction();
-        if (res.success && res.tickets) {
-          setPurchasedTickets(res.tickets);
-        }
+  // Fetch user's real purchased tickets from DB
+  const loadRealTickets = useCallback(async () => {
+    if (isLoggedIn) {
+      const res = await getUserTicketsAction();
+      if (res.success && res.tickets) {
+        setPurchasedTickets(res.tickets);
       }
     }
-    loadRealTickets();
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    loadRealTickets();
+  }, [loadRealTickets]);
 
   // Toggle ball selection (Max 6)
   const handleToggleNumber = (num: number) => {
@@ -123,18 +124,8 @@ export default function LotteryPage() {
         updateBalance(result.newBalance);
       }
 
-      // Add real DB returned tickets to state
-      if (result.purchasedTickets) {
-        const newlyBought: PurchasedTicket[] = result.purchasedTickets.map((t: any) => ({
-          id: t.ticketCode,
-          numbers: t.numbers.split(',').map((n: string) => parseInt(n, 10)),
-          purchasedAt: 'Just Now',
-          status: 'PENDING',
-          potentialWin: '1,250,000 SC',
-        }));
-        setPurchasedTickets([...newlyBought, ...purchasedTickets]);
-      }
-
+      // Refresh real tickets from DB
+      await loadRealTickets();
       setSlips([]);
 
       toast.success('🎉 TICKETS PURCHASED SUCCESSFULLY!', {
@@ -155,7 +146,7 @@ export default function LotteryPage() {
       ticketCode: t.id,
       numbers: t.numbers,
       cost: '200.00 SC',
-      status: 'PENDING DRAW',
+      status: t.status === 'WON' ? '🎉 WON' : t.status === 'LOST' ? 'LOST' : 'PENDING DRAW',
       timeAgo: t.purchasedAt,
       isCurrentUser: true,
     })),
@@ -252,7 +243,7 @@ export default function LotteryPage() {
               userBalance={user?.sixyCoinsBalance || '10000.00'}
             />
 
-            <DrawHistorySection />
+            <DrawHistorySection onDrawSettled={loadRealTickets} />
           </div>
         </div>
 

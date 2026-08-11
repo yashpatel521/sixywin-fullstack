@@ -42,6 +42,20 @@ if (client) {
         numbers TEXT NOT NULL,
         cost NUMERIC(18, 2) DEFAULT 200.00,
         status TEXT DEFAULT 'PENDING',
+        payout_amount NUMERIC(18, 2) DEFAULT 0.00,
+        created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+      );
+    `;
+  }).then(() => {
+    return client`
+      CREATE TABLE IF NOT EXISTS lottery_draws (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        draw_code TEXT NOT NULL UNIQUE,
+        winning_numbers TEXT NOT NULL,
+        bonus_ball TEXT NOT NULL,
+        jackpot_pool NUMERIC(18, 2) DEFAULT 1250000.00,
+        total_winners TEXT DEFAULT '0',
+        seed_hash TEXT NOT NULL,
         created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
       );
     `;

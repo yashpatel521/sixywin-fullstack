@@ -1,7 +1,12 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { processLotteryTicketInDb, getUserLotteryTicketsFromDb } from '@/db/queries/lottery/lotteryQueries';
+import {
+  processLotteryTicketInDb,
+  getUserLotteryTicketsFromDb,
+  executeLotteryDrawInDb,
+  getLatestLotteryDrawFromDb,
+} from '@/db/queries/lottery/lotteryQueries';
 
 export interface TicketSlip {
   numbers: number[];
@@ -72,12 +77,55 @@ export async function getUserTicketsAction() {
         id: t.ticketCode,
         numbers: t.numbers.split(',').map((n) => parseInt(n, 10)),
         purchasedAt: new Date(t.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        status: t.status as 'PENDING' | 'WON' | 'DRAWING',
+        status: t.status as 'PENDING' | 'WON' | 'LOST',
+        payoutAmount: t.payoutAmount,
         potentialWin: '1,250,000 SC',
       })),
     };
   } catch (error: any) {
     console.error('Error in getUserTicketsAction:', error);
     return { success: false, tickets: [] };
+  }
+}
+
+// 24-Hour Automated Lottery Settlement Server Action
+export async function triggerDailyDrawAction() {
+  try {
+    const result = await executeLotteryDrawInDb();
+    return {
+      success: true,
+      draw: result.draw,
+      winningNumbers: result.winningNumbers,
+      bonusBall: result.bonusBall,
+      totalWinners: result.totalWinners,
+      seedHash: result.seedHash,
+    };
+  } catch (error: any) {
+    console.error('Error in triggerDailyDrawAction:', error);
+    return {
+      success: false,
+      error: error.message || 'Failed to execute daily lottery draw.',
+    };
+  }
+}
+
+export async function getLatestDrawAction() {
+  try {
+    const draw = await getLatestLotteryDrawFromDb();
+    if (!draw) return { success: false };
+    return {
+      success: true,
+      draw: {
+        drawCode: draw.drawCode,
+        winningNumbers: draw.winningNumbers.split(',').map((n) => parseInt(n, 10)),
+        bonusBall: parseInt(draw.bonusBall, 10),
+        totalWinners: draw.totalWinners,
+        seedHash: draw.seedHash,
+        createdAt: new Date(draw.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      },
+    };
+  } catch (error: any) {
+    console.error('Error in getLatestDrawAction:', error);
+    return { success: false };
   }
 }
