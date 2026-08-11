@@ -1,0 +1,31 @@
+import { MetadataRoute } from 'next';
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'SixyWin Gaming Arena - Official 6/49 Lottery & Spatial Games',
+    short_name: 'SixyWin',
+    description:
+      'Play 100% Provably Fair mini-games and the Official 6/49 Lottery Draw with free virtual Sixy Coins (SC). Zero real money wagering.',
+    start_url: '/games',
+    display: 'standalone',
+    background_color: '#0c0a09',
+    theme_color: '#d4af37',
+    orientation: 'any',
+    categories: ['games', 'entertainment', 'casual'],
+    lang: 'en-US',
+    icons: [
+      {
+        src: '/landing/lottery_ticket_3d.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+      {
+        src: '/landing/lottery_ticket_3d.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'any',
+      },
+    ],
+  };
+}

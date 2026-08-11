@@ -1,40 +1,26 @@
 {
-  "name": "SixyWin - Free Virtual Gaming Platform",
+  "name": "SixyWin Gaming Arena - Official 6/49 Lottery & Spatial Games",
   "short_name": "SixyWin",
-  "description": "Play free virtual lottery games, Aviator crash game, and Double Trouble. Win virtual coins and redeem rewards!",
-  "start_url": "/",
+  "description": "Play 100% Provably Fair mini-games and the Official 6/49 Lottery Draw with free virtual Sixy Coins (SC). Zero real money wagering.",
+  "start_url": "/games",
   "display": "standalone",
-  "background_color": "#1a1a1a",
-  "theme_color": "#fbbf24",
-  "orientation": "portrait-primary",
-  "categories": ["games", "entertainment"],
+  "background_color": "#0c0a09",
+  "theme_color": "#d4af37",
+  "orientation": "any",
+  "categories": ["games", "entertainment", "casual"],
   "lang": "en-US",
   "icons": [
     {
-      "src": "/logo/logo3.png",
+      "src": "/landing/lottery_ticket_3d.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/logo/logo3.png",
+      "src": "/landing/lottery_ticket_3d.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/logo/logo3.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/screenshots/mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow"
     }
   ]
 }

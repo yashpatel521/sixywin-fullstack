@@ -2,35 +2,36 @@ import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://sixywin.com';
+  const currentDate = new Date();
 
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 1.0,
     },
     {
       url: `${baseUrl}/games`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'always',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/games/lottery`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'always',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/login`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/register`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
