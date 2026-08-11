@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Play, Gem } from 'lucide-react';
 
 export interface Game {
@@ -68,12 +69,21 @@ export const GamesGrid: React.FC<GamesGridProps> = ({ games, onLaunchGame }) => 
                 <span className="text-[#e6ca65]">Min: {game.minBet}</span>
               </div>
 
-              <button
-                onClick={() => onLaunchGame(game)}
-                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs font-extrabold flex items-center gap-1.5 shadow-md hover:from-[#f0d885] cursor-pointer active:scale-95"
-              >
-                <Play className="w-3.5 h-3.5 fill-current" /> PLAY NOW
-              </button>
+              {game.id === 'lottery-649' ? (
+                <Link
+                  href="/games/lottery"
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs font-extrabold flex items-center gap-1.5 shadow-md hover:from-[#f0d885] cursor-pointer active:scale-95"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" /> BUY TICKETS
+                </Link>
+              ) : (
+                <button
+                  onClick={() => onLaunchGame(game)}
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs font-extrabold flex items-center gap-1.5 shadow-md hover:from-[#f0d885] cursor-pointer active:scale-95"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" /> PLAY NOW
+                </button>
+              )}
             </div>
           </div>
         ))}

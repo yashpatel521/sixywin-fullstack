@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { Crown, Gem, Clock, Ticket, Coins } from 'lucide-react';
 
 interface GamesHeroSectionProps {
-  onPlayLottery: () => void;
+  onPlayLottery?: () => void;
 }
 
 export const GamesHeroSection: React.FC<GamesHeroSectionProps> = ({ onPlayLottery }) => {
@@ -60,19 +61,19 @@ export const GamesHeroSection: React.FC<GamesHeroSectionProps> = ({ onPlayLotter
 
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center gap-4 pt-1">
-            <button
-              onClick={onPlayLottery}
+            <Link
+              href="/games/lottery"
               className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-base font-extrabold flex items-center gap-3 shadow-xl shadow-[#d4af37]/25 cursor-pointer active:scale-95 border border-[#faf6f0]/40"
             >
               <Ticket className="w-5 h-5" />
-              <span>PLAY 6/49 LOTTERY (200 SC)</span>
-            </button>
+              <span>PLAY 6/49 LOTTERY (BUY TICKETS)</span>
+            </Link>
           </div>
         </div>
 
         {/* Right 50% Column: 3D Golden 6/49 Lottery Ticket Image */}
         <div className="lg:col-span-5 flex items-center justify-center">
-          <div className="relative w-full max-w-md sm:max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
+          <Link href="/games/lottery" className="relative w-full max-w-md sm:max-w-lg aspect-square hover:scale-105 transition-transform duration-500 block">
             <Image
               src="/landing/lottery_ticket_3d.png"
               alt="3D Gold 6/49 Lottery Ticket Render"
@@ -81,7 +82,7 @@ export const GamesHeroSection: React.FC<GamesHeroSectionProps> = ({ onPlayLotter
               priority
             />
             <div className="absolute inset-0 bg-[#d4af37]/20 rounded-full blur-3xl pointer-events-none -z-10" />
-          </div>
+          </Link>
         </div>
       </div>
     </div>
