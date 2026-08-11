@@ -23,7 +23,7 @@ export function getDb() {
   return db;
 }
 
-// Auto-Sync Database Tables on Server Start (Single command per template literal call)
+// Auto-Sync Database Tables on Server Start
 if (client) {
   client`
     CREATE TABLE IF NOT EXISTS users (
@@ -56,6 +56,17 @@ if (client) {
         jackpot_pool NUMERIC(18, 2) DEFAULT 1250000.00,
         total_winners TEXT DEFAULT '0',
         seed_hash TEXT NOT NULL,
+        created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+      );
+    `;
+  }).then(() => {
+    return client`
+      CREATE TABLE IF NOT EXISTS contact_messages (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        subject TEXT NOT NULL,
+        message TEXT NOT NULL,
         created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
       );
     `;

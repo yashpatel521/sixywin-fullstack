@@ -17,6 +17,11 @@ import {
   ShieldCheck,
   ChevronDown,
   Gift,
+  Ticket,
+  HelpCircle,
+  Info,
+  Mail,
+  Gamepad2,
 } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Skeleton } from '@/components/ui/Skeleton';
@@ -73,20 +78,65 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#9c663b]/30 bg-[#0c0a09]/95 backdrop-blur-2xl px-6 sm:px-16 py-2.5 sm:py-3.5 m-0">
+    <header className="sticky top-0 z-50 w-full border-b border-[#9c663b]/30 bg-[#0c0a09]/95 backdrop-blur-2xl px-4 sm:px-12 py-2.5 sm:py-3.5 m-0">
       <div className="w-full max-w-[1800px] mx-auto flex items-center justify-between">
-        {/* Left: Official Logo7 Image (Routes to /games if logged in, else /) */}
-        <Link href={isLoggedIn ? '/games' : '/'} className="flex items-center group shrink-0">
-          <div className="relative w-40 h-9 sm:w-60 sm:h-14 overflow-hidden flex items-center justify-center p-0 m-0">
-            <Image
-              src="/logo/logo7.png"
-              alt="SixyWin Official Logo"
-              fill
-              className="object-contain p-0 m-0 group-hover:scale-105 transition-transform"
-              priority
-            />
-          </div>
-        </Link>
+        {/* Left: Official Logo + Navigation Links */}
+        <div className="flex items-center gap-6 sm:gap-10">
+          <Link href={isLoggedIn ? '/games' : '/'} className="flex items-center group shrink-0">
+            <div className="relative w-36 h-9 sm:w-52 sm:h-12 overflow-hidden flex items-center justify-center p-0 m-0">
+              <Image
+                src="/logo/logo7.png"
+                alt="SixyWin Official Logo"
+                fill
+                className="object-contain p-0 m-0 group-hover:scale-105 transition-transform"
+                priority
+              />
+            </div>
+          </Link>
+
+          {/* Navigation Links */}
+          <nav className="hidden md:flex items-center gap-5 text-xs font-black uppercase tracking-wider">
+            <Link
+              href="/games"
+              className="text-[#faf6f0] hover:text-[#e6ca65] transition-colors flex items-center gap-1.5"
+            >
+              <Gamepad2 className="w-4 h-4 text-[#e6ca65]" />
+              <span>ARENA</span>
+            </Link>
+
+            <Link
+              href="/games/lottery"
+              className="text-[#faf6f0] hover:text-[#e6ca65] transition-colors flex items-center gap-1.5"
+            >
+              <Ticket className="w-4 h-4 text-[#e6ca65]" />
+              <span>6/49 LOTTERY</span>
+            </Link>
+
+            <Link
+              href="/faq"
+              className="text-[#b5a391] hover:text-[#faf6f0] transition-colors flex items-center gap-1.5"
+            >
+              <HelpCircle className="w-4 h-4 text-[#e6ca65]" />
+              <span>FAQ</span>
+            </Link>
+
+            <Link
+              href="/about"
+              className="text-[#b5a391] hover:text-[#faf6f0] transition-colors flex items-center gap-1.5"
+            >
+              <Info className="w-4 h-4 text-[#e6ca65]" />
+              <span>ABOUT US</span>
+            </Link>
+
+            <Link
+              href="/contact"
+              className="text-[#b5a391] hover:text-[#faf6f0] transition-colors flex items-center gap-1.5"
+            >
+              <Mail className="w-4 h-4 text-[#e6ca65]" />
+              <span>CONTACT</span>
+            </Link>
+          </nav>
+        </div>
 
         {/* Right Controls */}
         <div className="flex items-center gap-3 sm:gap-4">
@@ -171,6 +221,39 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
 
                   {/* 3. Settings Menu Options */}
                   <div className="space-y-1 text-xs">
+                    <Link
+                      href="/faq"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="w-full px-3 py-2.5 rounded-xl hover:bg-[#281d14] text-[#faf6f0] flex items-center justify-between transition-colors cursor-pointer"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <HelpCircle className="w-4 h-4 text-[#e6ca65]" />
+                        <span>FAQ & Knowledge Base</span>
+                      </span>
+                    </Link>
+
+                    <Link
+                      href="/about"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="w-full px-3 py-2.5 rounded-xl hover:bg-[#281d14] text-[#faf6f0] flex items-center justify-between transition-colors cursor-pointer"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <Info className="w-4 h-4 text-[#e6ca65]" />
+                        <span>About SixyWin</span>
+                      </span>
+                    </Link>
+
+                    <Link
+                      href="/contact"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="w-full px-3 py-2.5 rounded-xl hover:bg-[#281d14] text-[#faf6f0] flex items-center justify-between transition-colors cursor-pointer"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <Mail className="w-4 h-4 text-[#e6ca65]" />
+                        <span>Contact Support</span>
+                      </span>
+                    </Link>
+
                     {/* Sound FX Toggle */}
                     <button
                       onClick={toggleSound}
@@ -187,37 +270,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${soundEnabled ? 'bg-[#e6ca65]/20 text-[#e6ca65]' : 'bg-[#0c0a09] text-[#b5a391]'}`}>
                         {soundEnabled ? 'ON' : 'OFF'}
                       </span>
-                    </button>
-
-                    {/* Draw Notifications Toggle */}
-                    <button
-                      onClick={toggleNotifications}
-                      className="w-full px-3 py-2.5 rounded-xl hover:bg-[#281d14] text-[#faf6f0] flex items-center justify-between transition-colors cursor-pointer"
-                    >
-                      <span className="flex items-center gap-2.5">
-                        <Bell className="w-4 h-4 text-[#e6ca65]" />
-                        <span>6/49 Draw Alerts</span>
-                      </span>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${notificationsEnabled ? 'bg-[#e6ca65]/20 text-[#e6ca65]' : 'bg-[#0c0a09] text-[#b5a391]'}`}>
-                        {notificationsEnabled ? 'ON' : 'OFF'}
-                      </span>
-                    </button>
-
-                    {/* Provably Fair Verifier */}
-                    <button
-                      onClick={() => {
-                        setIsDropdownOpen(false);
-                        toast.info('Provably Fair Engine Active', {
-                          description: 'Server seed hash: 8f94e2...d91a (Verified)',
-                        });
-                      }}
-                      className="w-full px-3 py-2.5 rounded-xl hover:bg-[#281d14] text-[#faf6f0] flex items-center justify-between transition-colors cursor-pointer"
-                    >
-                      <span className="flex items-center gap-2.5">
-                        <ShieldCheck className="w-4 h-4 text-[#e6ca65]" />
-                        <span>Provably Fair Engine</span>
-                      </span>
-                      <span className="text-[10px] text-[#e6ca65] font-mono font-bold">100% FAIR</span>
                     </button>
 
                     {/* Logged-In User Sign Out */}
@@ -270,20 +322,30 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
                     <div className="px-2 py-1 text-xs font-black uppercase text-[#e6ca65] border-b border-[#9c663b]/30">
                       PLATFORM SETTINGS
                     </div>
-                    <button
-                      onClick={toggleSound}
-                      className="w-full px-3 py-2 rounded-xl hover:bg-[#281d14] text-[#faf6f0] text-xs flex justify-between items-center"
+                    <Link
+                      href="/faq"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="w-full px-3 py-2 rounded-xl hover:bg-[#281d14] text-[#faf6f0] text-xs flex items-center gap-2"
                     >
-                      <span>Sound Effects</span>
-                      <span className="text-[10px] font-bold text-[#e6ca65]">{soundEnabled ? 'ON' : 'OFF'}</span>
-                    </button>
-                    <button
-                      onClick={toggleNotifications}
-                      className="w-full px-3 py-2 rounded-xl hover:bg-[#281d14] text-[#faf6f0] text-xs flex justify-between items-center"
+                      <HelpCircle className="w-3.5 h-3.5 text-[#e6ca65]" />
+                      <span>FAQ</span>
+                    </Link>
+                    <Link
+                      href="/about"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="w-full px-3 py-2 rounded-xl hover:bg-[#281d14] text-[#faf6f0] text-xs flex items-center gap-2"
                     >
-                      <span>6/49 Draw Alerts</span>
-                      <span className="text-[10px] font-bold text-[#e6ca65]">{notificationsEnabled ? 'ON' : 'OFF'}</span>
-                    </button>
+                      <Info className="w-3.5 h-3.5 text-[#e6ca65]" />
+                      <span>About Us</span>
+                    </Link>
+                    <Link
+                      href="/contact"
+                      onClick={() => setIsDropdownOpen(false)}
+                      className="w-full px-3 py-2 rounded-xl hover:bg-[#281d14] text-[#faf6f0] text-xs flex items-center gap-2"
+                    >
+                      <Mail className="w-3.5 h-3.5 text-[#e6ca65]" />
+                      <span>Contact Us</span>
+                    </Link>
                   </div>
                 )}
               </div>
