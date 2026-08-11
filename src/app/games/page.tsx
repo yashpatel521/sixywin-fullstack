@@ -3,17 +3,10 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import {
-  Search,
   Play,
   Gem,
-  Trophy,
-  Sparkles,
-  Flame,
-  Star,
   ShieldCheck,
-  Coins,
   Clock,
-  Shuffle,
   X,
   Crown,
   Ticket,
@@ -25,7 +18,6 @@ interface Game {
   id: string;
   title: string;
   category: string;
-  categorySlug: 'lottery' | 'cards' | 'mines' | 'wheel' | 'slots' | 'dice';
   icon: string;
   badge: string;
   multiplier: string;
@@ -37,8 +29,6 @@ interface Game {
 
 export default function GamesPage() {
   const { user, isLoggedIn, updateBalance } = useAuthStore();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeGameModal, setActiveGameModal] = useState<Game | null>(null);
 
   // Games Catalogue
@@ -47,7 +37,6 @@ export default function GamesPage() {
       id: 'lottery-649',
       title: '6/49 Lottery Jackpot',
       category: 'LIVE LOTTERY',
-      categorySlug: 'lottery',
       icon: '🎟️',
       badge: '1,250,000 SC',
       multiplier: 'JACKPOT',
@@ -60,7 +49,6 @@ export default function GamesPage() {
       id: 'highlow-double-trouble',
       title: 'HighLow (Double Trouble)',
       category: 'CARD PREDICTOR',
-      categorySlug: 'cards',
       icon: '🃏',
       badge: '2x INSTANT',
       multiplier: 'DOUBLE TROUBLE',
@@ -73,7 +61,6 @@ export default function GamesPage() {
       id: 'mines-sweeper',
       title: 'Minesweeper Matrix',
       category: 'RISK MULTIPLIER',
-      categorySlug: 'mines',
       icon: '💣',
       badge: '1,000x MAX',
       multiplier: 'GEM HUNTER',
@@ -86,7 +73,6 @@ export default function GamesPage() {
       id: 'fortune-wheel',
       title: 'Cyber Fortune Wheel',
       category: 'SPINNER TABLE',
-      categorySlug: 'wheel',
       icon: '🎡',
       badge: '50x MULTIPLIER',
       multiplier: 'SPATIAL WHEEL',
@@ -99,7 +85,6 @@ export default function GamesPage() {
       id: 'neon-slots',
       title: 'Neon Slot 777',
       category: 'SLOT REELS',
-      categorySlug: 'slots',
       icon: '🎰',
       badge: '100x JACKPOT',
       multiplier: 'TRIPLE 777',
@@ -111,7 +96,6 @@ export default function GamesPage() {
       id: 'cyber-dice',
       title: 'Cyber Dice Roll',
       category: 'DICE SLIDER',
-      categorySlug: 'dice',
       icon: '🎲',
       badge: '99x MAX',
       multiplier: 'OVER / UNDER',
@@ -120,26 +104,6 @@ export default function GamesPage() {
       minBet: '25 SC',
     },
   ];
-
-  // Category filter pills
-  const categories = [
-    { id: 'all', label: 'All Games', icon: Sparkles },
-    { id: 'lottery', label: '🎟️ 6/49 Lottery', icon: Trophy },
-    { id: 'cards', label: '🃏 High-Low Cards', icon: Flame },
-    { id: 'mines', label: '💣 Minesweeper', icon: Gem },
-    { id: 'wheel', label: '🎡 Fortune Wheel', icon: Star },
-    { id: 'slots', label: '🎰 Neon Slots', icon: Coins },
-  ];
-
-  // Filter games based on category and search query
-  const filteredGames = games.filter((game) => {
-    const matchesCategory = selectedCategory === 'all' || game.categorySlug === selectedCategory;
-    const matchesSearch =
-      game.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      game.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      game.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
 
   const handleLaunchGame = (game: Game) => {
     if (!isLoggedIn) {
@@ -198,7 +162,7 @@ export default function GamesPage() {
                 </div>
                 <span className="text-[#9c663b]">•</span>
                 <div className="flex items-center gap-1.5 text-[#e6ca65]">
-                  <Coins className="w-4 h-4 text-[#e6ca65]" />
+                  <Gem className="w-4 h-4 text-[#e6ca65]" />
                   <span>100% FREE PLAY</span>
                 </div>
               </div>
@@ -262,44 +226,12 @@ export default function GamesPage() {
           </div>
         </div>
 
-        {/* Search & Category Filter Bar */}
-        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-[#18120e] border border-[#9c663b]/40 p-3 sm:p-4 rounded-2xl shadow-xl">
-          {/* Search Input */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="w-4 h-4 text-[#b5a391] absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search 6/49 lottery, mines, slots, cards..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#0c0a09] border border-[#9c663b]/40 focus:border-[#e6ca65] text-[#faf6f0] placeholder-[#b5a391]/60 text-xs sm:text-sm font-medium focus:outline-none transition-all"
-            />
-          </div>
-
-          {/* Category Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
-                  selectedCategory === cat.id
-                    ? 'bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] font-black shadow-md'
-                    : 'bg-[#0c0a09] text-[#b5a391] hover:text-[#faf6f0] border border-[#9c663b]/30'
-                }`}
-              >
-                <span>{cat.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Main Games Arena Grid */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
+        <div className="space-y-4 pt-4">
+          <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-4">
             <h3 className="text-xl font-extrabold text-[#faf6f0] flex items-center gap-2">
               <Gem className="w-5 h-5 text-[#e6ca65]" />
-              <span>Available Tables ({filteredGames.length})</span>
+              <span>Available Tables ({games.length})</span>
             </h3>
             <span className="text-xs font-mono text-[#b5a391]">
               Sub-Second Provably Fair Settlement
@@ -307,7 +239,7 @@ export default function GamesPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-            {filteredGames.map((game) => (
+            {games.map((game) => (
               <div
                 key={game.id}
                 className="rounded-3xl bg-[#18120e] border border-[#9c663b]/50 p-6 space-y-4 hover:border-[#e6ca65] transition-all group shadow-2xl flex flex-col justify-between"
