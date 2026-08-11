@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Crown, Clock, Trophy, Coins, HelpCircle } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { LotteryRulesModal } from './LotteryRulesModal';
@@ -9,10 +9,25 @@ export const LotteryHeader: React.FC = () => {
   const { user } = useAuthStore();
   const [showRulesModal, setShowRulesModal] = useState(false);
 
+  // Live real-time countdown timer state
+  const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 22, seconds: 15 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
+        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        return { hours: 23, minutes: 59, seconds: 59 };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <>
       <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-[#18120e]/90 border border-[#e6ca65]/40 shadow-md backdrop-blur-xl">
-        {/* 3D Gold Live Ticker */}
+        {/* Live Ticking 3D Gold Ticker */}
         <div className="flex flex-wrap items-center gap-3 text-xs">
           <div className="flex items-center gap-1.5 font-black text-[#e6ca65] uppercase tracking-wider">
             <Crown className="w-4 h-4 text-[#e6ca65] animate-pulse" />
@@ -22,8 +37,13 @@ export const LotteryHeader: React.FC = () => {
           <span className="text-[#9c663b] hidden sm:inline">•</span>
 
           <div className="flex items-center gap-1.5 text-[#b5a391]">
-            <Clock className="w-3.5 h-3.5 text-[#e6ca65]" />
-            <span>CLOSES: <strong className="text-[#faf6f0] font-mono font-bold">04h 22m 15s</strong></span>
+            <Clock className="w-3.5 h-3.5 text-[#e6ca65] animate-pulse" />
+            <span>
+              CLOSES IN:{' '}
+              <strong className="text-[#faf6f0] font-mono font-bold">
+                {timeLeft.hours.toString().padStart(2, '0')}h : {timeLeft.minutes.toString().padStart(2, '0')}m : {timeLeft.seconds.toString().padStart(2, '0')}s
+              </strong>
+            </span>
           </div>
 
           <span className="text-[#9c663b] hidden sm:inline">•</span>
