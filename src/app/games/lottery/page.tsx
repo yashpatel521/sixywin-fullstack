@@ -181,13 +181,13 @@ export default function LotteryPage() {
       <div className="absolute top-20 right-10 w-[500px] h-[500px] bg-[#d4af37]/10 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-[1600px] mx-auto space-y-4">
-        {/* 1. Ultra-Compact Top Bar Ticker */}
+        {/* 1. Top Bar Ticker HUD */}
         <LotteryHeader />
 
-        {/* 2. Main Ticket Purchase Area (2 Columns) */}
+        {/* 2. Main 2-Column Master Command Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-          {/* Left Column (60%): 1-49 Ball Selector */}
-          <div className="lg:col-span-7">
+          {/* Left Column (7/12 Width): Ticket Selector + Active Tickets History */}
+          <div className="lg:col-span-7 space-y-5">
             <LotteryBallSelector
               selectedNumbers={selectedNumbers}
               onToggleNumber={handleToggleNumber}
@@ -195,10 +195,12 @@ export default function LotteryPage() {
               onClear={handleClear}
               onAddTicketToSlip={handleAddTicketToSlip}
             />
+
+            <MyTicketsTab purchasedTickets={purchasedTickets} />
           </div>
 
-          {/* Right Column (40%): Ticket Cart Order Slip */}
-          <div className="lg:col-span-5">
+          {/* Right Column (5/12 Width): Order Checkout Slip + Draw Schedule History */}
+          <div className="lg:col-span-5 space-y-5">
             <LotteryCart
               slips={slips}
               onRemoveSlip={handleRemoveSlip}
@@ -207,13 +209,9 @@ export default function LotteryPage() {
               loading={loading}
               userBalance={user?.sixyCoinsBalance || '10000.00'}
             />
-          </div>
-        </div>
 
-        {/* 3. Bottom Row: Side-by-Side Draw History & Purchased Tickets */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          <DrawHistorySection />
-          <MyTicketsTab purchasedTickets={purchasedTickets} />
+            <DrawHistorySection />
+          </div>
         </div>
       </div>
     </div>
