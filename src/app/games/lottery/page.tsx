@@ -3,9 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/useAuthStore';
+import { LotteryHeader } from '@/components/lottery/LotteryHeader';
 import { LotteryBallSelector } from '@/components/lottery/LotteryBallSelector';
 import { LotteryCart } from '@/components/lottery/LotteryCart';
 import { MyTicketsTab, PurchasedTicket } from '@/components/lottery/MyTicketsTab';
+import { DrawHistorySection } from '@/components/lottery/DrawHistorySection';
 import { TicketSlip, buyLotteryTicketsAction, getUserTicketsAction } from '@/actions/lottery/lotteryActions';
 
 export default function LotteryPage() {
@@ -180,7 +182,10 @@ export default function LotteryPage() {
       <div className="absolute bottom-20 left-10 w-[550px] h-[550px] bg-[#9c663b]/15 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-8">
-        {/* 1. Main Ticket Purchase Area (2 Columns) */}
+        {/* 1. Header Banner */}
+        <LotteryHeader />
+
+        {/* 2. Main Ticket Purchase Area (2 Columns) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: 1-49 Ball Selector */}
           <div className="lg:col-span-7">
@@ -206,7 +211,10 @@ export default function LotteryPage() {
           </div>
         </div>
 
-        {/* 2. User's Purchased Tickets History Tab */}
+        {/* 3. Live 6/49 Draw Schedule & Previous Draw Results */}
+        <DrawHistorySection />
+
+        {/* 4. User's Purchased Tickets History Tab */}
         <MyTicketsTab purchasedTickets={purchasedTickets} />
       </div>
     </div>
