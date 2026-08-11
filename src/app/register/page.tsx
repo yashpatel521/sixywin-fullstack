@@ -1,15 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, User, UserPlus, Crown, ArrowRight, ShieldCheck, Coins, Gift } from 'lucide-react';
 import { toast } from 'sonner';
 import { registerUserAction } from '@/app/actions/authActions';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { isLoggedIn, setUser } = useAuthStore();
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +20,13 @@ export default function RegisterPage() {
   const [referralCode, setReferralCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // If already logged in, redirect directly to /games
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push('/games');
+    }
+  }, [isLoggedIn, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +48,6 @@ export default function RegisterPage() {
         return;
       }
 
-      // Call Next.js Server Action
       const result = await registerUserAction({
         username,
         email,
@@ -51,14 +60,18 @@ export default function RegisterPage() {
         return;
       }
 
+      if (result.user) {
+        setUser(result.user);
+      }
+
       toast.success(result.message, {
         description: `Welcome ${result.user?.username}! Initial balance: ${result.user?.sixyCoinsBalance} SC`,
       });
 
-      // Redirect to login page after successful registration
+      // Redirect directly to /games
       setTimeout(() => {
-        router.push('/login');
-      }, 1500);
+        router.push('/games');
+      }, 1000);
     } catch (err: any) {
       toast.error(err.message || 'An unexpected error occurred.');
     } finally {

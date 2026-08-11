@@ -20,7 +20,7 @@ interface SavedProfile {
 
 export default function LoginPage() {
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser);
+  const { isLoggedIn, setUser } = useAuthStore();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +29,14 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
 
-  // Load ONLY real saved profiles from localStorage on mount
+  // If already logged in, redirect directly to /games
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push('/games');
+    }
+  }, [isLoggedIn, router]);
+
+  // Load saved profiles from localStorage on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem('sixywin_saved_profiles');
@@ -44,7 +51,6 @@ export default function LoginPage() {
     }
   }, []);
 
-  // Helper to save a profile into localStorage upon login
   const saveProfileToLocalStorage = (user: { id: string; username: string; email: string; sixyCoinsBalance: string; vipLevel: string }) => {
     try {
       const stored = localStorage.getItem('sixywin_saved_profiles');
@@ -69,7 +75,6 @@ export default function LoginPage() {
     }
   };
 
-  // Remove a profile from localStorage
   const removeSavedProfile = (e: React.MouseEvent, emailToRemove: string) => {
     e.stopPropagation();
     try {
@@ -107,8 +112,9 @@ export default function LoginPage() {
         description: `Active balance: ${result.user?.sixyCoinsBalance} SC (${result.user?.vipLevel})`,
       });
 
+      // Redirect directly to /games
       setTimeout(() => {
-        router.push('/');
+        router.push('/games');
       }, 800);
     } catch (err: any) {
       toast.error('Quick login error.');
@@ -139,7 +145,6 @@ export default function LoginPage() {
         return;
       }
 
-      // Update global auth store and localStorage
       if (result.user) {
         setUser(result.user);
         saveProfileToLocalStorage(result.user);
@@ -147,12 +152,13 @@ export default function LoginPage() {
 
       toast.success(result.message, {
         description: rememberMe
-          ? 'Saved to this device. Welcome back!'
+          ? 'Saved to this device. Redirecting to Arena...'
           : `Active balance: ${result.user?.sixyCoinsBalance} SC`,
       });
 
+      // Redirect directly to /games
       setTimeout(() => {
-        router.push('/');
+        router.push('/games');
       }, 1000);
     } catch (err: any) {
       toast.error(err.message || 'An unexpected error occurred.');
@@ -268,7 +274,6 @@ export default function LoginPage() {
                         </div>
                       </div>
 
-                      {/* Remove saved profile */}
                       <button
                         type="button"
                         onClick={(e) => removeSavedProfile(e, p.email)}
@@ -292,7 +297,6 @@ export default function LoginPage() {
 
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-3">
-              {/* Email Field */}
               <div className="space-y-1">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
                   Email Address or Username
@@ -310,7 +314,6 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Password Field */}
               <div className="space-y-1">
                 <div className="flex justify-between items-center">
                   <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
@@ -340,7 +343,6 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Remember Me Checkbox */}
               <div className="flex items-center gap-2 pt-0.5">
                 <input
                   type="checkbox"
@@ -354,7 +356,6 @@ export default function LoginPage() {
                 </label>
               </div>
 
-              {/* 24K Gold Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -365,7 +366,6 @@ export default function LoginPage() {
               </button>
             </form>
 
-            {/* Card Footer: Register Link */}
             <div className="pt-2 border-t border-[#9c663b]/30 text-center text-xs text-[#b5a391]">
               <span>Don't have a SixyWin account? </span>
               <Link href="/register" className="text-[#e6ca65] font-extrabold hover:underline inline-flex items-center gap-1">
