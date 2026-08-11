@@ -35,12 +35,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Set mounted state for hydration safety
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -77,8 +75,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#9c663b]/30 bg-[#0c0a09]/95 backdrop-blur-2xl px-6 sm:px-16 py-2.5 sm:py-3.5 m-0">
       <div className="w-full max-w-[1800px] mx-auto flex items-center justify-between">
-        {/* Left: Official Logo7 Image */}
-        <Link href="/" className="flex items-center group shrink-0">
+        {/* Left: Official Logo7 Image (Routes to /games if logged in, else /) */}
+        <Link href={isLoggedIn ? '/games' : '/'} className="flex items-center group shrink-0">
           <div className="relative w-40 h-9 sm:w-60 sm:h-14 overflow-hidden flex items-center justify-center p-0 m-0">
             <Image
               src="/logo/logo7.png"
@@ -90,7 +88,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onRegisterClick })
           </div>
         </Link>
 
-        {/* Right Controls with Skeleton Hydration Support */}
+        {/* Right Controls */}
         <div className="flex items-center gap-3 sm:gap-4">
           {!mounted ? (
             /* Skeleton Loading State during Hydration */
