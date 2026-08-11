@@ -180,45 +180,12 @@ export default function GamesPage() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] text-[#faf6f0] px-6 sm:px-16 py-10 overflow-hidden">
+    <div className="w-full min-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] text-[#faf6f0] px-6 sm:px-16 py-8 overflow-hidden">
       {/* 24K Gold Glow Background Elements */}
       <div className="absolute top-20 right-10 w-[600px] h-[600px] bg-[#d4af37]/10 rounded-full blur-[180px] pointer-events-none" />
       <div className="absolute bottom-20 left-10 w-[550px] h-[550px] bg-[#9c663b]/15 rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-10">
-        {/* Page Header Banner */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-[#9c663b]/30 pb-8">
-          <div className="space-y-3 max-w-3xl">
-            <div className="flex items-center gap-2.5 text-xs sm:text-sm font-bold tracking-widest uppercase text-[#e6ca65]">
-              <Trophy className="w-5 h-5 text-[#e6ca65] animate-bounce" />
-              <span className="text-[#faf6f0]">SIXYWIN GAMING ARENA & TABLES</span>
-            </div>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#faf6f0]">
-              Free-to-Play <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
-                6/49 Lottery & Spatial Games
-              </span>
-            </h1>
-            <p className="text-[#e3d8c8] text-sm sm:text-base leading-relaxed max-w-2xl">
-              Play 100% Provably Fair mini-games with free virtual Sixy Coins (SC). Sub-second settlement engine with zero real money wagering.
-            </p>
-          </div>
-
-          {/* User SC Wallet Status Pill */}
-          {isLoggedIn && user && (
-            <div className="rounded-2xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 p-5 space-y-2 shadow-xl shrink-0">
-              <div className="flex items-center justify-between gap-4 text-xs text-[#b5a391]">
-                <span>YOUR ACTIVE SC WALLET</span>
-                <span className="text-[#e6ca65] font-mono font-bold">{user.vipLevel}</span>
-              </div>
-              <div className="flex items-center gap-2 text-2xl font-black text-[#e6ca65] font-mono">
-                <Coins className="w-6 h-6 text-[#e6ca65]" />
-                <span>{user.sixyCoinsBalance} SC</span>
-              </div>
-            </div>
-          )}
-        </div>
-
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-8">
         {/* Search & Category Filter Bar */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-[#18120e] border border-[#9c663b]/40 p-3 sm:p-4 rounded-2xl shadow-xl">
           {/* Search Input */}
