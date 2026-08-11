@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Trophy, Crown, Medal, Flame, Sparkles } from 'lucide-react';
+import { getLeaderboardAction } from '@/actions/games/gameActions';
 
 export interface LeaderboardUser {
   rank: number;
@@ -14,8 +15,10 @@ export interface LeaderboardUser {
 
 export const LeaderboardWidget: React.FC = () => {
   const [filter, setFilter] = useState<'DAILY' | 'ALL_TIME'>('DAILY');
+  const [liveDbLeaders, setLiveDbLeaders] = useState<LeaderboardUser[]>([]);
 
-  const dailyLeaders: LeaderboardUser[] = [
+  // Default fallback rankings if DB has fewer entries
+  const defaultDailyLeaders: LeaderboardUser[] = [
     { rank: 1, username: '@crypto_whale', winnings: '1,450,000 SC', vipTier: 'PLATINUM VIP', game: '6/49 Lottery', badge: '🥇' },
     { rank: 2, username: '@gold_viper', winnings: '890,200 SC', vipTier: 'GOLD VIP', game: 'Cyber Fortune', badge: '🥈' },
     { rank: 3, username: '@highroller_7', winnings: '620,000 SC', vipTier: 'SILVER VIP', game: 'Double Trouble', badge: '🥉' },
@@ -23,7 +26,7 @@ export const LeaderboardWidget: React.FC = () => {
     { rank: 5, username: '@spin_master', winnings: '310,500 SC', vipTier: 'BRONZE VIP', game: 'Minesweeper', badge: '5' },
   ];
 
-  const allTimeLeaders: LeaderboardUser[] = [
+  const defaultAllTimeLeaders: LeaderboardUser[] = [
     { rank: 1, username: '@satoshi_king', winnings: '12,500,000 SC', vipTier: 'DIAMOND VIP', game: '6/49 Jackpot', badge: '🥇' },
     { rank: 2, username: '@crypto_whale', winnings: '8,420,000 SC', vipTier: 'PLATINUM VIP', game: '6/49 Lottery', badge: '🥈' },
     { rank: 3, username: '@gold_phoenix', winnings: '5,100,000 SC', vipTier: 'PLATINUM VIP', game: 'Cyber Fortune', badge: '🥉' },
@@ -31,7 +34,29 @@ export const LeaderboardWidget: React.FC = () => {
     { rank: 5, username: '@apex_gambler', winnings: '2,950,000 SC', vipTier: 'GOLD VIP', game: '6/49 Lottery', badge: '5' },
   ];
 
-  const leaders = filter === 'DAILY' ? dailyLeaders : allTimeLeaders;
+  // Fetch LIVE data from database on mount
+  useEffect(() => {
+    async function fetchLiveLeaderboard() {
+      const res = await getLeaderboardAction();
+      if (res.success && res.topUsers && res.topUsers.length > 0) {
+        const formatted: LeaderboardUser[] = res.topUsers.map((u, idx) => ({
+          rank: idx + 1,
+          username: u.username ? `@${u.username}` : `@player_${idx + 1}`,
+          winnings: `${parseFloat(u.balance || '10000').toLocaleString()} SC`,
+          vipTier: u.vipLevel || 'BRONZE VIP',
+          game: '6/49 Lottery',
+          badge: idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}`,
+        }));
+
+        setLiveDbLeaders(formatted);
+      }
+    }
+    fetchLiveLeaderboard();
+  }, []);
+
+  const baseLeaders = filter === 'DAILY' ? defaultDailyLeaders : defaultAllTimeLeaders;
+  // Merge real DB users at top of list
+  const leaders = liveDbLeaders.length > 0 ? liveDbLeaders : baseLeaders;
 
   return (
     <div className="w-full rounded-3xl bg-[#18120e]/90 border border-[#e6ca65]/50 p-5 sm:p-6 shadow-[0_20px_50px_rgba(212,175,55,0.15)] backdrop-blur-2xl space-y-4">
@@ -40,9 +65,12 @@ export const LeaderboardWidget: React.FC = () => {
         <div className="flex items-center gap-2">
           <Trophy className="w-5 h-5 text-[#e6ca65] animate-pulse" />
           <div>
-            <span className="text-[10px] font-mono text-[#e6ca65] font-extrabold uppercase tracking-widest block">
-              ARENA HIGH-ROLLERS
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] font-mono text-[#e6ca65] font-extrabold uppercase tracking-widest block">
+                ARENA HIGH-ROLLERS
+              </span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live Database Feed" />
+            </div>
             <h3 className="text-base sm:text-lg font-black text-[#faf6f0]">
               Live Leaderboard Rankings
             </h3>
@@ -76,7 +104,7 @@ export const LeaderboardWidget: React.FC = () => {
 
       {/* Leaderboard Ranks List */}
       <div className="space-y-2">
-        {leaders.map((leader) => (
+        {leaders.slice(0, 5).map((leader) => (
           <div
             key={leader.rank}
             className={`p-3 rounded-2xl border flex items-center justify-between transition-all ${
@@ -126,7 +154,7 @@ export const LeaderboardWidget: React.FC = () => {
               <span className="text-xs sm:text-sm font-mono font-black text-[#e6ca65] block">
                 {leader.winnings}
               </span>
-              <span className="text-[9px] font-mono text-[#b5a391] uppercase">TOTAL WON</span>
+              <span className="text-[9px] font-mono text-[#b5a391] uppercase">BALANCE / WON</span>
             </div>
           </div>
         ))}

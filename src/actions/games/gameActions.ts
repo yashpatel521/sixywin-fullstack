@@ -1,6 +1,6 @@
 'use server';
 
-import { processGameBetInDb } from '@/db/queries/games/gameQueries';
+import { processGameBetInDb, getLeaderboardFromDb } from '@/db/queries/games/gameQueries';
 
 export async function placeBetAction(userId: string, gameId: string, wagerAmount: number) {
   try {
@@ -26,5 +26,19 @@ export async function placeBetAction(userId: string, gameId: string, wagerAmount
   } catch (error: any) {
     console.error('Error in placeBetAction:', error);
     return { success: false, error: error.message || 'Bet placement failed.' };
+  }
+}
+
+export async function getLeaderboardAction() {
+  try {
+    const data = await getLeaderboardFromDb();
+    return {
+      success: true,
+      topUsers: data.topUsers,
+      topTickets: data.topTickets,
+    };
+  } catch (error: any) {
+    console.error('Error in getLeaderboardAction:', error);
+    return { success: false, topUsers: [], topTickets: [] };
   }
 }
