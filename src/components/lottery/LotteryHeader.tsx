@@ -1,69 +1,46 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
-import { Crown, Clock, Trophy, ShieldCheck, Ticket } from 'lucide-react';
+import { Crown, Clock, Trophy, Coins, Sparkles } from 'lucide-react';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export const LotteryHeader: React.FC = () => {
+  const { user } = useAuthStore();
+
   return (
-    <div className="relative w-full py-4 overflow-hidden border-b border-[#9c663b]/30 pb-8">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        {/* Left Column */}
-        <div className="lg:col-span-7 space-y-5">
-          <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold tracking-widest uppercase">
-            <div className="flex items-center gap-2 text-[#e6ca65]">
-              <Crown className="w-5 h-5 text-[#e6ca65] animate-pulse" />
-              <span className="text-[#faf6f0]">OFFICIAL 6/49 LOTTERY JACKPOT</span>
-            </div>
-            <span className="text-[#9c663b]">•</span>
-            <div className="flex items-center gap-1.5 text-[#e6ca65]">
-              <Trophy className="w-4 h-4 text-[#e6ca65]" />
-              <span>1,250,000 SC PRIZE POOL</span>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#e6ca65] block">
-              DAILY DRAW COUNTDOWN
-            </span>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#faf6f0] leading-[1.08]">
-              Buy 6/49 Lottery <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
-                Jackpot Tickets
-              </span>
-            </h1>
-          </div>
-
-          <p className="text-[#e3d8c8] text-sm sm:text-base max-w-xl leading-relaxed">
-            Select 6 numbers from 1 to 49 or use Quick Pick. Match all 6 numbers in the daily draw to win the <strong className="text-[#e6ca65] font-mono font-black">1,250,000 SC Jackpot</strong>!
-          </p>
-
-          {/* Live Countdown Ribbon */}
-          <div className="inline-flex flex-wrap items-center gap-4 p-4 rounded-2xl bg-[#18120e] border border-[#e6ca65]/50 shadow-md">
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-[#b5a391]">
-              <Clock className="w-4 h-4 text-[#e6ca65] animate-pulse" />
-              <span>DRAW CLOSES IN: <strong className="text-[#faf6f0] font-mono font-bold">04h 22m 15s</strong></span>
-            </div>
-            <span className="text-[#9c663b] hidden sm:inline">•</span>
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-[#e6ca65] font-bold">
-              <Ticket className="w-4 h-4 text-[#e6ca65]" />
-              <span>COST: 200 SC / TICKET</span>
-            </div>
-          </div>
+    <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 rounded-3xl bg-gradient-to-r from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_40px_rgba(212,175,55,0.15)] backdrop-blur-2xl">
+      {/* Draw Countdown & Jackpot Status */}
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="flex items-center gap-2 text-xs font-black text-[#e6ca65] tracking-widest uppercase">
+          <Crown className="w-4.5 h-4.5 text-[#e6ca65] animate-pulse" />
+          <span>6/49 LIVE DRAW #1492</span>
         </div>
 
-        {/* Right Column: 3D Lottery Ticket Image */}
-        <div className="lg:col-span-5 flex items-center justify-center">
-          <div className="relative w-full max-w-sm sm:max-w-md aspect-square hover:scale-105 transition-transform duration-500">
-            <Image
-              src="/landing/lottery_ticket_3d.png"
-              alt="3D 6/49 Gold Lottery Ticket"
-              fill
-              className="object-contain remove-img-bg"
-              priority
-            />
-            <div className="absolute inset-0 bg-[#d4af37]/20 rounded-full blur-3xl pointer-events-none -z-10" />
-          </div>
+        <div className="h-4 w-[1px] bg-[#9c663b]/40 hidden sm:block" />
+
+        <div className="flex items-center gap-2 text-xs text-[#b5a391]">
+          <Clock className="w-4 h-4 text-[#e6ca65] animate-pulse" />
+          <span>CLOSES IN: <strong className="text-[#faf6f0] font-mono font-bold">04h 22m 15s</strong></span>
+        </div>
+
+        <div className="h-4 w-[1px] bg-[#9c663b]/40 hidden sm:block" />
+
+        <div className="flex items-center gap-1.5 text-xs text-[#e6ca65] font-extrabold font-mono">
+          <Trophy className="w-4 h-4 text-[#e6ca65]" />
+          <span>JACKPOT: <strong className="text-[#faf6f0] text-sm font-black">1,250,000 SC</strong></span>
+        </div>
+      </div>
+
+      {/* User Wallet SC Balance Readout */}
+      <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0c0a09] border border-[#e6ca65]/50 shadow-md">
+        <Coins className="w-4.5 h-4.5 text-[#e6ca65]" />
+        <div className="flex flex-col">
+          <span className="text-[9px] text-[#b5a391] uppercase tracking-wider font-extrabold leading-none">
+            ACTIVE SC WALLET
+          </span>
+          <span className="text-xs sm:text-sm font-black font-mono text-[#e6ca65]">
+            {user?.sixyCoinsBalance || '10,000.00'} SC
+          </span>
         </div>
       </div>
     </div>
