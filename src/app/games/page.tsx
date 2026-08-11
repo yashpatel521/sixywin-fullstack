@@ -246,12 +246,12 @@ export default function GamesPage() {
               </div>
             </div>
 
-            {/* Right 50% Column: Generated 3D 6/49 Lottery Image */}
+            {/* Right 50% Column: 3D Golden 6/49 Lottery Ticket Image */}
             <div className="lg:col-span-5 flex items-center justify-center">
               <div className="relative w-full max-w-md sm:max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
                 <Image
-                  src="/landing/lottery_649_3d.png"
-                  alt="3D 6/49 Lottery Gold Balls & Crown"
+                  src="/landing/lottery_ticket_3d.png"
+                  alt="3D Gold 6/49 Lottery Ticket Render"
                   fill
                   className="object-contain remove-img-bg"
                   priority
