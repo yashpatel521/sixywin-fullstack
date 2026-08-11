@@ -61,6 +61,11 @@ if (client) {
     `;
   }).then(() => {
     return client`
+      ALTER TABLE lottery_tickets 
+        ADD COLUMN IF NOT EXISTS payout_amount NUMERIC(18, 2) DEFAULT 0.00;
+    `;
+  }).then(() => {
+    return client`
       ALTER TABLE users 
         ADD COLUMN IF NOT EXISTS username TEXT,
         ADD COLUMN IF NOT EXISTS email TEXT,
