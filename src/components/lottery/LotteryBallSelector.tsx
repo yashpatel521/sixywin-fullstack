@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Shuffle, Trash2, PlusCircle, Sparkles, Ticket } from 'lucide-react';
+import { Shuffle, Trash2, PlusCircle, Ticket } from 'lucide-react';
 
 interface LotteryBallSelectorProps {
   selectedNumbers: number[];
@@ -21,10 +21,10 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
   const numbers = Array.from({ length: 49 }, (_, i) => i + 1);
 
   return (
-    <div className="relative rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border-2 border-[#e6ca65]/70 p-6 sm:p-7 shadow-[0_0_60px_rgba(212,175,55,0.2)] space-y-6">
-      {/* Ticket Terminal Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#9c663b]/30 pb-4">
-        <div className="space-y-1">
+    <div className="w-full space-y-6">
+      {/* Unboxed Header & Quick Actions */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div>
           <div className="flex items-center gap-2 text-xs font-black uppercase text-[#e6ca65]">
             <Ticket className="w-4 h-4 text-[#e6ca65]" />
             <span>6/49 TICKET GENERATOR</span>
@@ -34,7 +34,6 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
           </h2>
         </div>
 
-        {/* Quick Action Controls */}
         <div className="flex items-center gap-2">
           <button
             onClick={onQuickPick}
@@ -47,7 +46,7 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
           {selectedNumbers.length > 0 && (
             <button
               onClick={onClear}
-              className="px-3 py-2 rounded-xl bg-[#0c0a09] hover:bg-red-500/20 text-[#b5a391] hover:text-red-400 border border-[#9c663b]/40 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer"
+              className="px-3 py-2 rounded-xl bg-[#18120e] hover:bg-red-500/20 text-[#b5a391] hover:text-red-400 border border-[#9c663b]/40 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>CLEAR</span>
@@ -56,14 +55,14 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
         </div>
       </div>
 
-      {/* 3D Ticket Ball Display Slots */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[#0c0a09] border border-[#e6ca65]/50 shadow-inner space-y-3">
+      {/* Unboxed Floating Selected Ticket Ball Slots */}
+      <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-[#b5a391] font-bold">
-          <span>SELECTED TICKET NUMBERS ({selectedNumbers.length}/6)</span>
+          <span>SELECTED NUMBERS ({selectedNumbers.length}/6)</span>
           <span className="text-[#e6ca65] font-mono font-extrabold">200 SC / TICKET</span>
         </div>
 
-        <div className="grid grid-cols-6 gap-2 sm:gap-3">
+        <div className="grid grid-cols-6 gap-2 sm:gap-3.5 py-1">
           {Array.from({ length: 6 }).map((_, i) => {
             const num = selectedNumbers[i];
             return (
@@ -82,8 +81,8 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
         </div>
       </div>
 
-      {/* 1-49 Small Circular Ball Matrix */}
-      <div className="space-y-2">
+      {/* Unboxed 1-49 Small Circular Ball Matrix */}
+      <div className="space-y-2 pt-2">
         <div className="flex justify-between items-center text-xs text-[#b5a391] font-extrabold">
           <span>BALL MATRIX (1 - 49)</span>
           <span className="text-[10px] text-[#e6ca65]">TAP BALL TO TOGGLE</span>
@@ -100,7 +99,7 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
                 className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full font-black font-mono text-xs sm:text-sm flex items-center justify-center transition-all cursor-pointer active:scale-90 shadow-md ${
                   isSelected
                     ? 'bg-gradient-to-tr from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] border-2 border-[#faf6f0] shadow-[0_0_15px_rgba(212,175,55,0.7)] scale-110'
-                    : 'bg-[#0c0a09] hover:bg-[#281d14] text-[#faf6f0] border border-[#9c663b]/50 hover:border-[#e6ca65]'
+                    : 'bg-[#18120e] hover:bg-[#281d14] text-[#faf6f0] border border-[#9c663b]/50 hover:border-[#e6ca65]'
                 }`}
               >
                 {num.toString().padStart(2, '0')}
@@ -110,7 +109,7 @@ export const LotteryBallSelector: React.FC<LotteryBallSelectorProps> = ({
         </div>
       </div>
 
-      {/* Add Ticket to Order Button */}
+      {/* Add Ticket Button */}
       <button
         onClick={onAddTicketToSlip}
         disabled={selectedNumbers.length !== 6}

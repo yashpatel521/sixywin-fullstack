@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Ticket, Clock, Trophy, Sparkles } from 'lucide-react';
+import { Ticket, Clock, Trophy } from 'lucide-react';
 
 export interface PurchasedTicket {
   id: string;
@@ -17,8 +17,8 @@ interface MyTicketsTabProps {
 
 export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) => {
   return (
-    <div className="space-y-5 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 p-6 sm:p-7 shadow-2xl">
-      <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-3.5">
+    <div className="w-full space-y-5 pt-4 border-t border-[#9c663b]/30">
+      <div className="flex justify-between items-center pb-2">
         <div>
           <h2 className="text-lg sm:text-xl font-black text-[#faf6f0] flex items-center gap-2">
             <Ticket className="w-5 h-5 text-[#e6ca65]" />
@@ -31,7 +31,7 @@ export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) 
       </div>
 
       {purchasedTickets.length === 0 ? (
-        <div className="py-12 text-center space-y-2 border-2 border-dashed border-[#9c663b]/30 rounded-2xl bg-[#0c0a09]/60 p-6">
+        <div className="py-12 text-center space-y-2 border-2 border-dashed border-[#9c663b]/30 rounded-2xl p-6">
           <Trophy className="w-10 h-10 text-[#b5a391]/30 mx-auto" />
           <p className="text-sm text-[#b5a391] font-bold">No active tickets for today's draw.</p>
           <p className="text-xs text-[#b5a391]/60">Select 6 numbers above to buy your first ticket!</p>
@@ -41,7 +41,7 @@ export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) 
           {purchasedTickets.map((t) => (
             <div
               key={t.id}
-              className="p-4 rounded-2xl bg-[#0c0a09] border border-[#e6ca65]/50 space-y-3 shadow-xl group hover:border-[#e6ca65] transition-all"
+              className="p-4 rounded-2xl bg-[#18120e] border border-[#e6ca65]/50 space-y-3 shadow-xl group hover:border-[#e6ca65] transition-all"
             >
               <div className="flex justify-between items-center">
                 <span className="text-xs font-mono font-extrabold text-[#e6ca65]">

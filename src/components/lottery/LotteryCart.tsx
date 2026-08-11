@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ShoppingBag, Ticket, Trash2, Coins, ShieldCheck, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Ticket, Trash2, Coins, ShieldCheck } from 'lucide-react';
 import { TicketSlip } from '@/actions/lottery/lotteryActions';
 
 interface LotteryCartProps {
@@ -26,9 +26,9 @@ export const LotteryCart: React.FC<LotteryCartProps> = ({
   const canAfford = userCoins >= totalCost;
 
   return (
-    <div className="space-y-5 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border-2 border-[#e6ca65]/70 p-6 sm:p-7 shadow-[0_0_60px_rgba(212,175,55,0.2)]">
-      {/* Order Slip Header */}
-      <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-3.5">
+    <div className="w-full space-y-5">
+      {/* Unboxed Order Slip Header */}
+      <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-3">
         <div className="flex items-center gap-2 text-lg font-black text-[#faf6f0]">
           <ShoppingBag className="w-5 h-5 text-[#e6ca65]" />
           <span>Ticket Order Slip ({slips.length})</span>
@@ -45,7 +45,7 @@ export const LotteryCart: React.FC<LotteryCartProps> = ({
 
       {/* Slips List */}
       {slips.length === 0 ? (
-        <div className="py-12 text-center space-y-2 border-2 border-dashed border-[#9c663b]/30 rounded-2xl bg-[#0c0a09]/60 p-6">
+        <div className="py-12 text-center space-y-2 border-2 border-dashed border-[#9c663b]/30 rounded-2xl p-6">
           <Ticket className="w-10 h-10 text-[#b5a391]/30 mx-auto" />
           <p className="text-sm text-[#b5a391] font-bold">Your order slip is empty.</p>
           <p className="text-xs text-[#b5a391]/60">Select 6 numbers on the ball matrix to generate tickets!</p>
@@ -55,7 +55,7 @@ export const LotteryCart: React.FC<LotteryCartProps> = ({
           {slips.map((slip, idx) => (
             <div
               key={idx}
-              className="p-3.5 rounded-2xl bg-[#0c0a09] border border-[#e6ca65]/50 flex items-center justify-between shadow-md group hover:border-[#e6ca65]"
+              className="p-3.5 rounded-2xl bg-[#18120e] border border-[#e6ca65]/50 flex items-center justify-between shadow-md group hover:border-[#e6ca65]"
             >
               <div className="space-y-1">
                 <span className="text-[10px] font-mono text-[#e6ca65] font-extrabold uppercase tracking-wider block">
@@ -99,7 +99,7 @@ export const LotteryCart: React.FC<LotteryCartProps> = ({
               <span className="font-mono font-extrabold text-[#faf6f0]">{slips.length} Ticket(s)</span>
             </div>
             <div className="flex justify-between text-[#b5a391]">
-              <span>Your SC Wallet Balance</span>
+              <span>Your SC Balance</span>
               <span className="font-mono font-extrabold text-[#e6ca65]">{userBalance} SC</span>
             </div>
             <div className="flex justify-between text-sm font-black text-[#faf6f0] pt-2 border-t border-[#9c663b]/20">
