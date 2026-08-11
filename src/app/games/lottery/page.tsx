@@ -9,6 +9,7 @@ import { LotteryCart } from '@/components/lottery/LotteryCart';
 import { MyTicketsTab, PurchasedTicket } from '@/components/lottery/MyTicketsTab';
 import { DrawHistorySection } from '@/components/lottery/DrawHistorySection';
 import { LotteryActivityTable, LiveLotteryActivity } from '@/components/lottery/LotteryActivityTable';
+import { LeaderboardWidget } from '@/components/games/LeaderboardWidget';
 import { TicketSlip, buyLotteryTicketsAction, getUserTicketsAction } from '@/actions/lottery/lotteryActions';
 
 export default function LotteryPage() {
@@ -299,7 +300,7 @@ export default function LotteryPage() {
             <MyTicketsTab purchasedTickets={purchasedTickets} />
           </div>
 
-          {/* Right Column (5/12 Width): Order Checkout Slip + Draw Schedule History */}
+          {/* Right Column (5/12 Width): Order Checkout Slip + Draw Schedule + High-Roller Leaderboard */}
           <div className="lg:col-span-5 space-y-5">
             <LotteryCart
               slips={slips}
@@ -311,6 +312,8 @@ export default function LotteryPage() {
             />
 
             <DrawHistorySection onDrawSettled={loadRealTickets} />
+
+            <LeaderboardWidget />
           </div>
         </section>
 
