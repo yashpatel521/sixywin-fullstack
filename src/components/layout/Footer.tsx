@@ -3,127 +3,110 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShieldCheck, Coins } from 'lucide-react';
+import { ShieldCheck, Crown, Heart, Ticket, Gamepad2 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-[#0c0a09] border-t border-[#9c663b]/30 px-6 sm:px-16 pt-16 pb-12 text-[#faf6f0] m-0 overflow-hidden">
-      <div className="w-full max-w-[1800px] mx-auto space-y-12">
-        {/* Top Grid: Logo & Responsive Links Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Column 1: Brand Info */}
-          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
+    <footer className="w-full border-t border-[#9c663b]/30 bg-[#0c0a09] text-[#faf6f0] px-6 sm:px-16 py-12">
+      <div className="w-full max-w-[1800px] mx-auto space-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Col 1: Brand & Logo */}
+          <div className="space-y-4">
             <Link href="/" className="inline-block">
-              <div className="relative w-52 h-14">
+              <div className="relative w-48 h-12">
                 <Image
                   src="/logo/logo7.png"
-                  alt="SixyWin Official Logo"
+                  alt="SixyWin Logo"
                   fill
                   className="object-contain"
                 />
               </div>
             </Link>
-            <p className="text-xs sm:text-sm text-[#b5a391] leading-relaxed max-w-sm">
-              The Realm of High-Stakes 6/49 Lottery & Spatial Gaming. Powered by free virtual Sixy Coins (SC).
+            <p className="text-xs text-[#b5a391] leading-relaxed">
+              SixyWin is a free-to-play virtual gaming arena featuring provably fair mini-games and the official 6/49 Lottery Draw using virtual Sixy Coins (SC).
             </p>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#18120e] border border-[#9c663b]/50 text-[#e6ca65] text-xs sm:text-sm font-mono font-bold">
-              <Coins className="w-4 h-4" />
-              <span>100% FREE PLAY (SC)</span>
-            </div>
           </div>
 
-          {/* Column 2: Featured Games */}
+          {/* Col 2: Navigation Links */}
           <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#e6ca65]">
-              Featured Games
+            <h4 className="text-xs font-black uppercase tracking-wider text-[#e6ca65]">
+              Gaming Arena
             </h4>
-            <ul className="space-y-2 text-xs sm:text-sm text-[#b5a391]">
+            <ul className="space-y-2 text-xs text-[#b5a391]">
               <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  🎟️ 6/49 Lottery Jackpot
+                <Link href="/games" className="hover:text-[#faf6f0] transition-colors">
+                  All Game Tables
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  🃏 HighLow (Double Trouble)
+                <Link href="/games/lottery" className="hover:text-[#e6ca65] text-[#e6ca65] font-bold transition-colors">
+                  6/49 Lottery Draw
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  💣 Minesweeper Matrix
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  🎡 Cyber Fortune Wheel
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  🎰 Neon Slot 777
+                <Link href="/fairness" className="hover:text-[#faf6f0] transition-colors">
+                  Provably Fair Verifier
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Platform Features */}
+          {/* Col 3: Company & Information */}
           <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#e6ca65]">
-              Platform Features
+            <h4 className="text-xs font-black uppercase tracking-wider text-[#e6ca65]">
+              Company & Help
             </h4>
-            <ul className="space-y-2 text-xs sm:text-sm text-[#b5a391]">
+            <ul className="space-y-2 text-xs text-[#b5a391]">
               <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  Shield Check Provably Fair
+                <Link href="/about" className="hover:text-[#faf6f0] transition-colors">
+                  About SixyWin
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  15% Weekly Rakeback (SC)
+                <Link href="/faq" className="hover:text-[#faf6f0] transition-colors">
+                  FAQ & Knowledge Base
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  24K VIP Suite Lounge
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-                  Cryptographic Server Seeds
+                <Link href="/contact" className="hover:text-[#faf6f0] transition-colors">
+                  24/7 Support
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Responsible Gaming */}
+          {/* Col 4: Legal & Compliance */}
           <div className="space-y-3">
-            <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-[#e6ca65]">
-              Responsible Gaming
+            <h4 className="text-xs font-black uppercase tracking-wider text-[#e6ca65]">
+              Legal & Compliance
             </h4>
-            <p className="text-xs sm:text-sm text-[#b5a391] leading-relaxed">
-              SixyWin is a free-to-play social entertainment platform operating exclusively with virtual Sixy Coins (SC). No real money wagering or real currency prizes are involved.
-            </p>
-            <div className="flex items-center gap-2 text-xs sm:text-sm text-[#e6ca65] font-semibold pt-1">
-              <ShieldCheck className="w-4.5 h-4.5 text-[#e6ca65]" />
-              <span>18+ Entertainment Platform</span>
-            </div>
+            <ul className="space-y-2 text-xs text-[#b5a391]">
+              <li>
+                <Link href="/terms" className="hover:text-[#faf6f0] transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="hover:text-[#faf6f0] transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li className="pt-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#18120e] border border-[#e6ca65]/40 text-[#e6ca65] text-[10px] font-mono font-bold">
+                  <ShieldCheck className="w-3 h-3 text-[#e6ca65]" />
+                  <span>100% FREE PLAY (ZERO REAL MONEY)</span>
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom Bar (Responsive Flexbox) */}
-        <div className="pt-8 border-t border-[#9c663b]/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-[#b5a391] text-center sm:text-left">
-          <p>© 2026 SIXYWIN. All rights reserved.</p>
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-              Terms of Service
-            </Link>
-            <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="hover:text-[#faf6f0] transition-colors">
-              Fairness Seeds
-            </Link>
-          </div>
+        {/* Bottom copyright line */}
+        <div className="pt-6 border-t border-[#9c663b]/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#b5a391]">
+          <p>© {new Date().getFullYear()} SixyWin Gaming Arena. All rights reserved.</p>
+          <p className="flex items-center gap-1">
+            Built with 24K Gold Precision for High-Roller Entertainment
+          </p>
         </div>
       </div>
     </footer>
