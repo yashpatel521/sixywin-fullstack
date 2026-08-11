@@ -1,22 +1,22 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import Image from 'next/image';
 import {
   Search,
   Play,
   Gem,
   Trophy,
-  Filter,
   Sparkles,
   Flame,
   Star,
   ShieldCheck,
   Coins,
-  ArrowRight,
-  ChevronRight,
+  Clock,
   Shuffle,
   X,
+  Crown,
+  Ticket,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -160,7 +160,6 @@ export default function GamesPage() {
       return;
     }
 
-    // Simulate game win / payout calculation
     const winMultiplier = Math.random() > 0.4 ? (1.5 + Math.random() * 3).toFixed(2) : '0';
     const isWin = parseFloat(winMultiplier) > 0;
     const profitLoss = isWin ? betAmount * parseFloat(winMultiplier) - betAmount : -betAmount;
@@ -185,7 +184,84 @@ export default function GamesPage() {
       <div className="absolute top-20 right-10 w-[600px] h-[600px] bg-[#d4af37]/10 rounded-full blur-[180px] pointer-events-none" />
       <div className="absolute bottom-20 left-10 w-[550px] h-[550px] bg-[#9c663b]/15 rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-8">
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-10">
+        {/* 🎟️ Dedicated 6/49 Lottery Flagship Showcase Hero Section */}
+        <div className="relative rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border-2 border-[#e6ca65]/70 p-8 sm:p-12 shadow-[0_0_60px_rgba(212,175,55,0.2)] overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left 50% Column: Headline & Live Draw Counter */}
+            <div className="lg:col-span-7 space-y-6">
+              {/* Unboxed Badge */}
+              <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold tracking-widest uppercase">
+                <div className="flex items-center gap-2 text-[#e6ca65]">
+                  <Crown className="w-5 h-5 text-[#e6ca65] animate-pulse" />
+                  <span className="text-[#faf6f0]">FLAGSHIP GAME • LIVE DAILY DRAWS</span>
+                </div>
+                <span className="text-[#9c663b]">•</span>
+                <div className="flex items-center gap-1.5 text-[#e6ca65]">
+                  <Coins className="w-4 h-4 text-[#e6ca65]" />
+                  <span>100% FREE PLAY</span>
+                </div>
+              </div>
+
+              {/* High-Impact Headline */}
+              <div className="space-y-2">
+                <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#e6ca65] block">
+                  DAILY VIRTUAL JACKPOT REALM
+                </span>
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#faf6f0] leading-[1.08]">
+                  Official 6/49 Jackpot <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
+                    Lottery Draw
+                  </span>
+                </h1>
+              </div>
+
+              {/* Subtitle */}
+              <p className="text-[#e3d8c8] text-sm sm:text-base max-w-xl leading-relaxed">
+                Pick 6 lucky numbers between 1 and 49 for your chance to win the daily jackpot payout of up to <strong className="text-[#e6ca65] font-mono font-black">1,250,000 Sixy Coins (SC)</strong>.
+              </p>
+
+              {/* Live Jackpot & Draw Counter Banner */}
+              <div className="inline-flex flex-wrap items-center gap-4 p-4 rounded-2xl bg-[#0c0a09] border border-[#9c663b]/50">
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-[#b5a391]">
+                  <Clock className="w-4 h-4 text-[#e6ca65] animate-pulse" />
+                  <span>NEXT DRAW: <strong className="text-[#faf6f0] font-mono font-bold">04h 22m 15s</strong></span>
+                </div>
+                <span className="text-[#9c663b] hidden sm:inline">•</span>
+                <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-[#e6ca65] font-bold">
+                  <span>JACKPOT:</span>
+                  <span className="text-sm sm:text-base text-[#faf6f0] font-black">1,250,000 SC</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-4 pt-1">
+                <button
+                  onClick={() => handleLaunchGame(games[0])}
+                  className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-base font-extrabold flex items-center gap-3 shadow-xl shadow-[#d4af37]/25 cursor-pointer active:scale-95 border border-[#faf6f0]/40"
+                >
+                  <Ticket className="w-5 h-5" />
+                  <span>PLAY 6/49 LOTTERY (200 SC)</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Right 50% Column: 3D Casino Crown & Lottery Image */}
+            <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="relative w-full max-w-sm sm:max-w-md aspect-square hover:scale-105 transition-transform duration-500">
+                <Image
+                  src="/landing/blendable_hero_3d.png"
+                  alt="3D Luxury 6/49 Lottery & Casino Crown"
+                  fill
+                  className="object-contain remove-img-bg"
+                  priority
+                />
+                <div className="absolute inset-0 bg-[#d4af37]/20 rounded-full blur-3xl pointer-events-none -z-10" />
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Search & Category Filter Bar */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-[#18120e] border border-[#9c663b]/40 p-3 sm:p-4 rounded-2xl shadow-xl">
           {/* Search Input */}
@@ -217,39 +293,6 @@ export default function GamesPage() {
             ))}
           </div>
         </div>
-
-        {/* Featured 6/49 Lottery Highlight Card */}
-        {selectedCategory === 'all' && !searchQuery && (
-          <div className="relative rounded-3xl bg-gradient-to-r from-[#281d14] via-[#18120e] to-[#0c0a09] border-2 border-[#e6ca65]/70 p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-[0_0_50px_rgba(212,175,55,0.15)]">
-            <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0c0a09] text-[#e6ca65] text-xs font-bold border border-[#e6ca65]/40 font-mono">
-                <Trophy className="w-3.5 h-3.5 text-[#e6ca65] animate-bounce" />
-                <span>FEATURED JACKPOT • 1,250,000 SC</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-black text-[#faf6f0]">
-                Official 6/49 Live Jackpot Lottery
-              </h2>
-              <p className="text-sm text-[#b5a391] max-w-2xl leading-relaxed">
-                Select 6 lucky numbers between 1 and 49 for your chance to win up to 1,250,000 SC in free virtual prizes.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-2">
-                <button
-                  onClick={() => handleLaunchGame(games[0])}
-                  className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-sm font-extrabold flex items-center gap-2 shadow-xl shadow-[#d4af37]/25 cursor-pointer active:scale-95 border border-[#faf6f0]/40"
-                >
-                  <Play className="w-4 h-4 fill-current" />
-                  <span>PLAY 6/49 LOTTERY (200 SC)</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="lg:col-span-4 flex items-center justify-center">
-              <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-tr from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] font-black font-mono text-4xl sm:text-5xl flex items-center justify-center shadow-[0_0_60px_rgba(212,175,55,0.3)] animate-pulse">
-                6/49
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Main Games Arena Grid */}
         <div className="space-y-4">
