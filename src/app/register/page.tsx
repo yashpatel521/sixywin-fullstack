@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, User, UserPlus, Crown, ArrowRight, ShieldCheck, Coins, Gift } from 'lucide-react';
 import { toast } from 'sonner';
-import { registerUserAction } from '@/app/actions/authActions';
+import { registerUserAction } from '@/actions/auth/authActions';
 import { useAuthStore } from '@/store/useAuthStore';
 
 export default function RegisterPage() {
@@ -21,7 +21,6 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // If already logged in, redirect directly to /games
   useEffect(() => {
     if (isLoggedIn) {
       router.push('/games');
@@ -68,7 +67,6 @@ export default function RegisterPage() {
         description: `Welcome ${result.user?.username}! Initial balance: ${result.user?.sixyCoinsBalance} SC`,
       });
 
-      // Redirect directly to /games
       setTimeout(() => {
         router.push('/games');
       }, 1000);
@@ -81,12 +79,9 @@ export default function RegisterPage() {
 
   return (
     <div className="relative w-full h-screen max-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] px-6 sm:px-16 flex items-center justify-center py-6 m-0 overflow-hidden">
-      {/* 24K Champagne Gold Ambient Glows */}
       <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#d4af37]/12 rounded-full blur-[180px] pointer-events-none" />
 
-      {/* 50-50 2-Column Layout */}
       <div className="relative z-10 w-full max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center h-full">
-        {/* Left 50% Column: 3D Art & Branding */}
         <div className="hidden lg:flex flex-col justify-center space-y-6">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs sm:text-sm font-bold tracking-widest uppercase text-[#e6ca65]">
@@ -104,7 +99,6 @@ export default function RegisterPage() {
             </p>
           </div>
 
-          {/* 3D Blended Crown Art */}
           <div className="relative w-full max-w-md aspect-square mx-auto">
             <Image
               src="/landing/blendable_hero_3d.png"
@@ -116,7 +110,6 @@ export default function RegisterPage() {
             <div className="absolute inset-0 bg-[#d4af37]/15 rounded-full blur-3xl pointer-events-none -z-10" />
           </div>
 
-          {/* Key Perks Ribbon */}
           <div className="flex items-center gap-6 pt-2 text-xs text-[#b5a391]">
             <span className="flex items-center gap-1.5 text-[#e6ca65] font-bold">
               <Coins className="w-4 h-4 text-[#e6ca65]" /> 10,000 Free SC Bonus
@@ -128,10 +121,8 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* Right 50% Column: Register Form Card */}
         <div className="flex justify-center w-full">
           <div className="w-full max-w-md space-y-4 p-7 sm:p-9 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_60px_rgba(212,175,55,0.2)] backdrop-blur-2xl">
-            {/* Card Header with Logo */}
             <div className="text-center space-y-2">
               <Link href="/" className="inline-block">
                 <div className="relative w-44 h-11 mx-auto">
@@ -154,9 +145,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            {/* Register Form */}
             <form onSubmit={handleSubmit} className="space-y-3">
-              {/* Username Field */}
               <div className="space-y-1">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
                   Username
@@ -174,7 +163,6 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Email Field */}
               <div className="space-y-1">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
                   Email Address
@@ -192,7 +180,6 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Password & Confirm Password 2-Col Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
@@ -229,7 +216,6 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Referral Code (Optional) */}
               <div className="space-y-1">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] flex items-center justify-between">
                   <span>Referral Code (Optional)</span>
@@ -247,7 +233,6 @@ export default function RegisterPage() {
                 </div>
               </div>
 
-              {/* Terms Checkbox */}
               <div className="flex items-center gap-2 pt-0.5">
                 <input
                   type="checkbox"
@@ -260,7 +245,6 @@ export default function RegisterPage() {
                 </label>
               </div>
 
-              {/* 24K Gold Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -271,7 +255,6 @@ export default function RegisterPage() {
               </button>
             </form>
 
-            {/* Card Footer: Login Link */}
             <div className="pt-2 border-t border-[#9c663b]/30 text-center text-xs text-[#b5a391]">
               <span>Already have an account? </span>
               <Link href="/login" className="text-[#e6ca65] font-extrabold hover:underline inline-flex items-center gap-1">

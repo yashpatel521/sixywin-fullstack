@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, LogIn, Crown, ArrowRight, ShieldCheck, Trophy, UserCheck, X } from 'lucide-react';
 import { toast } from 'sonner';
-import { loginUserAction, quickLoginAction } from '@/app/actions/authActions';
+import { loginUserAction, quickLoginAction } from '@/actions/auth/authActions';
 import { useAuthStore } from '@/store/useAuthStore';
 
 interface SavedProfile {
@@ -29,14 +29,12 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [savedProfiles, setSavedProfiles] = useState<SavedProfile[]>([]);
 
-  // If already logged in, redirect directly to /games
   useEffect(() => {
     if (isLoggedIn) {
       router.push('/games');
     }
   }, [isLoggedIn, router]);
 
-  // Load saved profiles from localStorage on mount
   useEffect(() => {
     try {
       const stored = localStorage.getItem('sixywin_saved_profiles');
@@ -87,7 +85,6 @@ export default function LoginPage() {
     }
   };
 
-  // 1-Click Saved Profile Login Handler
   const handleQuickProfileLogin = async (profile: SavedProfile) => {
     setLoading(true);
     try {
@@ -112,7 +109,6 @@ export default function LoginPage() {
         description: `Active balance: ${result.user?.sixyCoinsBalance} SC (${result.user?.vipLevel})`,
       });
 
-      // Redirect directly to /games
       setTimeout(() => {
         router.push('/games');
       }, 800);
@@ -123,7 +119,6 @@ export default function LoginPage() {
     }
   };
 
-  // Credentials Login Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -156,7 +151,6 @@ export default function LoginPage() {
           : `Active balance: ${result.user?.sixyCoinsBalance} SC`,
       });
 
-      // Redirect directly to /games
       setTimeout(() => {
         router.push('/games');
       }, 1000);
@@ -169,12 +163,9 @@ export default function LoginPage() {
 
   return (
     <div className="relative w-full h-screen max-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] px-6 sm:px-16 flex items-center justify-center py-6 m-0 overflow-hidden">
-      {/* 24K Champagne Gold Ambient Glows */}
       <div className="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[650px] bg-[#d4af37]/12 rounded-full blur-[180px] pointer-events-none" />
 
-      {/* 50-50 2-Column Layout */}
       <div className="relative z-10 w-full max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center h-full">
-        {/* Left 50% Column: 3D Art & Branding */}
         <div className="hidden lg:flex flex-col justify-center space-y-6">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-xs sm:text-sm font-bold tracking-widest uppercase text-[#e6ca65]">
@@ -192,7 +183,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* 3D Blended Crown Art */}
           <div className="relative w-full max-w-md aspect-square mx-auto">
             <Image
               src="/landing/blendable_hero_3d.png"
@@ -204,7 +194,6 @@ export default function LoginPage() {
             <div className="absolute inset-0 bg-[#d4af37]/15 rounded-full blur-3xl pointer-events-none -z-10" />
           </div>
 
-          {/* Key Perks Ribbon */}
           <div className="flex items-center gap-6 pt-2 text-xs text-[#b5a391]">
             <span className="flex items-center gap-1.5 text-[#e6ca65]">
               <Trophy className="w-4 h-4" /> 1,250,000 SC Jackpot
@@ -216,10 +205,8 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Right 50% Column: Login Form Card */}
         <div className="flex justify-center w-full">
           <div className="w-full max-w-md space-y-5 p-7 sm:p-9 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border border-[#e6ca65]/60 shadow-[0_0_60px_rgba(212,175,55,0.2)] backdrop-blur-2xl">
-            {/* Card Header with Logo */}
             <div className="text-center space-y-2">
               <Link href="/" className="inline-block">
                 <div className="relative w-44 h-11 mx-auto">
@@ -242,7 +229,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* LocalStorage Saved Profiles Selector */}
             {savedProfiles.length > 0 && (
               <div className="space-y-2 pb-1">
                 <span className="text-[11px] font-extrabold tracking-wider uppercase text-[#e6ca65] flex items-center justify-between">
@@ -295,7 +281,6 @@ export default function LoginPage() {
               </div>
             )}
 
-            {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="space-y-1">
                 <label className="text-xs font-extrabold uppercase tracking-wider text-[#e6ca65] block">
