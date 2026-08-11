@@ -8,6 +8,7 @@ import { LotteryBallSelector } from '@/components/lottery/LotteryBallSelector';
 import { LotteryCart } from '@/components/lottery/LotteryCart';
 import { MyTicketsTab, PurchasedTicket } from '@/components/lottery/MyTicketsTab';
 import { DrawHistorySection } from '@/components/lottery/DrawHistorySection';
+import { LotteryActivityTable, LiveLotteryActivity } from '@/components/lottery/LotteryActivityTable';
 import { TicketSlip, buyLotteryTicketsAction, getUserTicketsAction } from '@/actions/lottery/lotteryActions';
 
 export default function LotteryPage() {
@@ -146,6 +147,47 @@ export default function LotteryPage() {
     }
   };
 
+  // Build live activity feed from user purchased tickets + default network activity
+  const liveNetworkActivities: LiveLotteryActivity[] = [
+    ...purchasedTickets.map((t) => ({
+      id: t.id,
+      player: `@${user?.username || 'you'}`,
+      ticketCode: t.id,
+      numbers: t.numbers,
+      cost: '200.00 SC',
+      status: 'PENDING DRAW',
+      timeAgo: t.purchasedAt,
+      isCurrentUser: true,
+    })),
+    {
+      id: 'net-1',
+      player: '@gold_viper',
+      ticketCode: 'TICK-649-9012',
+      numbers: [4, 11, 22, 33, 41, 48],
+      cost: '200.00 SC',
+      status: 'PENDING DRAW',
+      timeAgo: '1m ago',
+    },
+    {
+      id: 'net-2',
+      player: '@highroller_7',
+      ticketCode: 'TICK-649-8991',
+      numbers: [7, 14, 21, 28, 35, 42],
+      cost: '600.00 SC',
+      status: 'PENDING DRAW',
+      timeAgo: '3m ago',
+    },
+    {
+      id: 'net-3',
+      player: '@crypto_whale',
+      ticketCode: 'TICK-649-8974',
+      numbers: [2, 9, 17, 24, 38, 49],
+      cost: '400.00 SC',
+      status: 'PENDING DRAW',
+      timeAgo: '6m ago',
+    },
+  ];
+
   // Schema.org JSON-LD Structured Data with fixed date to prevent hydration mismatch
   const lotteryJsonLd = {
     '@context': 'https://schema.org',
@@ -213,6 +255,9 @@ export default function LotteryPage() {
             <DrawHistorySection />
           </div>
         </div>
+
+        {/* 3. Live 6/49 Network Ticket Purchases Table */}
+        <LotteryActivityTable recentActivity={liveNetworkActivities} />
       </div>
     </div>
   );
