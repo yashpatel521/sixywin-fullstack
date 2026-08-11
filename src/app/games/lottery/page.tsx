@@ -135,13 +135,13 @@ export default function LotteryPage() {
     }
   };
 
-  // Schema.org JSON-LD Structured Data
+  // Schema.org JSON-LD Structured Data with fixed date to prevent hydration mismatch
   const lotteryJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: 'SixyWin 6/49 Live Jackpot Lottery Draw #1492',
     description: 'Daily 6/49 Lottery Jackpot Draw with 1,250,000 Sixy Coins (SC) prize pool.',
-    startDate: new Date().toISOString(),
+    startDate: '2026-01-01T00:00:00.000Z',
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
     location: {
@@ -154,7 +154,7 @@ export default function LotteryPage() {
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: 'https://sixywin.com/games/lottery',
-      validFrom: new Date().toISOString(),
+      validFrom: '2026-01-01T00:00:00.000Z',
     },
   };
 
