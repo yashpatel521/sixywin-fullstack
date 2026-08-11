@@ -16,6 +16,13 @@ export const client = connectionString
 
 export const db = client ? drizzle(client, { schema }) : null;
 
+export function getDb() {
+  if (!db) {
+    throw new Error('Database connection is not initialized. Please check DATABASE_URL in .env.local.');
+  }
+  return db;
+}
+
 // Auto-Sync Database Tables on Server Start
 if (client) {
   client`

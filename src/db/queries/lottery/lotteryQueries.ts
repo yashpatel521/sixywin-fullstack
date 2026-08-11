@@ -1,4 +1,4 @@
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
@@ -10,7 +10,8 @@ export interface LotteryTicketPurchase {
 
 export async function processLotteryTicketInDb(purchase: LotteryTicketPurchase) {
   try {
-    const userRecord = await db.select().from(users).where(eq(users.id, purchase.userId)).limit(1);
+    const database = getDb();
+    const userRecord = await database.select().from(users).where(eq(users.id, purchase.userId)).limit(1);
     if (!userRecord[0]) {
       throw new Error('User not found');
     }
@@ -22,7 +23,7 @@ export async function processLotteryTicketInDb(purchase: LotteryTicketPurchase) 
 
     const updatedBalance = (currentBalance - purchase.ticketCost).toFixed(2);
 
-    const updatedUser = await db
+    const updatedUser = await database
       .update(users)
       .set({
         sixyCoinsBalance: updatedBalance,

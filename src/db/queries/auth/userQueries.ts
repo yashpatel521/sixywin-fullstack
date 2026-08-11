@@ -1,10 +1,11 @@
-import { db } from '@/db';
+import { getDb } from '@/db';
 import { users } from '@/db/schema';
 import { eq, or } from 'drizzle-orm';
 
 export async function findUserByEmailOrUsername(emailOrUsername: string) {
   try {
-    const records = await db
+    const database = getDb();
+    const records = await database
       .select()
       .from(users)
       .where(
@@ -31,7 +32,8 @@ export async function createNewUser(userData: {
   referralCode?: string;
 }) {
   try {
-    const inserted = await db
+    const database = getDb();
+    const inserted = await database
       .insert(users)
       .values({
         username: userData.username.trim(),
@@ -52,7 +54,8 @@ export async function createNewUser(userData: {
 
 export async function updateUserBalanceInDb(userId: string, newBalance: string) {
   try {
-    const updated = await db
+    const database = getDb();
+    const updated = await database
       .update(users)
       .set({
         sixyCoinsBalance: newBalance,
