@@ -92,8 +92,10 @@ export async function getUserTicketsAction() {
 export async function triggerDailyDrawAction() {
   try {
     const result = await executeLotteryDrawInDb();
+    const nextDrawTimestamp = Date.now() + 24 * 60 * 60 * 1000;
     return {
       success: true,
+      nextDrawTimestamp,
       draw: result.draw,
       winningNumbers: result.winningNumbers,
       bonusBall: result.bonusBall,
@@ -112,17 +114,23 @@ export async function triggerDailyDrawAction() {
 export async function getLatestDrawAction() {
   try {
     const draw = await getLatestLotteryDrawFromDb();
-    if (!draw) return { success: false };
+    // Default 24-hour cycle from last draw creation time or current time
+    const lastDrawTime = draw ? new Date(draw.createdAt).getTime() : Date.now();
+    const nextDrawTimestamp = lastDrawTime + 24 * 60 * 60 * 1000;
+
     return {
       success: true,
-      draw: {
-        drawCode: draw.drawCode,
-        winningNumbers: draw.winningNumbers.split(',').map((n) => parseInt(n, 10)),
-        bonusBall: parseInt(draw.bonusBall, 10),
-        totalWinners: draw.totalWinners,
-        seedHash: draw.seedHash,
-        createdAt: new Date(draw.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      },
+      nextDrawTimestamp,
+      draw: draw
+        ? {
+            drawCode: draw.drawCode,
+            winningNumbers: draw.winningNumbers.split(',').map((n) => parseInt(n, 10)),
+            bonusBall: parseInt(draw.bonusBall, 10),
+            totalWinners: draw.totalWinners,
+            seedHash: draw.seedHash,
+            createdAt: new Date(draw.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          }
+        : null,
     };
   } catch (error: any) {
     console.error('Error in getLatestDrawAction:', error);

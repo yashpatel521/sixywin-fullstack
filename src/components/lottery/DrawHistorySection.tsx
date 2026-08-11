@@ -10,6 +10,7 @@ interface DrawHistorySectionProps {
 }
 
 export const DrawHistorySection: React.FC<DrawHistorySectionProps> = ({ onDrawSettled }) => {
+  const [targetTimestamp, setTargetTimestamp] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 22, seconds: 15 });
   const [drawing, setDrawing] = useState(false);
   const [latestDraw, setLatestDraw] = useState<{
@@ -26,29 +27,41 @@ export const DrawHistorySection: React.FC<DrawHistorySectionProps> = ({ onDrawSe
     seedHash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
   });
 
-  // Live ticking countdown timer
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return { hours: 23, minutes: 59, seconds: 59 };
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Fetch real latest draw on mount
+  // Fetch real latest draw & next draw timestamp from DB on mount
   useEffect(() => {
     async function loadDraw() {
       const res = await getLatestDrawAction();
-      if (res.success && res.draw) {
-        setLatestDraw(res.draw);
+      if (res.success) {
+        if (res.nextDrawTimestamp) setTargetTimestamp(res.nextDrawTimestamp);
+        if (res.draw) setLatestDraw(res.draw);
       }
     }
     loadDraw();
   }, []);
+
+  // Compute live remaining time from DB target timestamp every second
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!targetTimestamp) {
+        setTimeLeft((prev) => {
+          if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+          if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
+          if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+          return { hours: 23, minutes: 59, seconds: 59 };
+        });
+        return;
+      }
+
+      const diff = Math.max(0, targetTimestamp - Date.now());
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setTimeLeft({ hours, minutes, seconds });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [targetTimestamp]);
 
   // Execute 24-Hour Lottery Draw (Trigger Draw)
   const handleExecuteDraw = async () => {
@@ -56,6 +69,7 @@ export const DrawHistorySection: React.FC<DrawHistorySectionProps> = ({ onDrawSe
     try {
       const res = await triggerDailyDrawAction();
       if (res.success && res.winningNumbers) {
+        if (res.nextDrawTimestamp) setTargetTimestamp(res.nextDrawTimestamp);
         setLatestDraw({
           drawCode: res.draw?.drawCode || `DRAW-649-${Date.now().toString().slice(-4)}`,
           winningNumbers: res.winningNumbers,
@@ -102,7 +116,7 @@ export const DrawHistorySection: React.FC<DrawHistorySectionProps> = ({ onDrawSe
         {/* Next Draw Timer */}
         <div className="p-3 rounded-xl bg-[#0c0a09]/90 border border-[#e6ca65]/40 space-y-1">
           <span className="text-[10px] font-bold text-[#b5a391] uppercase tracking-wider block">
-            NEXT 24-HR DRAW TIMER
+            NEXT DB 24-HR DRAW TIMER
           </span>
           <div className="flex items-center gap-2 font-mono font-black text-base text-[#e6ca65]">
             <Clock className="w-4 h-4 animate-pulse" />

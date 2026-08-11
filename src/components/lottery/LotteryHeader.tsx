@@ -4,30 +4,54 @@ import React, { useState, useEffect } from 'react';
 import { Crown, Clock, Trophy, Coins, HelpCircle } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { LotteryRulesModal } from './LotteryRulesModal';
+import { getLatestDrawAction } from '@/actions/lottery/lotteryActions';
 
 export const LotteryHeader: React.FC = () => {
   const { user } = useAuthStore();
   const [showRulesModal, setShowRulesModal] = useState(false);
-
-  // Live real-time countdown timer state
+  const [targetTimestamp, setTargetTimestamp] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 22, seconds: 15 });
 
+  // 1. Fetch DB next draw target timestamp on mount
+  useEffect(() => {
+    async function loadDbTimer() {
+      const res = await getLatestDrawAction();
+      if (res.success && res.nextDrawTimestamp) {
+        setTargetTimestamp(res.nextDrawTimestamp);
+      }
+    }
+    loadDbTimer();
+  }, []);
+
+  // 2. Compute live remaining time from DB target timestamp every second
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return { hours: 23, minutes: 59, seconds: 59 };
-      });
+      if (!targetTimestamp) {
+        // Fallback live decrement if DB target not loaded yet
+        setTimeLeft((prev) => {
+          if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+          if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
+          if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+          return { hours: 23, minutes: 59, seconds: 59 };
+        });
+        return;
+      }
+
+      const diff = Math.max(0, targetTimestamp - Date.now());
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setTimeLeft({ hours, minutes, seconds });
     }, 1000);
+
     return () => clearInterval(timer);
-  }, []);
+  }, [targetTimestamp]);
 
   return (
     <>
       <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 px-4 py-2.5 rounded-xl bg-[#18120e]/90 border border-[#e6ca65]/40 shadow-md backdrop-blur-xl">
-        {/* Live Ticking 3D Gold Ticker */}
+        {/* Live DB-Driven Ticker */}
         <div className="flex flex-wrap items-center gap-3 text-xs">
           <div className="flex items-center gap-1.5 font-black text-[#e6ca65] uppercase tracking-wider">
             <Crown className="w-4 h-4 text-[#e6ca65] animate-pulse" />
