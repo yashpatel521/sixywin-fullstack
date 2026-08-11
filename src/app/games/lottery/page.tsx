@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/useAuthStore';
-import { LotteryHeader } from '@/components/lottery/LotteryHeader';
 import { LotteryBallSelector } from '@/components/lottery/LotteryBallSelector';
 import { LotteryCart } from '@/components/lottery/LotteryCart';
 import { MyTicketsTab, PurchasedTicket } from '@/components/lottery/MyTicketsTab';
@@ -171,11 +170,8 @@ export default function LotteryPage() {
       <div className="absolute top-20 right-10 w-[600px] h-[600px] bg-[#d4af37]/10 rounded-full blur-[180px] pointer-events-none" />
       <div className="absolute bottom-20 left-10 w-[550px] h-[550px] bg-[#9c663b]/15 rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-10">
-        {/* 1. Header Banner */}
-        <LotteryHeader />
-
-        {/* 2. Main Ticket Purchase Area (2 Columns) */}
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-8">
+        {/* 1. Main Ticket Purchase Area (2 Columns) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column: 1-49 Ball Selector */}
           <div className="lg:col-span-7">
@@ -201,7 +197,7 @@ export default function LotteryPage() {
           </div>
         </div>
 
-        {/* 3. User's Purchased Tickets History Tab */}
+        {/* 2. User's Purchased Tickets History Tab */}
         <MyTicketsTab purchasedTickets={purchasedTickets} />
       </div>
     </div>
