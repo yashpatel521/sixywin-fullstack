@@ -33,6 +33,15 @@ if (client) {
       password_hash TEXT,
       created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
     );
+    CREATE TABLE IF NOT EXISTS lottery_tickets (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      user_id TEXT NOT NULL,
+      ticket_code TEXT NOT NULL,
+      numbers TEXT NOT NULL,
+      cost NUMERIC(18, 2) DEFAULT 200.00,
+      status TEXT DEFAULT 'PENDING',
+      created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+    );
   `.then(() => {
     return client`
       ALTER TABLE users 
@@ -49,7 +58,7 @@ if (client) {
         ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW();
     `;
   }).then(() => {
-    console.log('✅ Supabase PostgreSQL: Users table columns synced successfully.');
+    console.log('✅ Supabase PostgreSQL: Database tables & columns synced successfully.');
   }).catch((err) => {
     console.error('⚠️ DB Auto-Sync Notice:', err.message);
   });

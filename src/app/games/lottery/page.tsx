@@ -1,27 +1,34 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/useAuthStore';
 import { LotteryBallSelector } from '@/components/lottery/LotteryBallSelector';
 import { LotteryCart } from '@/components/lottery/LotteryCart';
 import { MyTicketsTab, PurchasedTicket } from '@/components/lottery/MyTicketsTab';
-import { TicketSlip, buyLotteryTicketsAction } from '@/actions/lottery/lotteryActions';
+import { TicketSlip, buyLotteryTicketsAction, getUserTicketsAction } from '@/actions/lottery/lotteryActions';
 
 export default function LotteryPage() {
   const { user, isLoggedIn, updateBalance } = useAuthStore();
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
   const [slips, setSlips] = useState<TicketSlip[]>([]);
   const [loading, setLoading] = useState(false);
-  const [purchasedTickets, setPurchasedTickets] = useState<PurchasedTicket[]>([
-    {
-      id: 'TICK-649-9812-01',
-      numbers: [6, 7, 14, 21, 42, 49],
-      purchasedAt: 'Today, 02:15 PM',
-      status: 'PENDING',
-      potentialWin: '1,250,000 SC',
-    },
-  ]);
+
+  // Initialize with REAL data (empty array - no mock records!)
+  const [purchasedTickets, setPurchasedTickets] = useState<PurchasedTicket[]>([]);
+
+  // Fetch user's real purchased tickets on mount
+  useEffect(() => {
+    async function loadRealTickets() {
+      if (isLoggedIn) {
+        const res = await getUserTicketsAction();
+        if (res.success && res.tickets) {
+          setPurchasedTickets(res.tickets);
+        }
+      }
+    }
+    loadRealTickets();
+  }, [isLoggedIn]);
 
   // Toggle ball selection (Max 6)
   const handleToggleNumber = (num: number) => {
@@ -113,16 +120,18 @@ export default function LotteryPage() {
         updateBalance(result.newBalance);
       }
 
-      // Add to purchased tickets history list
-      const newPurchased: PurchasedTicket[] = slips.map((s, idx) => ({
-        id: result.ticketIds?.[idx] || `TICK-649-${Date.now()}-${idx + 1}`,
-        numbers: s.numbers,
-        purchasedAt: 'Just Now',
-        status: 'PENDING',
-        potentialWin: '1,250,000 SC',
-      }));
+      // Add real DB returned tickets to state
+      if (result.purchasedTickets) {
+        const newlyBought: PurchasedTicket[] = result.purchasedTickets.map((t: any) => ({
+          id: t.ticketCode,
+          numbers: t.numbers.split(',').map((n: string) => parseInt(n, 10)),
+          purchasedAt: 'Just Now',
+          status: 'PENDING',
+          potentialWin: '1,250,000 SC',
+        }));
+        setPurchasedTickets([...newlyBought, ...purchasedTickets]);
+      }
 
-      setPurchasedTickets([...newPurchased, ...purchasedTickets]);
       setSlips([]);
 
       toast.success('🎉 TICKETS PURCHASED SUCCESSFULLY!', {
