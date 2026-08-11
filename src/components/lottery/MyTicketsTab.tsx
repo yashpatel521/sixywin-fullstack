@@ -7,7 +7,8 @@ export interface PurchasedTicket {
   id: string;
   numbers: number[];
   purchasedAt: string;
-  status: 'PENDING' | 'WON' | 'DRAWING';
+  status: 'PENDING' | 'WON' | 'LOST' | 'DRAWING';
+  payoutAmount?: string;
   potentialWin: string;
 }
 
@@ -43,8 +44,16 @@ export const MyTicketsTab: React.FC<MyTicketsTabProps> = ({ purchasedTickets }) 
                 <span className="text-[10px] font-mono font-extrabold text-[#e6ca65]">
                   {t.id}
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-[#e6ca65]/20 text-[#e6ca65] text-[9px] font-bold font-mono">
-                  PENDING
+                <span
+                  className={`px-2 py-0.5 rounded-full text-[9px] font-bold font-mono ${
+                    t.status === 'WON'
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                      : t.status === 'LOST'
+                      ? 'bg-red-500/20 text-red-400 border border-red-500/40'
+                      : 'bg-[#e6ca65]/20 text-[#e6ca65] border border-[#e6ca65]/40'
+                  }`}
+                >
+                  {t.status}
                 </span>
               </div>
 
