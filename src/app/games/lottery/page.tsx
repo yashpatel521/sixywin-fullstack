@@ -179,8 +179,8 @@ export default function LotteryPage() {
     },
   ];
 
-  // Schema.org JSON-LD Structured Data with fixed date to prevent hydration mismatch
-  const lotteryJsonLd = {
+  // Expanded Schema.org JSON-LD Structured Data Suite for Google Rich Snippets
+  const lotteryEventJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: 'SixyWin 6/49 Live Jackpot Lottery Draw #1492',
@@ -202,12 +202,79 @@ export default function LotteryPage() {
     },
   };
 
+  const breadcrumbsJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://sixywin.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Games',
+        item: 'https://sixywin.com/games',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: '6/49 Lottery',
+        item: 'https://sixywin.com/games/lottery',
+      },
+    ],
+  };
+
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How do I buy 6/49 Lottery tickets on SixyWin?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Select 6 numbers from 1 to 49 on the ball matrix or click Quick Pick, then add tickets to your order slip and confirm purchase for 200 Sixy Coins (SC) per entry.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the daily 6/49 jackpot prize?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Matching all 6 numbers wins the daily 1,250,000 SC Jackpot pool. Match 5 wins 50,000 SC, Match 4 wins 2,500 SC, and Match 3 wins 250 SC.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is the 6/49 Lottery draw provably fair?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes! All daily draws execute automatically every 24 hours using cryptographic SHA-256 seed hashes for 100% independent verification.',
+        },
+      },
+    ],
+  };
+
   return (
-    <div className="w-full min-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] text-[#faf6f0] px-4 sm:px-10 py-5 overflow-hidden">
-      {/* Schema.org JSON-LD Script */}
+    <main className="w-full min-h-screen bg-gradient-to-b from-[#0c0a09] via-[#18120e] to-[#0c0a09] text-[#faf6f0] px-4 sm:px-10 py-5 overflow-hidden">
+      {/* Hidden <h1> tag for SEO heading hierarchy */}
+      <h1 className="sr-only">Official 6/49 Lottery Draw - Buy Virtual Jackpot Tickets on SixyWin</h1>
+
+      {/* Schema.org JSON-LD Scripts */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(lotteryJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(lotteryEventJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
       {/* Ambient Gold Glows */}
@@ -218,7 +285,7 @@ export default function LotteryPage() {
         <LotteryHeader />
 
         {/* 2. Main 2-Column Master Command Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        <section aria-label="6/49 Ticket Selector and Order Slip" className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           {/* Left Column (7/12 Width): Ticket Selector + Active Tickets History */}
           <div className="lg:col-span-7 space-y-5">
             <LotteryBallSelector
@@ -245,11 +312,13 @@ export default function LotteryPage() {
 
             <DrawHistorySection onDrawSettled={loadRealTickets} />
           </div>
-        </div>
+        </section>
 
         {/* 3. Live 6/49 Network Ticket Purchases Table */}
-        <LotteryActivityTable recentActivity={liveNetworkActivities} />
+        <section aria-label="Live Network Activity Table">
+          <LotteryActivityTable recentActivity={liveNetworkActivities} />
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
