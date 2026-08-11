@@ -246,12 +246,12 @@ export default function GamesPage() {
               </div>
             </div>
 
-            {/* Right 50% Column: 3D Casino Crown & Lottery Image */}
+            {/* Right 50% Column: Generated 3D 6/49 Lottery Image */}
             <div className="lg:col-span-5 flex items-center justify-center">
-              <div className="relative w-full max-w-sm sm:max-w-md aspect-square hover:scale-105 transition-transform duration-500">
+              <div className="relative w-full max-w-md sm:max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
                 <Image
-                  src="/landing/blendable_hero_3d.png"
-                  alt="3D Luxury 6/49 Lottery & Casino Crown"
+                  src="/landing/lottery_649_3d.png"
+                  alt="3D 6/49 Lottery Gold Balls & Crown"
                   fill
                   className="object-contain remove-img-bg"
                   priority
