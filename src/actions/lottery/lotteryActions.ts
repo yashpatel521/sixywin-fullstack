@@ -8,11 +8,24 @@ export interface TicketSlip {
   cost: number;
 }
 
+function extractUserIdFromCookie(cookieValue: string | undefined): string {
+  if (!cookieValue) return 'guest-session';
+  try {
+    const decoded = JSON.parse(Buffer.from(cookieValue, 'base64').toString('utf-8'));
+    if (decoded && decoded.id) {
+      return decoded.id;
+    }
+  } catch {
+    // Fallback to raw string if not base64 JSON
+  }
+  return cookieValue;
+}
+
 export async function buyLotteryTicketsAction(tickets: TicketSlip[]) {
   try {
     const cookieStore = await cookies();
     const sessionCookie = cookieStore.get('sixywin_session');
-    const userId = sessionCookie?.value || 'guest-session';
+    const userId = extractUserIdFromCookie(sessionCookie?.value);
 
     const purchasedRecords = [];
     let lastBalance = '10000.00';
@@ -50,7 +63,9 @@ export async function getUserTicketsAction() {
       return { success: true, tickets: [] };
     }
 
-    const dbTickets = await getUserLotteryTicketsFromDb(sessionCookie.value);
+    const userId = extractUserIdFromCookie(sessionCookie.value);
+    const dbTickets = await getUserLotteryTicketsFromDb(userId);
+
     return {
       success: true,
       tickets: dbTickets.map((t) => ({
