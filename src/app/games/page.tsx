@@ -1,37 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
-import {
-  Play,
-  Gem,
-  ShieldCheck,
-  Clock,
-  X,
-  Crown,
-  Ticket,
-} from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/store/useAuthStore';
-
-interface Game {
-  id: string;
-  title: string;
-  category: string;
-  icon: string;
-  badge: string;
-  multiplier: string;
-  description: string;
-  rtp: string;
-  featured?: boolean;
-  minBet: string;
-}
+import { GamesHeroSection } from '@/components/games/GamesHeroSection';
+import { GamesGrid, Game } from '@/components/games/GamesGrid';
+import { GamePlayModal } from '@/components/games/GamePlayModal';
 
 export default function GamesPage() {
   const { user, isLoggedIn, updateBalance } = useAuthStore();
   const [activeGameModal, setActiveGameModal] = useState<Game | null>(null);
 
-  // Games Catalogue
+  // Games Catalogue Data
   const games: Game[] = [
     {
       id: 'lottery-649',
@@ -170,203 +150,18 @@ export default function GamesPage() {
       <div className="absolute bottom-20 left-10 w-[550px] h-[550px] bg-[#9c663b]/15 rounded-full blur-[160px] pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-[1800px] mx-auto space-y-10">
-        {/* Unboxed 6/49 Lottery Flagship Showcase Hero Section */}
-        <div className="relative w-full py-4 overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left 50% Column: Headline & Live Draw Counter */}
-            <div className="lg:col-span-7 space-y-6">
-              {/* Unboxed Clean Badges */}
-              <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold tracking-widest uppercase">
-                <div className="flex items-center gap-2 text-[#e6ca65]">
-                  <Crown className="w-5 h-5 text-[#e6ca65] animate-pulse" />
-                  <span className="text-[#faf6f0]">FLAGSHIP GAME • LIVE DAILY DRAWS</span>
-                </div>
-                <span className="text-[#9c663b]">•</span>
-                <div className="flex items-center gap-1.5 text-[#e6ca65]">
-                  <Gem className="w-4 h-4 text-[#e6ca65]" />
-                  <span>100% FREE PLAY</span>
-                </div>
-              </div>
+        {/* 1. Page-wise 6/49 Lottery Flagship Hero Section */}
+        <GamesHeroSection onPlayLottery={() => handleLaunchGame(games[0])} />
 
-              {/* High-Impact Headline */}
-              <div className="space-y-2">
-                <span className="text-xs font-extrabold uppercase tracking-[0.25em] text-[#e6ca65] block">
-                  DAILY VIRTUAL JACKPOT REALM
-                </span>
-                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#faf6f0] leading-[1.08]">
-                  Official 6/49 Jackpot <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#e6ca65] via-[#faf6f0] to-[#b5952f] drop-shadow-sm">
-                    Lottery Draw
-                  </span>
-                </h1>
-              </div>
+        {/* 2. Page-wise Available Games Grid */}
+        <GamesGrid games={games} onLaunchGame={handleLaunchGame} />
 
-              {/* Subtitle */}
-              <p className="text-[#e3d8c8] text-sm sm:text-base max-w-xl leading-relaxed">
-                Pick 6 lucky numbers between 1 and 49 for your chance to win the daily jackpot payout of up to <strong className="text-[#e6ca65] font-mono font-black">1,250,000 Sixy Coins (SC)</strong>.
-              </p>
-
-              {/* Live Jackpot & Draw Counter Banner */}
-              <div className="inline-flex flex-wrap items-center gap-4 p-4 rounded-2xl bg-[#18120e] border border-[#9c663b]/50">
-                <div className="flex items-center gap-2 text-xs sm:text-sm text-[#b5a391]">
-                  <Clock className="w-4 h-4 text-[#e6ca65] animate-pulse" />
-                  <span>NEXT DRAW: <strong className="text-[#faf6f0] font-mono font-bold">04h 22m 15s</strong></span>
-                </div>
-                <span className="text-[#9c663b] hidden sm:inline">•</span>
-                <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-[#e6ca65] font-bold">
-                  <span>JACKPOT:</span>
-                  <span className="text-sm sm:text-base text-[#faf6f0] font-black">1,250,000 SC</span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-1">
-                <button
-                  onClick={() => handleLaunchGame(games[0])}
-                  className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] hover:from-[#f0d885] hover:to-[#d4af37] text-[#0c0a09] text-base font-extrabold flex items-center gap-3 shadow-xl shadow-[#d4af37]/25 cursor-pointer active:scale-95 border border-[#faf6f0]/40"
-                >
-                  <Ticket className="w-5 h-5" />
-                  <span>PLAY 6/49 LOTTERY (200 SC)</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Right 50% Column: 3D Golden 6/49 Lottery Ticket Image */}
-            <div className="lg:col-span-5 flex items-center justify-center">
-              <div className="relative w-full max-w-md sm:max-w-lg aspect-square hover:scale-105 transition-transform duration-500">
-                <Image
-                  src="/landing/lottery_ticket_3d.png"
-                  alt="3D Gold 6/49 Lottery Ticket Render"
-                  fill
-                  className="object-contain remove-img-bg"
-                  priority
-                />
-                <div className="absolute inset-0 bg-[#d4af37]/20 rounded-full blur-3xl pointer-events-none -z-10" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Games Arena Grid */}
-        <div className="space-y-4 pt-4">
-          <div className="flex justify-between items-center border-b border-[#9c663b]/30 pb-4">
-            <h2 className="text-xl font-extrabold text-[#faf6f0] flex items-center gap-2">
-              <Gem className="w-5 h-5 text-[#e6ca65]" />
-              <span>Available Tables ({games.length})</span>
-            </h2>
-            <span className="text-xs font-mono text-[#b5a391]">
-              Sub-Second Provably Fair Settlement
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-            {games.map((game) => (
-              <div
-                key={game.id}
-                id={game.id}
-                className="rounded-3xl bg-[#18120e] border border-[#9c663b]/50 p-6 space-y-4 hover:border-[#e6ca65] transition-all group shadow-2xl flex flex-col justify-between"
-              >
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-4xl group-hover:scale-110 transition-transform">{game.icon}</span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#e6ca65]/20 border border-[#e6ca65]/40 text-[#e6ca65] text-xs font-bold font-mono">
-                      {game.badge}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="text-[10px] font-extrabold tracking-wider uppercase text-[#e6ca65] block mb-1">
-                      {game.category}
-                    </span>
-                    <h3 className="text-lg sm:text-xl font-black text-[#faf6f0] group-hover:text-[#e6ca65] transition-colors">
-                      {game.title}
-                    </h3>
-                    <p className="text-xs text-[#b5a391] mt-1.5 leading-relaxed">
-                      {game.description}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-[#9c663b]/30 flex justify-between items-center">
-                  <div className="flex flex-col text-[11px] font-mono text-[#b5a391]">
-                    <span>RTP {game.rtp}</span>
-                    <span className="text-[#e6ca65]">Min: {game.minBet}</span>
-                  </div>
-
-                  <button
-                    onClick={() => handleLaunchGame(game)}
-                    className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs font-extrabold flex items-center gap-1.5 shadow-md hover:from-[#f0d885] cursor-pointer active:scale-95"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-current" /> PLAY NOW
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 3D Mini-Game Play Modal Overlay */}
-        {activeGameModal && (
-          <div className="fixed inset-0 z-50 bg-[#0c0a09]/80 backdrop-blur-xl flex items-center justify-center p-4">
-            <div className="relative w-full max-w-xl p-8 rounded-3xl bg-gradient-to-br from-[#281d14] via-[#18120e] to-[#0c0a09] border-2 border-[#e6ca65]/70 shadow-[0_0_80px_rgba(212,175,55,0.3)] space-y-6 animate-in fade-in zoom-in duration-200">
-              {/* Modal Close Button */}
-              <button
-                onClick={() => setActiveGameModal(null)}
-                className="absolute top-5 right-5 text-[#b5a391] hover:text-[#faf6f0] p-1.5 rounded-xl bg-[#0c0a09] border border-[#9c663b]/40 cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Game Title & Category */}
-              <div className="flex items-center gap-4 border-b border-[#9c663b]/30 pb-4">
-                <span className="text-5xl">{activeGameModal.icon}</span>
-                <div>
-                  <span className="text-xs font-mono text-[#e6ca65] font-extrabold uppercase">
-                    {activeGameModal.category}
-                  </span>
-                  <h3 className="text-2xl font-black text-[#faf6f0]">{activeGameModal.title}</h3>
-                  <span className="text-xs text-[#b5a391]">
-                    RTP {activeGameModal.rtp} • {activeGameModal.badge}
-                  </span>
-                </div>
-              </div>
-
-              {/* Interactive Play Simulator */}
-              <div className="space-y-4">
-                <div className="p-6 rounded-2xl bg-[#0c0a09] border border-[#9c663b]/40 text-center space-y-2">
-                  <span className="text-xs font-bold text-[#b5a391] uppercase">SELECT WAGER AMOUNT</span>
-                  <div className="flex justify-center gap-3 pt-1">
-                    <button
-                      onClick={() => handlePlayMiniGame(50)}
-                      className="px-5 py-2.5 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#e6ca65]/50 text-[#e6ca65] text-xs font-extrabold font-mono cursor-pointer"
-                    >
-                      50 SC
-                    </button>
-                    <button
-                      onClick={() => handlePlayMiniGame(100)}
-                      className="px-5 py-2.5 rounded-xl bg-[#18120e] hover:bg-[#281d14] border border-[#e6ca65]/50 text-[#e6ca65] text-xs font-extrabold font-mono cursor-pointer"
-                    >
-                      100 SC
-                    </button>
-                    <button
-                      onClick={() => handlePlayMiniGame(200)}
-                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#e6ca65] via-[#d4af37] to-[#b5952f] text-[#0c0a09] text-xs font-black font-mono cursor-pointer"
-                    >
-                      200 SC
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-[#b5a391] pt-2">
-                  <span className="flex items-center gap-1.5 text-[#e6ca65]">
-                    <ShieldCheck className="w-4 h-4" /> Cryptographic Provably Fair RNG
-                  </span>
-                  <span>100% Free Virtual Currency</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* 3. Page-wise Mini-Game Play Modal */}
+        <GamePlayModal
+          game={activeGameModal}
+          onClose={() => setActiveGameModal(null)}
+          onPlayMiniGame={handlePlayMiniGame}
+        />
       </div>
     </div>
   );
