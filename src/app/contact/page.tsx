@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Mail, MessageSquare, ShieldCheck, MapPin, Clock } from 'lucide-react';
+import { Mail, ShieldCheck, Clock } from 'lucide-react';
 import { ContactForm } from '@/components/contact/ContactForm';
 
 export default function ContactPage() {

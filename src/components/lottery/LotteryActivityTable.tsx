@@ -53,7 +53,7 @@ export const LotteryActivityTable: React.FC<LotteryActivityTableProps> = ({
           <Ticket className="w-8 h-8 text-[#b5a391]/30 mx-auto" />
           <p className="text-xs text-[#faf6f0] font-black">No Ticket Purchase History Found</p>
           <p className="text-[11px] text-[#b5a391]">
-            Select 6 numbers on the matrix above and click <strong>"BUY TICKETS"</strong> to enter today's draw!
+            Select 6 numbers on the matrix above and click <strong>&quot;BUY TICKETS&quot;</strong> to enter today&apos;s draw!
           </p>
         </div>
       ) : (

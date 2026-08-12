@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, HelpCircle, Trophy, ShieldCheck, Coins, CheckCircle2, Flame } from 'lucide-react';
+import { X, HelpCircle, Trophy, Coins, CheckCircle2, Flame } from 'lucide-react';
 
 interface LotteryRulesModalProps {
   isOpen: boolean;
@@ -52,7 +52,7 @@ export const LotteryRulesModal: React.FC<LotteryRulesModalProps> = ({ isOpen, on
           <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-500/50 space-y-1">
             <div className="flex items-center gap-2 font-bold text-[#faf6f0] text-sm">
               <Flame className="w-4.5 h-4.5 text-amber-400 animate-bounce" />
-              <span>2. Today's 5X Lucky Ball Multiplier</span>
+              <span>2. Today&apos;s 5X Lucky Ball Multiplier</span>
             </div>
             <p className="text-[#e3d8c8] pl-6">
               Each daily draw features an official <strong className="text-[#e6ca65]">5X Lucky Ball</strong>. If your ticket includes this ball and hits any winning match tier (3/6, 4/6, 5/6, 6/6), your payout is multiplied by <strong className="text-amber-400 font-mono font-black text-sm">5X INSTANTLY</strong>!

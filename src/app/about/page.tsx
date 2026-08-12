@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AboutHero } from '@/components/about/AboutHero';
-import { ShieldCheck, Lock, Award, HeartHandshake } from 'lucide-react';
+import { ShieldCheck, Lock, Award } from 'lucide-react';
 
 export default function AboutPage() {
   const aboutJsonLd = {

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { HelpCircle, Sparkles, ShieldCheck } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 import { FaqAccordion } from '@/components/faq/FaqAccordion';
 
 export default function FaqPage() {
